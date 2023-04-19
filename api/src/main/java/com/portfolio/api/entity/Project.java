@@ -9,19 +9,24 @@ import jakarta.persistence.Lob;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
+import java.time.LocalDate;
 
 import java.util.Date;
 
 @Entity
-@Table(name = "person")
+@Table(name = "project")
 public class Project {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
+  @Column(length = 2048)
   private String name;
-  private String email;
+  
+  @Temporal(TemporalType.DATE)
+  private LocalDate date;
+  
   private String location;
 
   @Lob
@@ -31,7 +36,7 @@ public class Project {
   private String ImgUrl;
   @Column(name = "img_back_url", length = 2048)
   private String ImgBackUrl;
-  
+
   private String title;
 
   @Temporal(TemporalType.DATE)

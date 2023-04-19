@@ -1,6 +1,0 @@
-com\portfolio\api\ApiApplication.class
-com\portfolio\api\controller\PersonController.class
-com\portfolio\api\service\IPersonService.class
-com\portfolio\api\repository\PersonRepository.class
-com\portfolio\api\service\PersonService.class
-com\portfolio\api\entity\Person.class
