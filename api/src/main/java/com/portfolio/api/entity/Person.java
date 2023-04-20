@@ -7,10 +7,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Lob;
 import jakarta.persistence.Table;
-import jakarta.persistence.Temporal;
-import jakarta.persistence.TemporalType;
-
-import java.util.Date;
 
 @Entity
 @Table(name = "person")
@@ -19,10 +15,11 @@ public class Person {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
-  
- @Column(length = 2048)
+
+  @Column(length = 100)
   private String name;
- 
+
+  private String title;
   private String email;
   private String location;
 
@@ -34,25 +31,23 @@ public class Person {
   private String ImgUrl;
   @Column(name = "img_back_url", length = 2048)
   private String ImgBackUrl;
-  
-  private String title;
-
-  @Temporal(TemporalType.DATE)
-  private Date birdDate;
+  @Column(name = "web_url", length = 2048)
+  private String webUrl;
 
   public Person() {
 
   }
 
-  public Person(Long id, String name, String email, String location, String aboutMe, String ImgUrl, String ImgBackUrl, String title) {
+  public Person(Long id, String name, String title, String email, String location, String aboutMe, String ImgUrl, String ImgBackUrl, String webUrl) {
     this.id = id;
     this.name = name;
+    this.title = title;
     this.email = email;
     this.location = location;
     this.aboutMe = aboutMe;
     this.ImgUrl = ImgUrl;
     this.ImgBackUrl = ImgBackUrl;
-    this.title = title;
+    this.webUrl = webUrl;
   }
 
   public Long getId() {
@@ -69,6 +64,14 @@ public class Person {
 
   public void setName(String name) {
     this.name = name;
+  }
+
+  public String getTitle() {
+    return title;
+  }
+
+  public void setTitle(String title) {
+    this.title = title;
   }
 
   public String getEmail() {
@@ -111,20 +114,12 @@ public class Person {
     this.ImgBackUrl = ImgBackUrl;
   }
 
-  public String getTitle() {
-    return title;
+  public String getWebUrl() {
+    return webUrl;
   }
 
-  public void setTitle(String title) {
-    this.title = title;
-  }
-
-  public Date getBirdDate() {
-    return birdDate;
-  }
-
-  public void setBirdDate(Date birdDate) {
-    this.birdDate = birdDate;
+  public void setWebUrl(String webUrl) {
+    this.webUrl = webUrl;
   }
 
 }

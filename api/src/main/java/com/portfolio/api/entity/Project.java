@@ -11,8 +11,6 @@ import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 import java.time.LocalDate;
 
-import java.util.Date;
-
 @Entity
 @Table(name = "project")
 public class Project {
@@ -23,38 +21,26 @@ public class Project {
 
   @Column(length = 2048)
   private String name;
-  
+
   @Temporal(TemporalType.DATE)
   private LocalDate date;
-  
-  private String location;
 
   @Lob
-  private String aboutMe;
+  @Column(name = "short_description", length = 100)
+  private String shortDescription;
+  @Lob
+  @Column(name = "long_description", length = 2048)
+  private String longDescription;
 
+  @Column(name = "logo_url", length = 2048)
+  private String logoUrl;
   @Column(name = "img_url", length = 2048)
   private String ImgUrl;
-  @Column(name = "img_back_url", length = 2048)
-  private String ImgBackUrl;
-
-  private String title;
-
-  @Temporal(TemporalType.DATE)
-  private Date birdDate;
+  @Column(name = "web_url", length = 2048)
+  private String webUrl;
 
   public Project() {
 
-  }
-
-  public Project(Long id, String name, String email, String location, String aboutMe, String ImgUrl, String ImgBackUrl, String title) {
-    this.id = id;
-    this.name = name;
-    this.email = email;
-    this.location = location;
-    this.aboutMe = aboutMe;
-    this.ImgUrl = ImgUrl;
-    this.ImgBackUrl = ImgBackUrl;
-    this.title = title;
   }
 
   public Long getId() {
@@ -73,28 +59,36 @@ public class Project {
     this.name = name;
   }
 
-  public String getEmail() {
-    return email;
+  public LocalDate getDate() {
+    return date;
   }
 
-  public void setEmail(String email) {
-    this.email = email;
+  public void setDate(LocalDate date) {
+    this.date = date;
   }
 
-  public String getLocation() {
-    return location;
+  public String getShortDescription() {
+    return shortDescription;
   }
 
-  public void setLocation(String location) {
-    this.location = location;
+  public void setShortDescription(String shortDescription) {
+    this.shortDescription = shortDescription;
   }
 
-  public String getAboutMe() {
-    return aboutMe;
+  public String getLongDescription() {
+    return longDescription;
   }
 
-  public void setAboutMe(String aboutMe) {
-    this.aboutMe = aboutMe;
+  public void setLongDescription(String longDescription) {
+    this.longDescription = longDescription;
+  }
+
+  public String getLogoUrl() {
+    return logoUrl;
+  }
+
+  public void setLogoUrl(String logoUrl) {
+    this.logoUrl = logoUrl;
   }
 
   public String getImgUrl() {
@@ -105,28 +99,12 @@ public class Project {
     this.ImgUrl = ImgUrl;
   }
 
-  public String getImgBackUrl() {
-    return ImgBackUrl;
+  public String getWebUrl() {
+    return webUrl;
   }
 
-  public void setImgBackUrl(String ImgBackUrl) {
-    this.ImgBackUrl = ImgBackUrl;
-  }
-
-  public String getTitle() {
-    return title;
-  }
-
-  public void setTitle(String title) {
-    this.title = title;
-  }
-
-  public Date getBirdDate() {
-    return birdDate;
-  }
-
-  public void setBirdDate(Date birdDate) {
-    this.birdDate = birdDate;
+  public void setWebUrl(String webUrl) {
+    this.webUrl = webUrl;
   }
 
 }
