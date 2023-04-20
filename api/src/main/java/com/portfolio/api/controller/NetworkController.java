@@ -1,7 +1,7 @@
 package com.portfolio.api.controller;
 
-import com.portfolio.api.entity.Person;
-import com.portfolio.api.service.PersonService;
+import com.portfolio.api.entity.Network;
+import com.portfolio.api.service.NetworkService;
 import java.util.ArrayList;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,41 +19,42 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("person")
+@RequestMapping("network")
 @CrossOrigin(origins = "http://localhost:4200")
-public class PersonController {
+public class NetworkController {
 
   @Autowired
-  PersonService personService;
+  NetworkService networkService;
 
   @PostMapping("/create")
-  public ResponseEntity createPerson(@RequestBody Person person) {
-    this.personService.createPerson(person);
-    return ResponseEntity.ok("Persona creada con exito = " + person.getId());
+  public ResponseEntity createNetwork(@RequestBody Network network) {
+    this.networkService.createNetwork(network);
+    String message = String.format("Network %d creada", network.getId());
+    return ResponseEntity.ok(message);
   }
 
   @PutMapping("/edit")
-  public ResponseEntity editPerson(@RequestBody Person person) {
-    this.personService.editPerson(person);
-    return ResponseEntity.ok("edicion ok = " + person.getId());
+  public ResponseEntity editNetwork(@RequestBody Network network) {
+    this.networkService.editNetwork(network);
+    return ResponseEntity.ok("Network editada" + network.getId());
   }
 
   @GetMapping("/list")
   @ResponseBody
-  public ArrayList<Person> listPersons() {
-    return this.personService.listPersons();
+  public ArrayList<Network> listNetworks() {
+    return this.networkService.listNetworks();
   }
 
   @GetMapping("/list/{id}")
   @ResponseBody
-  public Optional<Person> findPerson(@PathVariable Long id) {
-    return this.personService.findPerson(id);
+  public Optional<Network> findNetwork(@PathVariable Long id) {
+    return this.networkService.findNetwork(id);
   }
 
   @DeleteMapping("/delete")
-  public ResponseEntity deletePerson(@RequestParam("id") Long id) {
-    this.personService.deletePerson(id);
-    return ResponseEntity.ok("persona borrada = " + id);
+  public ResponseEntity deleteNetwork(@RequestParam("id") Long id) {
+    this.networkService.deleteNetwork(id);
+    return ResponseEntity.ok("Network " + id + " deleted");
   }
 
 }

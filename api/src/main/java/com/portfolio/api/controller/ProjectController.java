@@ -29,13 +29,13 @@ public class ProjectController {
   @PostMapping("/create")
   public ResponseEntity createProject(@RequestBody Project project) {
     this.projectService.createProject(project);
-    return ResponseEntity.ok("Se creo a la persona correctamente");
+    return ResponseEntity.ok("Se creo el proyecto correctamente" + project.getId());
   }
 
   @PutMapping("/edit")
   public ResponseEntity editProject(@RequestBody Project project) {
     this.projectService.editProject(project);
-    return ResponseEntity.ok("Proyecto actualizado");
+    return ResponseEntity.ok("Proyecto actualizado" + project.getId());
   }
 
   @GetMapping("/list")
@@ -51,9 +51,9 @@ public class ProjectController {
   }
 
   @DeleteMapping("/delete")
-  public String deleteProject(@RequestParam("id") Long id) {
+  public ResponseEntity deleteProject(@RequestParam("id") Long id) {
     this.projectService.deleteProject(id);
-    return "Project " + id + " deleted";
+    return ResponseEntity.ok("Project " + id + " eliminado");
   }
 
 }
