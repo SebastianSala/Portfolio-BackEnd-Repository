@@ -25,10 +25,8 @@ public class Project {
   @Temporal(TemporalType.DATE)
   private LocalDate date;
 
-  @Lob
   @Column(name = "short_description", length = 100)
   private String shortDescription;
-  @Lob
   @Column(name = "long_description", length = 2048)
   private String longDescription;
 

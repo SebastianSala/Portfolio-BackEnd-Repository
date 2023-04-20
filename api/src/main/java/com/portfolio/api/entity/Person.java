@@ -23,7 +23,6 @@ public class Person {
   private String email;
   private String location;
 
-  @Lob
   @Column(length = 2048)
   private String aboutMe;
 
