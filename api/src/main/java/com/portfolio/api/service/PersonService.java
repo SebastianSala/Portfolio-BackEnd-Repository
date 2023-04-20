@@ -28,7 +28,7 @@ public class PersonService implements IPersonService {
 
   @Override
   public ArrayList<Person> listPersons() {
-    return (ArrayList) this.personRepository.findAll();
+    return (ArrayList<Person>) this.personRepository.findAll();
   }
 
   @Override

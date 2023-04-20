@@ -1,7 +1,7 @@
 package com.portfolio.api.service.interfaces;
 
 import com.portfolio.api.entity.Project;
-import java.util.List;
+import java.util.ArrayList;
 import java.util.Optional;
 
 public interface IProjectService {
@@ -10,7 +10,7 @@ public interface IProjectService {
 
   public void editProject(Project project);
 
-  public List<Project> showProjects();
+  public ArrayList<Project> listProjects();
 
   public Optional<Project> findProject(Long Id);
 

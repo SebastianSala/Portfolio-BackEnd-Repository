@@ -28,7 +28,7 @@ public class NetworkService implements INetworkService {
   
   @Override
   public ArrayList<Network> listNetworks() {
-    return (ArrayList) this.networkRepository.findAll();
+    return (ArrayList<Network>) this.networkRepository.findAll();
   }
   
   @Override

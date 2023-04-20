@@ -4,7 +4,7 @@ import com.portfolio.api.entity.Project;
 import com.portfolio.api.repository.ProjectRepository;
 import com.portfolio.api.service.interfaces.IProjectService;
 import jakarta.transaction.Transactional;
-import java.util.List;
+import java.util.ArrayList;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,8 +27,8 @@ public class ProjectService implements IProjectService {
   }
 
   @Override
-  public List<Project> showProjects() {
-    return projectRepository.findAll();
+  public ArrayList<Project> listProjects() {
+    return (ArrayList<Project>) projectRepository.findAll();
   }
 
   @Override
@@ -40,6 +40,5 @@ public class ProjectService implements IProjectService {
   public void deleteProject(Long id) {
     projectRepository.deleteById(id);
   }
-
 
 }

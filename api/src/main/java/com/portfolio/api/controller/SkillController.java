@@ -1,7 +1,7 @@
 package com.portfolio.api.controller;
 
-import com.portfolio.api.entity.Project;
-import com.portfolio.api.service.ProjectService;
+import com.portfolio.api.entity.Skill;
+import com.portfolio.api.service.SkillService;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,41 +19,41 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("project")
+@RequestMapping("skill")
 @CrossOrigin(origins = "http://localhost:4200")
-public class ProjectController {
+public class SkillController {
 
   @Autowired
-  ProjectService projectService;
+  SkillService skillService;
 
   @PostMapping("/create")
-  public ResponseEntity createProject(@RequestBody Project project) {
-    this.projectService.createProject(project);
-    return ResponseEntity.ok("Se creo el proyecto correctamente" + project.getId());
+  public ResponseEntity createSkill(@RequestBody Skill skill) {
+    this.skillService.createSkill(skill);
+    return ResponseEntity.ok("Se creo la habilidad correctamente" + skill.getId());
   }
 
   @PutMapping("/edit")
-  public ResponseEntity editProject(@RequestBody Project project) {
-    this.projectService.editProject(project);
-    return ResponseEntity.ok("Proyecto actualizado" + project.getId());
+  public ResponseEntity editSkill(@RequestBody Skill skill) {
+    this.skillService.editSkill(skill);
+    return ResponseEntity.ok("Habilidad actualizada" + skill.getId());
   }
 
   @GetMapping("/list")
   @ResponseBody
-  public List<Project> listProjects() {
-    return this.projectService.listProjects();
+  public List<Skill> listSkills() {
+    return this.skillService.listSkills();
   }
 
   @GetMapping("/list/{id}")
   @ResponseBody
-  public Optional<Project> findProject(@PathVariable Long id) {
-    return this.projectService.findProject(id);
+  public Optional<Skill> findSkill(@PathVariable Long id) {
+    return this.skillService.findSkill(id);
   }
 
   @DeleteMapping("/delete")
-  public ResponseEntity deleteProject(@RequestParam("id") Long id) {
-    this.projectService.deleteProject(id);
-    return ResponseEntity.ok("Proyecto " + id + " eliminado");
+  public ResponseEntity deleteSkill(@RequestParam("id") Long id) {
+    this.skillService.deleteSkill(id);
+    return ResponseEntity.ok("Habilidad " + id + " eliminada");
   }
 
 }
