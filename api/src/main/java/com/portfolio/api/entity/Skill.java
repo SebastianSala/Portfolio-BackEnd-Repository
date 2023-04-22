@@ -24,8 +24,7 @@ public class Skill {
   public Skill() {
   }
 
-  public Skill(Long id, String name, int level, boolean isTechnical) {
-    this.id = id;
+  public Skill(String name, int level, boolean isTechnical) {
     this.name = name;
     this.level = level;
     this.isTechnical = isTechnical;

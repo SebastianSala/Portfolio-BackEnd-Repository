@@ -40,8 +40,7 @@ public class Education {
 
   }
 
-  public Education(Long id, String title, String institution, String description, LocalDate startDate, LocalDate endDate, String logoUrl, String webUrl) {
-    this.id = id;
+  public Education(String title, String institution, String description, LocalDate startDate, LocalDate endDate, String logoUrl, String webUrl) {
     this.title = title;
     this.institution = institution;
     this.description = description;

@@ -26,8 +26,7 @@ public class Network {
   public Network() {
   }
 
-  public Network(Long id, String name, String logoType, String netUrl) {
-    this.id = id;
+  public Network(String name, String logoType, String netUrl) {
     this.name = name;
     this.logoType = logoType;
     this.netUrl = netUrl;

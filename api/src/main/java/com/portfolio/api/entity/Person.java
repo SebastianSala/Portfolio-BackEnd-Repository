@@ -5,7 +5,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.Lob;
 import jakarta.persistence.Table;
 
 @Entity
@@ -37,8 +36,7 @@ public class Person {
 
   }
 
-  public Person(Long id, String name, String title, String email, String location, String aboutMe, String ImgUrl, String ImgBackUrl, String webUrl) {
-    this.id = id;
+  public Person(String name, String title, String email, String location, String aboutMe, String ImgUrl, String ImgBackUrl, String webUrl) {
     this.name = name;
     this.title = title;
     this.email = email;

@@ -41,8 +41,7 @@ public class Experience {
 
   }
 
-  public Experience(Long id, String position, String description, String company, LocalDate startDate, LocalDate endDate, String logoUrl, String webUrl) {
-    this.id = id;
+  public Experience(String position, String description, String company, LocalDate startDate, LocalDate endDate, String logoUrl, String webUrl) {
     this.position = position;
     this.description = description;
     this.company = company;

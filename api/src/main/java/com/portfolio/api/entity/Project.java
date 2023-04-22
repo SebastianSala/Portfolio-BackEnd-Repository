@@ -40,6 +40,16 @@ public class Project {
 
   }
 
+  public Project(String name, LocalDate date, String shortDescription, String longDescription, String logoUrl, String ImgUrl, String webUrl) {
+    this.name = name;
+    this.date = date;
+    this.shortDescription = shortDescription;
+    this.longDescription = longDescription;
+    this.logoUrl = logoUrl;
+    this.ImgUrl = ImgUrl;
+    this.webUrl = webUrl;
+  }
+
   public Long getId() {
     return id;
   }
