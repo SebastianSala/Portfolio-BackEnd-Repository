@@ -5,6 +5,7 @@ import com.portfolio.api.service.PersonService;
 import java.util.ArrayList;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -36,6 +37,28 @@ public class PersonController {
   public ResponseEntity editPerson(@RequestBody Person person) {
     this.personService.editPerson(person);
     return ResponseEntity.ok("edicion ok = " + person.getId());
+  }
+
+  @PutMapping("/edit/{id}")
+  public ResponseEntity<String> updatePerson(@PathVariable("id") Long id, @RequestBody Person person) {
+
+    Optional<Person> personData = this.personService.findPerson(id);
+
+    if (personData.isPresent()) {
+      Person updatedPerson = personData.get();
+      //update only modified fields
+//      updatedPerson.setName(person.getName());
+      if (person.getName() != null) {
+        updatedPerson.setName("TEXT! only name parameter implemented yet");//person.getName());        
+      } else {
+        updatedPerson.setName("NULL! only name parameter implemented yet");//person.getName());                
+      }
+      this.personService.editPerson(updatedPerson);
+      return new ResponseEntity<>(HttpStatus.OK);
+    } else {
+      return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
   }
 
   @GetMapping("/list")

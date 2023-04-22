@@ -5,6 +5,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
@@ -36,11 +38,16 @@ public class Project {
   @Column(name = "web_url", length = 2048)
   private String webUrl;
 
+  //Many to one relationship with the person
+  @ManyToOne
+  @JoinColumn(name = "person_id", nullable = false)
+  private Person person;
+
   public Project() {
 
   }
 
-  public Project(String name, LocalDate date, String shortDescription, String longDescription, String logoUrl, String ImgUrl, String webUrl) {
+  public Project(String name, LocalDate date, String shortDescription, String longDescription, String logoUrl, String ImgUrl, String webUrl, Person person) {
     this.name = name;
     this.date = date;
     this.shortDescription = shortDescription;
@@ -48,6 +55,7 @@ public class Project {
     this.logoUrl = logoUrl;
     this.ImgUrl = ImgUrl;
     this.webUrl = webUrl;
+    this.person = person;
   }
 
   public Long getId() {
@@ -112,6 +120,14 @@ public class Project {
 
   public void setWebUrl(String webUrl) {
     this.webUrl = webUrl;
+  }
+
+  public Person getPerson() {
+    return this.person;
+  }
+
+  public void setPerson(Person person) {
+    this.person = person;
   }
 
 }

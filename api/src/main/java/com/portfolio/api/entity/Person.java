@@ -1,11 +1,15 @@
 package com.portfolio.api.entity;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "person")
@@ -19,7 +23,11 @@ public class Person {
   private String name;
 
   private String title;
+
+  //class properties for log-in
   private String email;
+  private String password;
+
   private String location;
 
   @Column(length = 2048)
@@ -31,20 +39,27 @@ public class Person {
   private String ImgBackUrl;
   @Column(name = "web_url", length = 2048)
   private String webUrl;
+  
+  //Relatioships
+  @OneToMany(mappedBy = "person", cascade = CascadeType.ALL)
+  private List<Project> projects;
 
   public Person() {
 
   }
 
-  public Person(String name, String title, String email, String location, String aboutMe, String ImgUrl, String ImgBackUrl, String webUrl) {
+  public Person(String name, String title, String email, String password, String location, String aboutMe, String ImgUrl, String ImgBackUrl, String webUrl) {
     this.name = name;
     this.title = title;
     this.email = email;
+    this.password = password;
     this.location = location;
     this.aboutMe = aboutMe;
     this.ImgUrl = ImgUrl;
     this.ImgBackUrl = ImgBackUrl;
     this.webUrl = webUrl;
+    
+    this.projects = new ArrayList();
   }
 
   public Long getId() {
@@ -77,6 +92,14 @@ public class Person {
 
   public void setEmail(String email) {
     this.email = email;
+  }
+
+  public String getPassword() {
+    return this.password;
+  }
+
+  public void setPassword(String password) {
+    this.password = password;
   }
 
   public String getLocation() {
@@ -117,6 +140,15 @@ public class Person {
 
   public void setWebUrl(String webUrl) {
     this.webUrl = webUrl;
+  }
+  
+  //Relatioships getters and setters
+  public List<Project> getProjects() {
+    return this.projects;
+  }
+  
+  public void setProjects(List<Project> projects) {
+    this.projects = projects;
   }
 
 }
