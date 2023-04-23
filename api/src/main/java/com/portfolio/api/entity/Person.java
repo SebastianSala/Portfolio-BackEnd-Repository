@@ -8,12 +8,15 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Table(name = "person")
-public class Person {
+public class Person implements Serializable {
+  
+  private static final long serialVersionUID = 01L;
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)

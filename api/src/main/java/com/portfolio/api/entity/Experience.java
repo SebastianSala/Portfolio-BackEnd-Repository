@@ -8,11 +8,14 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
+import java.io.Serializable;
 import java.time.LocalDate;
 
 @Entity
 @Table(name = "experience")
-public class Experience {
+public class Experience implements Serializable {
+  
+  private static final long serialVersionUID = 05L;
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)

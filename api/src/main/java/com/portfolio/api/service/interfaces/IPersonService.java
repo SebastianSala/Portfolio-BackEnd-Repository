@@ -15,5 +15,9 @@ public interface IPersonService {
   public Optional<Person> findPerson(Long id);
 
   public void deletePerson(Long id);
+  
+  public Person logInObject(String email, String password);
+  
+  public String logInString(String email, String password);
 
 }

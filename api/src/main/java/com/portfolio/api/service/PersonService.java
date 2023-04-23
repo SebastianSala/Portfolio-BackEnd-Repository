@@ -5,6 +5,7 @@ import com.portfolio.api.entity.Person;
 import com.portfolio.api.repository.PersonRepository;
 import jakarta.transaction.Transactional;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -41,4 +42,32 @@ public class PersonService implements IPersonService {
     this.personRepository.deleteById(id);
   }
 
+  @Override
+  public Person logInObject(String email, String password) {
+
+    List<Person> person = this.personRepository.findByEmailAndPassword(email, password);
+
+    if (!person.isEmpty()) {
+      return person.get(0);
+    } else {
+      return null;
+    }
+
+  }
+
+  @Override
+  public String logInString(String email, String password) {
+
+    List<Person> person = this.personRepository.findByEmailAndPassword(email, password);
+    
+    String login = "ERROR";
+
+    if (!person.isEmpty()) {
+      login = "OK";
+    }
+    
+    return login;
+
+  }
+  
 }

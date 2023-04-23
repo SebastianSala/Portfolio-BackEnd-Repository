@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("person")
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin("*")//(origins = "http://localhost:4200")
 public class PersonController {
 
   @Autowired
@@ -77,6 +77,31 @@ public class PersonController {
   public ResponseEntity deletePerson(@RequestParam("id") Long id) {
     this.personService.deletePerson(id);
     return ResponseEntity.ok("persona borrada = " + id);
+  }
+
+//  @PostMapping("/login")
+//  public ResponseEntity<String> logInObject(@RequestBody Person person) {
+//
+//    Person thePerson = this.personService.logInObject(person.getEmail(), person.getPassword());
+//
+//    if (thePerson != null) {
+//      return new ResponseEntity<>("OK", HttpStatus.OK);
+//    } else {
+//      return new ResponseEntity<>("ERROR", HttpStatus.UNAUTHORIZED);
+//    }
+//  }
+  @PostMapping("/login")
+  public ResponseEntity<String> logIn(@RequestBody Person person) {
+
+    String loginString = this.personService.logInString(person.getEmail(), person.getPassword());
+
+    if ("OK".equals(loginString)) {
+      return new ResponseEntity<>(loginString, HttpStatus.OK);
+    } else if ("ERROR".equals(loginString)) {
+      return new ResponseEntity<>(loginString, HttpStatus.UNAUTHORIZED);
+    }
+
+    return null;
   }
 
 }
