@@ -3,6 +3,7 @@ package com.portfolio.api.controller;
 import com.portfolio.api.entity.Person;
 import com.portfolio.api.service.PersonService;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -61,16 +62,34 @@ public class PersonController {
 
   }
 
+//  @GetMapping("/list")
+//  @ResponseBody
+//  public ArrayList<Person> listPersons() {
+//    return this.personService.listPersons();
+//  }
   @GetMapping("/list")
   @ResponseBody
-  public ArrayList<Person> listPersons() {
-    return this.personService.listPersons();
+  public ResponseEntity<List<Person>> listPersons() {
+    List<Person> persons = this.personService.listPersons();
+
+    if (persons.isEmpty()) {
+      return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+    return new ResponseEntity<>(persons, HttpStatus.OK);
   }
 
   @GetMapping("/list/{id}")
   @ResponseBody
-  public Optional<Person> findPerson(@PathVariable Long id) {
-    return this.personService.findPerson(id);
+  public ResponseEntity<Person> findPerson(@PathVariable("id") Long id) {
+
+    Optional<Person> personData = personService.findPerson(id);
+    if (personData.isPresent()) {
+      Person persons = personData.get();
+      return new ResponseEntity<>(persons, HttpStatus.OK);
+    } else {
+      return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
   }
 
   @DeleteMapping("/delete")
