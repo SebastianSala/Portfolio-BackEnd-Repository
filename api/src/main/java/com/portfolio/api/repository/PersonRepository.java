@@ -10,4 +10,6 @@ public interface PersonRepository extends JpaRepository<Person, Long> {
   
   public List<Person> findByEmailAndPassword(String email, String password);
   
+  
+  
 }

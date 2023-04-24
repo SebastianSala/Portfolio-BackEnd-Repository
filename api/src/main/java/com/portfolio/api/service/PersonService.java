@@ -69,5 +69,12 @@ public class PersonService implements IPersonService {
     return login;
 
   }
+
+  @Override
+  public Boolean existsById(Long id) {
+    return this.personRepository.existsById(id);    
+  }
+  
+  
   
 }

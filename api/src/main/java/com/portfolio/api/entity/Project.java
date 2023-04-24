@@ -20,7 +20,7 @@ import org.hibernate.annotations.OnDeleteAction;
 @Entity
 @Table(name = "project")
 public class Project implements Serializable {
-  
+
   private static final long serialVersionUID = 02L;
 
   @Id
@@ -52,21 +52,20 @@ public class Project implements Serializable {
   @JsonIgnore
   private Person person;
 
-  public Project() {
-
-  }
-
-  public Project(String name, LocalDate date, String shortDescription, String longDescription, String logoUrl, String ImgUrl, String webUrl, Person person) {
-    this.name = name;
-    this.date = date;
-    this.shortDescription = shortDescription;
-    this.longDescription = longDescription;
-    this.logoUrl = logoUrl;
-    this.ImgUrl = ImgUrl;
-    this.webUrl = webUrl;
-    this.person = person;
-  }
-
+//  public Project() {
+//
+//  }
+//
+//  public Project(String name, LocalDate date, String shortDescription, String longDescription, String logoUrl, String ImgUrl, String webUrl, Person person) {
+//    this.name = name;
+//    this.date = date;
+//    this.shortDescription = shortDescription;
+//    this.longDescription = longDescription;
+//    this.logoUrl = logoUrl;
+//    this.ImgUrl = ImgUrl;
+//    this.webUrl = webUrl;
+//    this.person = person;
+//  }
   public Long getId() {
     return id;
   }

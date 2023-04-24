@@ -1,10 +1,12 @@
 package com.portfolio.api.service;
 
 import com.portfolio.api.entity.Project;
+import com.portfolio.api.repository.PersonRepository;
 import com.portfolio.api.repository.ProjectRepository;
 import com.portfolio.api.service.interfaces.IProjectService;
 import jakarta.transaction.Transactional;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,6 +17,9 @@ public class ProjectService implements IProjectService {
 
   @Autowired
   ProjectRepository projectRepository;
+  
+  @Autowired
+  PersonRepository personRepository;
 
   @Override
   public void createProject(Project project) {
@@ -39,6 +44,16 @@ public class ProjectService implements IProjectService {
   @Override
   public void deleteProject(Long id) {
     projectRepository.deleteById(id);
+  }
+  
+  @Override
+  public List<Project> findByPersonId(Long personId) {
+    return projectRepository.findByPersonId(personId);
+  }
+  
+  @Override
+  public Project findByPersonIdByProjectId(Long personId, Long projectId) {
+    return projectRepository.findByPersonIdAndId(personId, projectId);
   }
 
 }

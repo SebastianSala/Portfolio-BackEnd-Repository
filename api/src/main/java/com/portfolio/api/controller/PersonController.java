@@ -41,25 +41,36 @@ public class PersonController {
   }
 
   @PutMapping("/edit/{id}")
-  public ResponseEntity<String> updatePerson(@PathVariable("id") Long id, @RequestBody Person person) {
+  public ResponseEntity updatePerson(@PathVariable("id") Long id, @RequestBody Person person) {
 
-    Optional<Person> personData = this.personService.findPerson(id);
-
-    if (personData.isPresent()) {
-      Person updatedPerson = personData.get();
-      //update only modified fields
-//      updatedPerson.setName(person.getName());
-      if (person.getName() != null) {
-        updatedPerson.setName("TEXT! only name parameter implemented yet");//person.getName());        
-      } else {
-        updatedPerson.setName("NULL! only name parameter implemented yet");//person.getName());                
-      }
-      this.personService.editPerson(updatedPerson);
-      return new ResponseEntity<>(HttpStatus.OK);
-    } else {
-      return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+//    Optional<Person> personData = this.personService.findPerson(id);
+    if (person.getId() != id) {
+      return new ResponseEntity("No match for Id of person (" + person.getId() + ") and Id of Request: " + id, HttpStatus.BAD_REQUEST);
     }
 
+    if (personService.existsById(id)) {
+//      Optional<Person> personData = this.personService.findPerson(id);
+      //Person personData = this.personService.findPerson(id).get();
+      this.personService.editPerson(person);
+      return new ResponseEntity("Person updated", HttpStatus.OK);
+    } else {
+      return new ResponseEntity<>("No person to edit of Id: " + id, HttpStatus.NOT_FOUND);
+    }
+
+//    if (personData.isPresent() && person.getId() == id) {
+//    if (personService.existsById(id)) {
+//      Person updatedPerson = personData.get();
+//      //update only modified fields
+////      if (person.getName() != null) {
+////        updatedPerson.setName("TEXT! only name parameter implemented yet");//person.getName());        
+////      } else {
+////        updatedPerson.setName("NULL! only name parameter implemented yet");//person.getName());                
+////      }
+//      this.personService.editPerson(updatedPerson);
+//      return new ResponseEntity("Person updated", HttpStatus.OK);
+//    } else {
+//      return new ResponseEntity<>("No person to edit of Id: " + id, HttpStatus.NOT_FOUND);
+//    }
   }
 
 //  @GetMapping("/list")

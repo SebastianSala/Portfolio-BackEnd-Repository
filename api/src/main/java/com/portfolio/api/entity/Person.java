@@ -3,9 +3,11 @@ package com.portfolio.api.entity;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import java.io.Serializable;
@@ -44,8 +46,10 @@ public class Person implements Serializable {
   private String webUrl;
   
   //Relatioships
-  @OneToMany(mappedBy = "person", cascade = CascadeType.ALL)
-  private List<Project> projects;
+//  @OneToMany(mappedBy = "person", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+//  @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+//  @JoinColumn(name = "person_id")
+//  private List<Project> projects;
 
   public Person() {
 
@@ -62,7 +66,7 @@ public class Person implements Serializable {
     this.ImgBackUrl = ImgBackUrl;
     this.webUrl = webUrl;
     
-    this.projects = new ArrayList();
+    //this.projects = new ArrayList();
   }
 
   public Long getId() {
@@ -146,12 +150,12 @@ public class Person implements Serializable {
   }
   
   //Relatioships getters and setters
-  public List<Project> getProjects() {
-    return this.projects;
-  }
-  
-  public void setProjects(List<Project> projects) {
-    this.projects = projects;
-  }
+//  public List<Project> getProjects() {
+//    return this.projects;
+//  }
+//  
+//  public void setProjects(List<Project> projects) {
+//    this.projects = projects;
+//  }
 
 }

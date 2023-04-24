@@ -11,6 +11,8 @@ public interface ProjectRepository extends JpaRepository<Project, Long> {
   
   List<Project> findByPersonId(Long projectId);
   
+  Project findByPersonIdAndId(Long personId, Long projectId);
+  
   @Transactional
   void deleteByPersonId(Long personId);
   

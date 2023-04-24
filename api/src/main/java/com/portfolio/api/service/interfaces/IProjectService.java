@@ -2,6 +2,7 @@ package com.portfolio.api.service.interfaces;
 
 import com.portfolio.api.entity.Project;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 public interface IProjectService {
@@ -15,5 +16,9 @@ public interface IProjectService {
   public Optional<Project> findProject(Long Id);
 
   public void deleteProject(Long id);
+  
+  public List<Project> findByPersonId(Long personId);
+  
+  public Project findByPersonIdByProjectId(Long personId, Long projectId);
 
 }
