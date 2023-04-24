@@ -2,8 +2,6 @@ package com.portfolio.api.controller;
 
 import com.portfolio.api.entity.Person;
 import com.portfolio.api.entity.Project;
-import com.portfolio.api.repository.PersonRepository;
-import com.portfolio.api.repository.ProjectRepository;
 import com.portfolio.api.service.PersonService;
 import com.portfolio.api.service.ProjectService;
 import java.util.List;
@@ -37,21 +35,18 @@ public class ProjectController {
   @PostMapping("/create")
   public ResponseEntity createProject(@RequestBody Project project) {
 
-    Person thePerson = project.getPerson();
-    if (thePerson instanceof Person) {
+    Person thePerson = null;
+    thePerson = project.getPerson();
+    if (thePerson != null) {
       this.projectService.createProject(project);
-//      return ResponseEntity("Se creo el proyecto correctamente", HttpStatus.OK);
-//      return ResponseEntity.ok(HttpStatus.OK);
       return new ResponseEntity("found!", HttpStatus.OK);
     } else {
-//      return ResponseEntity<>("Se creo el proyecto correctamente", HttpStatus.NOT_FOUND);
-//      return ResponseEntity.ok(HttpStatus.NOT_FOUND);
+
       return new ResponseEntity("No Persons with projects", HttpStatus.NOT_FOUND);
     }
   }
 
   @PostMapping("/person/{personId}/project")
-//  public ResponseEntity<Project> createProject2(@PathVariable("personId") Long personId,
   public ResponseEntity createProjectByPersonId(@PathVariable("personId") Long personId,
       @RequestBody Project projectRequest) {
 
@@ -63,18 +58,11 @@ public class ProjectController {
     projectRequest.setPerson(thePerson.get());
     projectService.createProject(projectRequest);
 
-//    return new ResponseEntity<>(projectRequest.getPerson(), HttpStatus.CREATED);
     return new ResponseEntity<>(projectRequest, HttpStatus.CREATED);
 
   }
 
-//  @PutMapping("/edit")
-//  public ResponseEntity editProject(@RequestBody Project project) {
-//    this.projectService.editProject(project);
-//    return ResponseEntity.ok("Proyecto actualizado" + project.getId());
-//  }
   @PutMapping("/person/{personId}/project/{projectId}")
-//  public ResponseEntity<Project> createProject2(@PathVariable("personId") Long personId,
   public ResponseEntity updateProject(
       @PathVariable("personId") Long personId,
       @RequestBody Project projectRequest,
@@ -91,38 +79,18 @@ public class ProjectController {
       return new ResponseEntity<>("No Project Found on any person", HttpStatus.NOT_FOUND);
     }
 
-//    if (projectRequest.getId() != projectId) {
-//      return new ResponseEntity<>("Atempet to edit incorrect. Person " + personId + " project: " + projectId + " vs: " + "Person: " + theProject.get().getPerson().getId() + " project: " + theProject.get().getId(), HttpStatus.NOT_FOUND);
-//    }
-//theProject.setPerson(thePerson.get());
-//    if (theProject.get().getPerson().getId() == personId) {      
     if ((theProject.get().getPerson().getId() != personId)) {
-//      projectRequest.setPerson(thePerson.get());
-//      projectService.editProject(projectRequest);
       return new ResponseEntity<>("Project exists, but not on the person " + personId, HttpStatus.NOT_FOUND);
-//      return new ResponseEntity<>(projectRequest, HttpStatus.CREATED);
     } else if ((projectRequest.getId() != projectId)) {
       return new ResponseEntity<>("Incorrect edit atempt", HttpStatus.NOT_FOUND);
     } else {
       projectRequest.setPerson(thePerson.get());
-//      theProject.get().setPerson(thePerson.get());
-//      theProject = projectRequest;
       projectService.editProject(projectRequest);
       return new ResponseEntity<>(projectRequest, HttpStatus.CREATED);
-//      return new ResponseEntity<>("Project exists, but not on the person " + personId, HttpStatus.NOT_FOUND);
     }
 
-//    projectRequest.setPerson(thePerson.get());
-//    projectService.createProject(projectRequest);
-//    return new ResponseEntity<>(projectRequest.getPerson(), HttpStatus.CREATED);
-//    return new ResponseEntity<>(projectRequest, HttpStatus.CREATED);
   }
 
-//  @GetMapping("/list")
-//  @ResponseBody
-//  public List<Project> listProjects() {
-//    return this.projectService.listProjects();
-//  }
   @GetMapping("/list")
   @ResponseBody
   public ResponseEntity<List<Project>> listProjects() {
@@ -163,9 +131,10 @@ public class ProjectController {
       @PathVariable("personId") Long personId,
       @PathVariable("projectId") Long projectId) {
 
-    Project theProject = projectService.findByPersonIdByProjectId(personId, projectId);
+    Project theProject = null;
+    theProject = this.projectService.findByPersonIdByProjectId(personId, projectId);
 
-    if (theProject instanceof Project) {
+    if (theProject != null) {
       return new ResponseEntity(theProject, HttpStatus.OK);
     } else {
       return new ResponseEntity("No project found", HttpStatus.NOT_FOUND);
@@ -175,11 +144,37 @@ public class ProjectController {
 
   @DeleteMapping("/delete")
   public ResponseEntity deleteProjectById(@RequestParam("id") Long id) {
-    this.projectService.deleteProject(id);
-    return ResponseEntity.ok("Proyecto " + id + " eliminado");
+    if (this.projectService.existsById(id)) {
+      this.projectService.deleteProject(id);
+      return new ResponseEntity("Proyecto " + id + " eliminado", HttpStatus.OK);
+    } else {
+      return new ResponseEntity("No existe el proyecto: " + id, HttpStatus.NOT_FOUND);
+    }
+
   }
 
-  //@DeleteMapping("/")
+  @DeleteMapping("/person/delete")
+  //http://localhost:8080/project/person/delete?personId=1&projectId=1
+  public ResponseEntity deleteProjectByPersonIdById(
+      @RequestParam("personId") Long personId,
+      @RequestParam("projectId") Long projectId
+  ) {
 
+    if (!this.personService.existsById(personId)) {
+      return new ResponseEntity("No existe la persona de Id: " + personId, HttpStatus.NOT_FOUND);
+    }
+
+    if (!this.projectService.existsById(projectId)) {
+      return new ResponseEntity("No existe el projecto de Id: " + projectId, HttpStatus.NOT_FOUND);
+    }
+
+    if (this.projectService.existsByPersonIdByProjectId(personId, projectId)) {
+      this.projectService.deleteProject(projectId);
+    } else {
+      return new ResponseEntity("No existe el projecto de Id: " + projectId + " de la persona: " + personId, HttpStatus.NOT_FOUND);
+    }
+
+    return new ResponseEntity("Deleted Project: " + projectId + " of Person: " + personId, HttpStatus.OK);
+  }
 
 }

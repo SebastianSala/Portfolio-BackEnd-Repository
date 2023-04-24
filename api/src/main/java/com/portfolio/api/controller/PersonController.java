@@ -104,7 +104,7 @@ public class PersonController {
   }
 
   @DeleteMapping("/delete")
-  public ResponseEntity deletePerson(@RequestParam("id") Long id) {
+  public ResponseEntity deletePersonById(@RequestParam("id") Long id) {
     this.personService.deletePerson(id);
     return ResponseEntity.ok("persona borrada = " + id);
   }

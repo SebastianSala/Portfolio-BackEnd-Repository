@@ -17,7 +17,7 @@ public class ProjectService implements IProjectService {
 
   @Autowired
   ProjectRepository projectRepository;
-  
+
   @Autowired
   PersonRepository personRepository;
 
@@ -45,15 +45,25 @@ public class ProjectService implements IProjectService {
   public void deleteProject(Long id) {
     projectRepository.deleteById(id);
   }
-  
+
   @Override
   public List<Project> findByPersonId(Long personId) {
     return projectRepository.findByPersonId(personId);
   }
-  
+
   @Override
   public Project findByPersonIdByProjectId(Long personId, Long projectId) {
     return projectRepository.findByPersonIdAndId(personId, projectId);
+  }
+
+  @Override
+  public boolean existsById(Long id) {
+    return this.projectRepository.existsById(id);
+  }
+  
+  @Override
+  public boolean existsByPersonIdByProjectId(Long personId, Long projectId) {
+    return this.projectRepository.existsByPersonIdAndId(personId, projectId);
   }
 
 }

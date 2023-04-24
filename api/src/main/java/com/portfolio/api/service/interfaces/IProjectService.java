@@ -20,5 +20,9 @@ public interface IProjectService {
   public List<Project> findByPersonId(Long personId);
   
   public Project findByPersonIdByProjectId(Long personId, Long projectId);
+  
+  public boolean existsByPersonIdByProjectId(Long personId, Long projectId);
+  
+  public boolean existsById(Long id);
 
 }

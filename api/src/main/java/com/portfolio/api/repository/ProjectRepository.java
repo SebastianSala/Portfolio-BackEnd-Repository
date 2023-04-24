@@ -13,6 +13,8 @@ public interface ProjectRepository extends JpaRepository<Project, Long> {
   
   Project findByPersonIdAndId(Long personId, Long projectId);
   
+  boolean existsByPersonIdAndId(Long personId, Long projecetId);
+  
   @Transactional
   void deleteByPersonId(Long personId);
   
