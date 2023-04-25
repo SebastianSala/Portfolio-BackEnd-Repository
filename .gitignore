@@ -1,9 +1,4 @@
-api-02
-api-03
-api-04
-api-05
-api-ORIG
-api-working
-spring-initializr-files
-/api/target/
 
+/api/target/
+roles.txt
+hosting-db.txt
