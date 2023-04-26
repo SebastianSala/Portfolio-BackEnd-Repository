@@ -2,7 +2,6 @@ package com.portfolio.api.controller;
 
 import com.portfolio.api.entity.Person;
 import com.portfolio.api.service.PersonService;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("person")
-@CrossOrigin("*")//(origins = "http://localhost:4200")
+@CrossOrigin("*")//(origins = {"https://sebastiansala-portfolio.web.app","http://localhost:4200"})
 public class PersonController {
 
   @Autowired

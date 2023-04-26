@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("project")
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin("*")//(origins = {"https://sebastiansala-portfolio.web.app","http://localhost:4200"})
 public class ProjectController {
 
   @Autowired
@@ -63,10 +63,10 @@ public class ProjectController {
   }
 
   @PutMapping("/person/{personId}/project/{projectId}")
-  public ResponseEntity updateProject(
+  public ResponseEntity updateProjectByPersonIdByProjectId(
       @PathVariable("personId") Long personId,
-      @RequestBody Project projectRequest,
-      @PathVariable("projectId") Long projectId
+      @PathVariable("projectId") Long projectId,
+      @RequestBody Project projectRequest
   ) {
 
     Optional<Person> thePerson = personService.findPerson(personId);
@@ -104,7 +104,7 @@ public class ProjectController {
 
   @GetMapping("person/{personId}/list")
   @ResponseBody
-  public ResponseEntity listProjectsByPersonId(@PathVariable("personId") Long personId) {
+  public ResponseEntity getProjectsByPersonId(@PathVariable("personId") Long personId) {
 
     if (!personService.existsById(personId)) {
       return new ResponseEntity("no person with id: " + personId, HttpStatus.NOT_FOUND);
@@ -127,7 +127,7 @@ public class ProjectController {
 
   @GetMapping("/person/{personId}/project/{projectId}")
   @ResponseBody
-  public ResponseEntity findProjectByPersonIdById(
+  public ResponseEntity getProjectByPersonIdByProjectId(
       @PathVariable("personId") Long personId,
       @PathVariable("projectId") Long projectId) {
 
@@ -155,13 +155,13 @@ public class ProjectController {
 
   @DeleteMapping("/person/delete")
   //http://localhost:8080/project/person/delete?personId=1&projectId=1
-  public ResponseEntity deleteProjectByPersonIdById(
+  public ResponseEntity deleteProjectByPersonIdByProjectId(
       @RequestParam("personId") Long personId,
       @RequestParam("projectId") Long projectId
   ) {
 
     if (!this.personService.existsById(personId)) {
-      return new ResponseEntity("No existe la persona de Id: " + personId, HttpStatus.NOT_FOUND);
+      return new ResponseEntity<>("No existe la persona de Id: " + personId, HttpStatus.NOT_FOUND);
     }
 
     if (!this.projectService.existsById(projectId)) {

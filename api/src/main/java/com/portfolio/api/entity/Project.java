@@ -41,7 +41,7 @@ public class Project implements Serializable {
   @Column(name = "logo_url", length = 2048)
   private String logoUrl;
   @Column(name = "img_url", length = 2048)
-  private String ImgUrl;
+  private String imgUrl;
   @Column(name = "web_url", length = 2048)
   private String webUrl;
 
@@ -56,13 +56,13 @@ public class Project implements Serializable {
 //
 //  }
 //
-//  public Project(String name, LocalDate date, String shortDescription, String longDescription, String logoUrl, String ImgUrl, String webUrl, Person person) {
+//  public Project(String name, LocalDate date, String shortDescription, String longDescription, String logoUrl, String imgUrl, String webUrl, Person person) {
 //    this.name = name;
 //    this.date = date;
 //    this.shortDescription = shortDescription;
 //    this.longDescription = longDescription;
 //    this.logoUrl = logoUrl;
-//    this.ImgUrl = ImgUrl;
+//    this.imgUrl = imgUrl;
 //    this.webUrl = webUrl;
 //    this.person = person;
 //  }
@@ -115,11 +115,11 @@ public class Project implements Serializable {
   }
 
   public String getImgUrl() {
-    return ImgUrl;
+    return imgUrl;
   }
 
-  public void setImgUrl(String ImgUrl) {
-    this.ImgUrl = ImgUrl;
+  public void setImgUrl(String imgUrl) {
+    this.imgUrl = imgUrl;
   }
 
   public String getWebUrl() {

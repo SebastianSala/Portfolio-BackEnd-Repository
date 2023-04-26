@@ -1,18 +1,12 @@
 package com.portfolio.api.entity;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Table(name = "person")
@@ -39,13 +33,15 @@ public class Person implements Serializable {
   private String aboutMe;
 
   @Column(name = "img_url", length = 2048)
-  private String ImgUrl;
+  private String imgUrl;
   @Column(name = "img_back_url", length = 2048)
-  private String ImgBackUrl;
+  private String imgBackUrl;
   @Column(name = "web_url", length = 2048)
   private String webUrl;
   
-  //Relatioships
+  //Relatioships. Using ManyToOne child-side managed relationship
+  //for better performance and greater functionality.
+  
 //  @OneToMany(mappedBy = "person", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
 //  @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
 //  @JoinColumn(name = "person_id")
@@ -55,15 +51,15 @@ public class Person implements Serializable {
 
   }
 
-  public Person(String name, String title, String email, String password, String location, String aboutMe, String ImgUrl, String ImgBackUrl, String webUrl) {
+  public Person(String name, String title, String email, String password, String location, String aboutMe, String imgUrl, String imgBackUrl, String webUrl) {
     this.name = name;
     this.title = title;
     this.email = email;
     this.password = password;
     this.location = location;
     this.aboutMe = aboutMe;
-    this.ImgUrl = ImgUrl;
-    this.ImgBackUrl = ImgBackUrl;
+    this.imgUrl = imgUrl;
+    this.imgBackUrl = imgBackUrl;
     this.webUrl = webUrl;
     
     //this.projects = new ArrayList();
@@ -126,19 +122,19 @@ public class Person implements Serializable {
   }
 
   public String getImgUrl() {
-    return ImgUrl;
+    return imgUrl;
   }
 
-  public void setImgUrl(String ImgUrl) {
-    this.ImgUrl = ImgUrl;
+  public void setImgUrl(String imgUrl) {
+    this.imgUrl = imgUrl;
   }
 
   public String getImgBackUrl() {
-    return ImgBackUrl;
+    return imgBackUrl;
   }
 
-  public void setImgBackUrl(String ImgBackUrl) {
-    this.ImgBackUrl = ImgBackUrl;
+  public void setImgBackUrl(String imgBackUrl) {
+    this.imgBackUrl = imgBackUrl;
   }
 
   public String getWebUrl() {
@@ -149,13 +145,6 @@ public class Person implements Serializable {
     this.webUrl = webUrl;
   }
   
-  //Relatioships getters and setters
-//  public List<Project> getProjects() {
-//    return this.projects;
-//  }
-//  
-//  public void setProjects(List<Project> projects) {
-//    this.projects = projects;
-//  }
+  
 
 }
