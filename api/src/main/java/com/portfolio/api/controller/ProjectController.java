@@ -2,9 +2,11 @@ package com.portfolio.api.controller;
 
 import com.portfolio.api.entity.Person;
 import com.portfolio.api.entity.Project;
+import com.portfolio.api.repository.ProjectRepository;
 import com.portfolio.api.service.PersonService;
 import com.portfolio.api.service.ProjectService;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -58,6 +60,7 @@ public class ProjectController {
     projectRequest.setPerson(thePerson.get());
     projectService.createProject(projectRequest);
 
+//    return new ResponseEntity<>(projectRequest, HttpStatus.CREATED);
     return new ResponseEntity<>(projectRequest, HttpStatus.CREATED);
 
   }
@@ -174,7 +177,29 @@ public class ProjectController {
       return new ResponseEntity("No existe el projecto de Id: " + projectId + " de la persona: " + personId, HttpStatus.NOT_FOUND);
     }
 
-    return new ResponseEntity("Deleted Project: " + projectId + " of Person: " + personId, HttpStatus.OK);
+//    return new ResponseEntity("Deleted Project: " + projectId + " of Person: " + personId, HttpStatus.OK);
+    return new ResponseEntity<>(Map.of("value", "SOME TEXT"), HttpStatus.OK);
+  }
+
+  @Autowired
+  ProjectRepository projectRepository;
+
+  @DeleteMapping("/person/{personId}/delete")
+  //http://localhost:8080/project/person/delete?personId=1&projectId=1
+  public ResponseEntity deleteProjectsByPersonId(@PathVariable("personId") Long personId) {
+
+    if (!this.personService.existsById(personId)) {
+      return new ResponseEntity<>("No existe la persona de Id: " + personId, HttpStatus.NOT_FOUND);
+    }
+
+    if (!this.projectRepository.existsByPersonId(personId)) {
+      return new ResponseEntity("No existe el projectos de la persona de Id: " + personId, HttpStatus.NOT_FOUND);
+    }
+
+//    this.projectService.deleteProject(personId);
+      this.projectRepository.deleteByPersonId(personId);
+
+    return new ResponseEntity("Deleted all project: of Person: " + personId, HttpStatus.OK);
   }
 
 }
