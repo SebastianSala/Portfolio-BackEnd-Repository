@@ -13,7 +13,7 @@ import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 import java.io.Serializable;
-import java.time.LocalDate;
+//import java.time.LocalDate;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
@@ -30,8 +30,13 @@ public class Project implements Serializable {
   @Column(length = 100)
   private String name;
 
+  //using String instead of DATE or LocalDate types for compatibility.
+  //JPA manages sure the format and type convertions.
+//  private String date;
+//  @Column(name = "date", columnDefinition = "DATE")
   @Temporal(TemporalType.DATE)
-  private LocalDate date;
+  private String date;
+//  private LocalDate date;
 
   @Column(name = "short_description", length = 100)
   private String shortDescription;
@@ -46,17 +51,18 @@ public class Project implements Serializable {
   private String webUrl;
 
   //Many to one relationship with the person
-  @ManyToOne(fetch = FetchType.LAZY, optional = false)
+//  @ManyToOne(fetch = FetchType.LAZY, optional = false)
+  @ManyToOne(fetch = FetchType.EAGER, optional = false)
   @JoinColumn(name = "person_id", nullable = false)
   @OnDelete(action = OnDeleteAction.CASCADE)
-  @JsonIgnore
+//  @JsonIgnore
   private Person person;
 
 //  public Project() {
 //
 //  }
 //
-//  public Project(String name, LocalDate date, String shortDescription, String longDescription, String logoUrl, String imgUrl, String webUrl, Person person) {
+//  public Project(String name, StringTime date, String shortDescription, String longDescription, String logoUrl, String imgUrl, String webUrl, Person person) {
 //    this.name = name;
 //    this.date = date;
 //    this.shortDescription = shortDescription;
@@ -82,11 +88,13 @@ public class Project implements Serializable {
     this.name = name;
   }
 
-  public LocalDate getDate() {
+//  public LocalDate getDate() {
+  public String getDate() {
     return date;
   }
 
-  public void setDate(LocalDate date) {
+//  public void setDate(LocalDate date) {
+  public void setDate(String date) {
     this.date = date;
   }
 

@@ -3,6 +3,7 @@ package com.portfolio.api.controller;
 import com.portfolio.api.entity.Person;
 import com.portfolio.api.service.PersonService;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -104,8 +105,15 @@ public class PersonController {
 
   @DeleteMapping("/delete")
   public ResponseEntity deletePersonById(@RequestParam("id") Long id) {
-    this.personService.deletePerson(id);
-    return ResponseEntity.ok("persona borrada = " + id);
+
+    if (personService.existsById(id)) {
+      this.personService.deletePerson(id);
+      String theId = String.valueOf(id);
+//      return new ResponseEntity(Map.of("persona borrada = " : "id"), HttpStatus.OK);
+      return new ResponseEntity(Map.of("deleted", theId), HttpStatus.OK);
+    }
+      return new ResponseEntity("No existe la persona de id: " + id, HttpStatus.NOT_FOUND);
+//    return ResponseEntity.ok("persona borrada = " + id);
   }
 
 //  @PostMapping("/login")
