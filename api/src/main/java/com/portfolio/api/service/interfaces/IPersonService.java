@@ -13,14 +13,13 @@ public interface IPersonService {
   public ArrayList<Person> listPersons();
 
   public Optional<Person> findPerson(Long id);
-//  public Person findPerson(Long id);
+
+  public Person finPersonByIdAndEmail(Long id, String email);
 
   public void deletePerson(Long id);
-  
-  public Person logInObject(String email, String password);
-  
-  public String logInString(String email, String password);
-  
+
+  public Person loginPerson(String email, String password);
+
   public Boolean existsById(Long id);
 
 }

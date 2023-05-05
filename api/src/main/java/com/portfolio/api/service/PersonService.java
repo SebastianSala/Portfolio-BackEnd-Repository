@@ -36,6 +36,11 @@ public class PersonService implements IPersonService {
   public Optional<Person> findPerson(Long id) {
     return this.personRepository.findById(id);
   }
+  
+  @Override
+  public Person finPersonByIdAndEmail(Long id, String email) {
+    return this.personRepository.findByIdAndEmail(id, email);
+  }
 
   @Override
   public void deletePerson(Long id) {
@@ -43,38 +48,20 @@ public class PersonService implements IPersonService {
   }
 
   @Override
-  public Person logInObject(String email, String password) {
+  public Person loginPerson(String email, String password) {
 
     List<Person> person = this.personRepository.findByEmailAndPassword(email, password);
 
     if (!person.isEmpty()) {
       return person.get(0);
-    } else {
-      return null;
     }
-
-  }
-
-  @Override
-  public String logInString(String email, String password) {
-
-    List<Person> person = this.personRepository.findByEmailAndPassword(email, password);
-    
-    String login = "ERROR";
-
-    if (!person.isEmpty()) {
-      login = "OK";
-    }
-    
-    return login;
+    return null;
 
   }
 
   @Override
   public Boolean existsById(Long id) {
-    return this.personRepository.existsById(id);    
+    return this.personRepository.existsById(id);
   }
-  
-  
-  
+
 }

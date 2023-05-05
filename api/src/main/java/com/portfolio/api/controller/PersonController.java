@@ -93,7 +93,7 @@ public class PersonController {
   @ResponseBody
   public ResponseEntity<Person> findPerson(@PathVariable("id") Long id) {
 
-    Optional<Person> personData = personService.findPerson(id);
+    Optional<Person> personData = this.personService.findPerson(id);
     if (personData.isPresent()) {
       Person persons = personData.get();
       return new ResponseEntity<>(persons, HttpStatus.OK);
@@ -101,6 +101,18 @@ public class PersonController {
       return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
+  }
+
+  @GetMapping("/list/person")
+  @ResponseBody
+  public ResponseEntity findPersonByIdByEmail(@RequestParam("id") Long id, @RequestParam("email") String email) {
+
+    Person personData = this.personService.finPersonByIdAndEmail(id, email);
+
+    return (personData != null
+        ? new ResponseEntity<>(personData, HttpStatus.OK)
+        : new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    
   }
 
   @DeleteMapping("/delete")
@@ -112,7 +124,7 @@ public class PersonController {
 //      return new ResponseEntity(Map.of("persona borrada = " : "id"), HttpStatus.OK);
       return new ResponseEntity(Map.of("deleted", theId), HttpStatus.OK);
     }
-      return new ResponseEntity("No existe la persona de id: " + id, HttpStatus.NOT_FOUND);
+    return new ResponseEntity("No existe la persona de id: " + id, HttpStatus.NOT_FOUND);
 //    return ResponseEntity.ok("persona borrada = " + id);
   }
 
@@ -127,18 +139,32 @@ public class PersonController {
 //      return new ResponseEntity<>("ERROR", HttpStatus.UNAUTHORIZED);
 //    }
 //  }
+//  @PostMapping("/login")
+//  public ResponseEntity<String> logIn(@RequestBody Person person) {
+//
+//    String loginString = this.personService.logInString(person.getEmail(), person.getPassword());
+//
+//    if ("OK".equals(loginString)) {
+//      return new ResponseEntity<>(loginString, HttpStatus.OK);
+//    } else if ("ERROR".equals(loginString)) {
+//      return new ResponseEntity<>(loginString, HttpStatus.UNAUTHORIZED);
+//    }
+//
+//    return null;
+//  }
+//
+//}
   @PostMapping("/login")
-  public ResponseEntity<String> logIn(@RequestBody Person person) {
+  @ResponseBody
+  public ResponseEntity login(@RequestBody Person person) {
 
-    String loginString = this.personService.logInString(person.getEmail(), person.getPassword());
+    Person loginPerson = this.personService.loginPerson(person.getEmail(), person.getPassword());
 
-    if ("OK".equals(loginString)) {
-      return new ResponseEntity<>(loginString, HttpStatus.OK);
-    } else if ("ERROR".equals(loginString)) {
-      return new ResponseEntity<>(loginString, HttpStatus.UNAUTHORIZED);
-    }
+    return (loginPerson != null
+        //        ? new ResponseEntity<>(loginPerson, HttpStatus.OK)
+        ? new ResponseEntity<>(loginPerson, HttpStatus.OK)
+        : new ResponseEntity<>(HttpStatus.UNAUTHORIZED));
 
-    return null;
   }
 
 }
