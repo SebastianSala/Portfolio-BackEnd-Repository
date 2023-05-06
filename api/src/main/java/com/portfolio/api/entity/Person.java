@@ -6,12 +6,13 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 import java.io.Serializable;
 
 @Entity
-@Table(name = "person")
+@Table(name = "person", uniqueConstraints = @UniqueConstraint(columnNames = "email"))
 public class Person implements Serializable {
-  
+
   private static final long serialVersionUID = 01L;
 
   @Id
@@ -23,7 +24,7 @@ public class Person implements Serializable {
 
   private String title;
 
-  //class properties for log-in
+  //class properties for log-in  
   private String email;
   private String password;
 
@@ -38,15 +39,13 @@ public class Person implements Serializable {
   private String imgBackUrl;
   @Column(name = "web_url", length = 2048)
   private String webUrl;
-  
+
   //Relatioships. Using ManyToOne child-side managed relationship
   //for better performance and greater functionality.
-  
 //  @OneToMany(mappedBy = "person", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
 //  @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
 //  @JoinColumn(name = "person_id")
 //  private List<Project> projects;
-
   public Person() {
 
   }
@@ -61,7 +60,7 @@ public class Person implements Serializable {
     this.imgUrl = imgUrl;
     this.imgBackUrl = imgBackUrl;
     this.webUrl = webUrl;
-    
+
     //this.projects = new ArrayList();
   }
 
@@ -144,7 +143,9 @@ public class Person implements Serializable {
   public void setWebUrl(String webUrl) {
     this.webUrl = webUrl;
   }
-  
-  
+
+  public void clearPassword() {
+    this.password = "";
+  }
 
 }

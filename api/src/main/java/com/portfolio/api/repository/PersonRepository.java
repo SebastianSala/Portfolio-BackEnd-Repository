@@ -11,5 +11,11 @@ public interface PersonRepository extends JpaRepository<Person, Long> {
   public List<Person> findByEmailAndPassword(String email, String password);
 
   public Person findByIdAndEmail(Long id, String email);
+  
+  public Person findByEmail(String email);
+  
+  public boolean existsByEmail(String email);
+  
+  public boolean existsByEmailAndIdNot(String email, Long id);
 
 }

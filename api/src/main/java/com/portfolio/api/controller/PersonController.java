@@ -30,15 +30,20 @@ public class PersonController {
 
   @PostMapping("/create")
   public ResponseEntity createPerson(@RequestBody Person person) {
+
+    if (this.personService.existsByEmail(person.getEmail())) {
+      return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
+    }
+
     this.personService.createPerson(person);
     return ResponseEntity.ok("Persona creada con exito = " + person.getId());
   }
 
-  @PutMapping("/edit")
-  public ResponseEntity editPerson(@RequestBody Person person) {
-    this.personService.editPerson(person);
-    return ResponseEntity.ok("edicion ok = " + person.getId());
-  }
+//  @PutMapping("/edit")
+//  public ResponseEntity editPerson(@RequestBody Person person) {
+//    this.personService.editPerson(person);
+//    return ResponseEntity.ok("edicion ok = " + person.getId());
+//  }
 
   @PutMapping("/edit/{id}")
   public ResponseEntity updatePerson(@PathVariable("id") Long id, @RequestBody Person person) {
@@ -49,35 +54,20 @@ public class PersonController {
     }
 
     if (personService.existsById(id)) {
-//      Optional<Person> personData = this.personService.findPerson(id);
-      //Person personData = this.personService.findPerson(id).get();
+//    
+      if (this.personService.existsByEmailAndIdNot(person.getEmail(), id)) {
+        return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
+      }
+
       this.personService.editPerson(person);
       return new ResponseEntity("Person updated", HttpStatus.OK);
+
     } else {
       return new ResponseEntity<>("No person to edit of Id: " + id, HttpStatus.NOT_FOUND);
     }
 
-//    if (personData.isPresent() && person.getId() == id) {
-//    if (personService.existsById(id)) {
-//      Person updatedPerson = personData.get();
-//      //update only modified fields
-////      if (person.getName() != null) {
-////        updatedPerson.setName("TEXT! only name parameter implemented yet");//person.getName());        
-////      } else {
-////        updatedPerson.setName("NULL! only name parameter implemented yet");//person.getName());                
-////      }
-//      this.personService.editPerson(updatedPerson);
-//      return new ResponseEntity("Person updated", HttpStatus.OK);
-//    } else {
-//      return new ResponseEntity<>("No person to edit of Id: " + id, HttpStatus.NOT_FOUND);
-//    }
   }
 
-//  @GetMapping("/list")
-//  @ResponseBody
-//  public ArrayList<Person> listPersons() {
-//    return this.personService.listPersons();
-//  }
   @GetMapping("/list")
   @ResponseBody
   public ResponseEntity<List<Person>> listPersons() {
@@ -86,6 +76,9 @@ public class PersonController {
     if (persons.isEmpty()) {
       return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+
+    persons.forEach(Person::clearPassword);
+
     return new ResponseEntity<>(persons, HttpStatus.OK);
   }
 
@@ -103,16 +96,29 @@ public class PersonController {
 
   }
 
+//  @GetMapping("/list/person")
+//  @ResponseBody
+//  public ResponseEntity findPersonByIdByEmail(@RequestParam("id") Long id, @RequestParam("email") String email) {
+//
+//    Person personData = this.personService.finPersonByIdAndEmail(id, email);
+//
+//    return (personData != null
+//        ? new ResponseEntity<>(personData, HttpStatus.OK)
+//        : new ResponseEntity<>(HttpStatus.NOT_FOUND));
+//
+//  }
   @GetMapping("/list/person")
   @ResponseBody
-  public ResponseEntity findPersonByIdByEmail(@RequestParam("id") Long id, @RequestParam("email") String email) {
+  public ResponseEntity findPersonByEmail(@RequestParam("email") String email) {
 
-    Person personData = this.personService.finPersonByIdAndEmail(id, email);
+    Person personData = this.personService.finPersonByEmail(email);
+    //deleting the password for safety
+    personData.setPassword("");
 
     return (personData != null
         ? new ResponseEntity<>(personData, HttpStatus.OK)
         : new ResponseEntity<>(HttpStatus.NOT_FOUND));
-    
+
   }
 
   @DeleteMapping("/delete")

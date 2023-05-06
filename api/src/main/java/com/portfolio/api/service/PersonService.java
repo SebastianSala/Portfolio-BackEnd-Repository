@@ -36,10 +36,15 @@ public class PersonService implements IPersonService {
   public Optional<Person> findPerson(Long id) {
     return this.personRepository.findById(id);
   }
-  
+
   @Override
   public Person finPersonByIdAndEmail(Long id, String email) {
     return this.personRepository.findByIdAndEmail(id, email);
+  }
+
+  @Override
+  public Person finPersonByEmail(String email) {
+    return this.personRepository.findByEmail(email);
   }
 
   @Override
@@ -60,8 +65,18 @@ public class PersonService implements IPersonService {
   }
 
   @Override
-  public Boolean existsById(Long id) {
+  public boolean existsById(Long id) {
     return this.personRepository.existsById(id);
+  }
+  
+  @Override
+  public boolean existsByEmail(String email) {
+    return this.personRepository.existsByEmail(email);
+  }
+  
+  @Override
+  public boolean existsByEmailAndIdNot(String email, Long id) {
+    return this.personRepository.existsByEmailAndIdNot(email, id);
   }
 
 }

@@ -15,11 +15,17 @@ public interface IPersonService {
   public Optional<Person> findPerson(Long id);
 
   public Person finPersonByIdAndEmail(Long id, String email);
+  
+  public Person finPersonByEmail(String email);
 
   public void deletePerson(Long id);
 
   public Person loginPerson(String email, String password);
 
-  public Boolean existsById(Long id);
+  public boolean existsById(Long id);
+  
+  public boolean existsByEmail(String email);
+  
+  public boolean existsByEmailAndIdNot(String email, Long id);
 
 }
