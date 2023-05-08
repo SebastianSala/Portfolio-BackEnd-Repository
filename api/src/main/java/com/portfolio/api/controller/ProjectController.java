@@ -1,5 +1,6 @@
 package com.portfolio.api.controller;
 
+import com.portfolio.api.dto.Message;
 import com.portfolio.api.entity.Person;
 import com.portfolio.api.entity.Project;
 import com.portfolio.api.repository.ProjectRepository;
@@ -89,7 +90,10 @@ public class ProjectController {
     } else {
       projectRequest.setPerson(thePerson.get());
       projectService.editProject(projectRequest);
-      return new ResponseEntity<>(projectRequest, HttpStatus.CREATED);
+//      return new ResponseEntity<>(projectRequest, HttpStatus.CREATED);
+      return new ResponseEntity<>(new Message("Project updated!"), HttpStatus.CREATED);
+//      return new ResponseEntity<>(Map.of("message", "Project updated!"), HttpStatus.CREATED);
+//      return new ResponseEntity<>("Project updated!", HttpStatus.CREATED);
     }
 
   }

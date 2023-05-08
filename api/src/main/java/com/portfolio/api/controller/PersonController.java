@@ -1,5 +1,6 @@
 package com.portfolio.api.controller;
 
+import com.portfolio.api.dto.Message;
 import com.portfolio.api.entity.Person;
 import com.portfolio.api.service.PersonService;
 import java.util.List;
@@ -32,11 +33,13 @@ public class PersonController {
   public ResponseEntity createPerson(@RequestBody Person person) {
 
     if (this.personService.existsByEmail(person.getEmail())) {
-      return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
+//      return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
+      return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
     this.personService.createPerson(person);
-    return ResponseEntity.ok("Persona creada con exito = " + person.getId());
+//    return ResponseEntity.ok("Persona creada con exito = " + person.getId());
+    return ResponseEntity.ok(new Message("Persona creada con exito = " + person.getId()));
   }
 
 //  @PutMapping("/edit")
@@ -44,9 +47,8 @@ public class PersonController {
 //    this.personService.editPerson(person);
 //    return ResponseEntity.ok("edicion ok = " + person.getId());
 //  }
-
   @PutMapping("/edit/{id}")
-  public ResponseEntity updatePerson(@PathVariable("id") Long id, @RequestBody Person person) {
+  public ResponseEntity<?> updatePerson(@PathVariable("id") Long id, @RequestBody Person person) {
 
 //    Optional<Person> personData = this.personService.findPerson(id);
     if (person.getId() != id) {
@@ -56,9 +58,8 @@ public class PersonController {
     if (personService.existsById(id)) {
 //    
       if (this.personService.existsByEmailAndIdNot(person.getEmail(), id)) {
-        return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
+        return new ResponseEntity<>("El email ya existe", HttpStatus.NOT_ACCEPTABLE);
       }
-
       this.personService.editPerson(person);
       return new ResponseEntity("Person updated", HttpStatus.OK);
 
