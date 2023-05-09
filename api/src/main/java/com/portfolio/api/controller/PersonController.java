@@ -34,12 +34,13 @@ public class PersonController {
 
     if (this.personService.existsByEmail(person.getEmail())) {
 //      return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
-      return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+      return new ResponseEntity<>(new Message("Ese email ya existe, ingrese uno distinto"), HttpStatus.BAD_REQUEST);
     }
 
     this.personService.createPerson(person);
 //    return ResponseEntity.ok("Persona creada con exito = " + person.getId());
-    return ResponseEntity.ok(new Message("Persona creada con exito = " + person.getId()));
+//    return ResponseEntity.ok(new Message("Persona creada con exito = " + person.getEmail()));
+    return new ResponseEntity(new Message("Usuario " + person.getName() + " creado con exito:  " + person.getEmail()), HttpStatus.OK);
   }
 
 //  @PutMapping("/edit")
@@ -170,7 +171,7 @@ public class PersonController {
     return (loginPerson != null
         //        ? new ResponseEntity<>(loginPerson, HttpStatus.OK)
         ? new ResponseEntity<>(loginPerson, HttpStatus.OK)
-        : new ResponseEntity<>(HttpStatus.UNAUTHORIZED));
+        : new ResponseEntity<>(new Message("Usuario o password incorrectos"), HttpStatus.UNAUTHORIZED));
 
   }
 
