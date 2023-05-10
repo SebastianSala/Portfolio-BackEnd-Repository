@@ -29,5 +29,6 @@ com\portfolio\api\service\ExperienceService.class
 com\portfolio\api\service\interfaces\IExperienceService.class
 com\portfolio\api\controller\ProjectController.class
 com\portfolio\api\dto\Message.class
+com\portfolio\api\controller\HealthCheckController.class
 com\portfolio\api\entity\Education.class
 com\portfolio\api\entity\Experience.class
