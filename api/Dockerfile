@@ -5,3 +5,5 @@ LABEL maintainer="Sebastian Sala"
 COPY target/api-0.4.0.jar api-backend.jar
 
 ENTRYPOINT ["java","-jar","/api-backend.jar"]
+
+EXPOSE 8080
