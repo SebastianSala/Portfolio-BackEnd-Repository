@@ -23,7 +23,7 @@ public class HealthCheckController {
         .replacePath("/swagger-ui")
         .build().toUriString();
 
-    String message = String.format("Backend working OK, go to <a href=\"%s\">%s</a> for API documentation", swaggerUrl, swaggerUrl);
+    String message = String.format("Backend OK, ingresa a <a href=\"%s\">%s</a> para ver la documentación de la API.", swaggerUrl, swaggerUrl);
 
     return new ResponseEntity<>(message, HttpStatus.OK);
 

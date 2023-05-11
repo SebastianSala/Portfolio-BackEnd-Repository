@@ -4,7 +4,6 @@ import com.portfolio.api.dto.Message;
 import com.portfolio.api.entity.Person;
 import com.portfolio.api.service.PersonService;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -33,39 +32,31 @@ public class PersonController {
   public ResponseEntity createPerson(@RequestBody Person person) {
 
     if (this.personService.existsByEmail(person.getEmail())) {
-//      return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
       return new ResponseEntity<>(new Message("Ese email ya existe, ingrese uno distinto"), HttpStatus.BAD_REQUEST);
     }
 
     this.personService.createPerson(person);
-//    return ResponseEntity.ok("Persona creada con exito = " + person.getId());
-//    return ResponseEntity.ok(new Message("Persona creada con exito = " + person.getEmail()));
     return new ResponseEntity(new Message("Usuario " + person.getName() + " creado con exito:  " + person.getEmail()), HttpStatus.OK);
   }
 
-//  @PutMapping("/edit")
-//  public ResponseEntity editPerson(@RequestBody Person person) {
-//    this.personService.editPerson(person);
-//    return ResponseEntity.ok("edicion ok = " + person.getId());
-//  }
   @PutMapping("/edit/{id}")
   public ResponseEntity<?> updatePerson(@PathVariable("id") Long id, @RequestBody Person person) {
 
-//    Optional<Person> personData = this.personService.findPerson(id);
     if (person.getId() != id) {
-      return new ResponseEntity("No match for Id of person (" + person.getId() + ") and Id of Request: " + id, HttpStatus.BAD_REQUEST);
+      return new ResponseEntity(new Message("No hay coincidencia entre usuario de Id " + person.getId() + " y Id de Request: " + id), HttpStatus.BAD_REQUEST);
     }
 
     if (personService.existsById(id)) {
-//    
+
+      //Checks if a person with the same mail already exist, excluding the current one by its "id" that will have the same email of course
       if (this.personService.existsByEmailAndIdNot(person.getEmail(), id)) {
-        return new ResponseEntity<>("El email ya existe", HttpStatus.NOT_ACCEPTABLE);
+        return new ResponseEntity<>(new Message("Error, el email ya existe, ingrese uno distinto"), HttpStatus.BAD_REQUEST);
       }
       this.personService.editPerson(person);
-      return new ResponseEntity("Person updated", HttpStatus.OK);
+      return new ResponseEntity(new Message("Usuario actualizado: " + person.getEmail()), HttpStatus.OK);
 
     } else {
-      return new ResponseEntity<>("No person to edit of Id: " + id, HttpStatus.NOT_FOUND);
+      return new ResponseEntity<>(new Message("No existe usuario para editar de Id: " + id), HttpStatus.NOT_FOUND);
     }
 
   }
@@ -86,40 +77,36 @@ public class PersonController {
 
   @GetMapping("/list/{id}")
   @ResponseBody
-  public ResponseEntity<Person> findPerson(@PathVariable("id") Long id) {
+  public ResponseEntity<?> findPerson(@PathVariable("id") Long id) {
 
     Optional<Person> personData = this.personService.findPerson(id);
     if (personData.isPresent()) {
-      Person persons = personData.get();
-      return new ResponseEntity<>(persons, HttpStatus.OK);
+      Person person = personData.get();
+
+      //deleting the password for safety
+      person.clearPassword();
+
+      return new ResponseEntity<>(person, HttpStatus.OK);
     } else {
-      return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+      return new ResponseEntity<>(new Message("No existe usuario con id: " + id), HttpStatus.NOT_FOUND);
     }
 
   }
 
-//  @GetMapping("/list/person")
-//  @ResponseBody
-//  public ResponseEntity findPersonByIdByEmail(@RequestParam("id") Long id, @RequestParam("email") String email) {
-//
-//    Person personData = this.personService.finPersonByIdAndEmail(id, email);
-//
-//    return (personData != null
-//        ? new ResponseEntity<>(personData, HttpStatus.OK)
-//        : new ResponseEntity<>(HttpStatus.NOT_FOUND));
-//
-//  }
   @GetMapping("/list/person")
   @ResponseBody
   public ResponseEntity findPersonByEmail(@RequestParam("email") String email) {
 
     Person personData = this.personService.finPersonByEmail(email);
+
     //deleting the password for safety
-    personData.setPassword("");
+    if (personData != null) {
+      personData.clearPassword();
+    }
 
     return (personData != null
         ? new ResponseEntity<>(personData, HttpStatus.OK)
-        : new ResponseEntity<>(HttpStatus.NOT_FOUND));
+        : new ResponseEntity<>(new Message("No existe usuario con el email: " + email), HttpStatus.NOT_FOUND));
 
   }
 
@@ -129,49 +116,25 @@ public class PersonController {
     if (personService.existsById(id)) {
       this.personService.deletePerson(id);
       String theId = String.valueOf(id);
-//      return new ResponseEntity(Map.of("persona borrada = " : "id"), HttpStatus.OK);
-      return new ResponseEntity(Map.of("deleted", theId), HttpStatus.OK);
+      return new ResponseEntity(new Message("Usuario borrado: " + theId), HttpStatus.OK);
     }
-    return new ResponseEntity("No existe la persona de id: " + id, HttpStatus.NOT_FOUND);
-//    return ResponseEntity.ok("persona borrada = " + id);
+    return new ResponseEntity(new Message("No existe el usuario de Id: " + id), HttpStatus.NOT_FOUND);
   }
 
-//  @PostMapping("/login")
-//  public ResponseEntity<String> logInObject(@RequestBody Person person) {
-//
-//    Person thePerson = this.personService.logInObject(person.getEmail(), person.getPassword());
-//
-//    if (thePerson != null) {
-//      return new ResponseEntity<>("OK", HttpStatus.OK);
-//    } else {
-//      return new ResponseEntity<>("ERROR", HttpStatus.UNAUTHORIZED);
-//    }
-//  }
-//  @PostMapping("/login")
-//  public ResponseEntity<String> logIn(@RequestBody Person person) {
-//
-//    String loginString = this.personService.logInString(person.getEmail(), person.getPassword());
-//
-//    if ("OK".equals(loginString)) {
-//      return new ResponseEntity<>(loginString, HttpStatus.OK);
-//    } else if ("ERROR".equals(loginString)) {
-//      return new ResponseEntity<>(loginString, HttpStatus.UNAUTHORIZED);
-//    }
-//
-//    return null;
-//  }
-//
-//}
   @PostMapping("/login")
   @ResponseBody
   public ResponseEntity login(@RequestBody Person person) {
 
     Person loginPerson = this.personService.loginPerson(person.getEmail(), person.getPassword());
 
+    //deleting the password for safety
+    if (loginPerson != null) {
+      loginPerson.clearPassword();
+    }
+
     return (loginPerson != null
-        //        ? new ResponseEntity<>(loginPerson, HttpStatus.OK)
         ? new ResponseEntity<>(loginPerson, HttpStatus.OK)
-        : new ResponseEntity<>(new Message("Usuario o password incorrectos"), HttpStatus.UNAUTHORIZED));
+        : new ResponseEntity<>(new Message("Email o contraseña incorrectos"), HttpStatus.UNAUTHORIZED));
 
   }
 
