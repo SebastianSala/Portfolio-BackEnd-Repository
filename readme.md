@@ -6,7 +6,7 @@ Este proyecto es una <b>API REST</b>.
 
 ## Documentación <b>API-REST</b>
 
-* [Link a la documentación Generada Por Swagger UI y Open API](https://portfolio-backend-ss.onrender.com/swagger-ui)
+* <a href="https://portfolio-backend-ss.onrender.com/swagger-ui" target="_blank">Link a la documentación Generada Por Swagger UI y Open API.</a>
 
 ## Diagrama DER
 
