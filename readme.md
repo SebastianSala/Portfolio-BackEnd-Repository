@@ -29,6 +29,11 @@ Este proyecto es una <b>API REST</b>.
 * Login avanzado con JWT
 * Implementación y refactorización del resto de enpoints para las entidades.
 
+## Deciciones de diseño
+
+* Deshabilitando Spring open session in view (OSIV) y @Transactional para lograr mejor performance relacionada con la base de datos (https://www.baeldung.com/spring-open-session-in-view)
+* Usando relaciones many-to-one por ser mas versátiles que one-to-many en relación con paginación y filtrado y ordenamiento ()
+
 ## Desarrollador
 * Sebastián Sala - *Diseño e implementación del Sistema*
 

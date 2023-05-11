@@ -17,7 +17,7 @@ public interface ProjectRepository extends JpaRepository<Project, Long> {
   
   boolean existsByPersonId(Long personId);
   
-  @Transactional
+//  @Transactional
   void deleteByPersonId(Long personId);
   
 }

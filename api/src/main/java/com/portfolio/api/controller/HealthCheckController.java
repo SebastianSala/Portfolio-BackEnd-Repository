@@ -1,6 +1,5 @@
 package com.portfolio.api.controller;
 
-import com.portfolio.api.dto.Message;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
