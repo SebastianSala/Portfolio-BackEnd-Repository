@@ -1,6 +1,5 @@
 package com.portfolio.api.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -13,7 +12,6 @@ import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 import java.io.Serializable;
-//import java.time.LocalDate;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
@@ -31,12 +29,11 @@ public class Project implements Serializable {
   private String name;
 
   //using String instead of DATE or LocalDate types for compatibility.
-  //JPA manages sure the format and type convertions.
-//  private String date;
-//  @Column(name = "date", columnDefinition = "DATE")
+  //JPA manages correctly the format and type convertions.
+  //  private LocalDate date;
+  //  @Column(name = "date", columnDefinition = "DATE")
   @Temporal(TemporalType.DATE)
   private String date;
-//  private LocalDate date;
 
   @Column(name = "short_description", length = 100)
   private String shortDescription;
@@ -50,28 +47,16 @@ public class Project implements Serializable {
   @Column(name = "web_url", length = 2048)
   private String webUrl;
 
-  //Many to one relationship with the person
-//  @ManyToOne(fetch = FetchType.LAZY, optional = false)
+  // Many to one relationship with the person
+  // @ManyToOne(fetch = FetchType.LAZY, optional = false)
+  // Using EAGER to actually retrieve the person
   @ManyToOne(fetch = FetchType.EAGER, optional = false)
   @JoinColumn(name = "person_id", nullable = false)
   @OnDelete(action = OnDeleteAction.CASCADE)
-//  @JsonIgnore
+  // JsonIgnore works in conjuction with FetchType.LAZY
+  // @JsonIgnore
   private Person person;
 
-//  public Project() {
-//
-//  }
-//
-//  public Project(String name, StringTime date, String shortDescription, String longDescription, String logoUrl, String imgUrl, String webUrl, Person person) {
-//    this.name = name;
-//    this.date = date;
-//    this.shortDescription = shortDescription;
-//    this.longDescription = longDescription;
-//    this.logoUrl = logoUrl;
-//    this.imgUrl = imgUrl;
-//    this.webUrl = webUrl;
-//    this.person = person;
-//  }
   public Long getId() {
     return id;
   }

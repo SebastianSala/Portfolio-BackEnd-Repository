@@ -2,7 +2,6 @@ package com.portfolio.api.service.interfaces;
 
 import com.portfolio.api.entity.Person;
 import java.util.ArrayList;
-import java.util.Optional;
 
 public interface IPersonService {
 
@@ -12,7 +11,8 @@ public interface IPersonService {
 
   public ArrayList<Person> listPersons();
 
-  public Optional<Person> findPerson(Long id);
+//  public Optional<Person> findPerson(Long id);
+  public Person findPerson(Long id);
 
   public Person finPersonByIdAndEmail(Long id, String email);
   

@@ -10,6 +10,8 @@ import jakarta.persistence.UniqueConstraint;
 import java.io.Serializable;
 
 @Entity
+// setting "email" to be unique so it can't be 2 persons with the same email,
+// and creation or update fails if we try to use an existing email.
 @Table(name = "person", uniqueConstraints = @UniqueConstraint(columnNames = "email"))
 public class Person implements Serializable {
 

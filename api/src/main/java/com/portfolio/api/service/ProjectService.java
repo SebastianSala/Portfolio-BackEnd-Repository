@@ -1,13 +1,9 @@
 package com.portfolio.api.service;
 
 import com.portfolio.api.entity.Project;
-import com.portfolio.api.repository.PersonRepository;
 import com.portfolio.api.repository.ProjectRepository;
 import com.portfolio.api.service.interfaces.IProjectService;
-import jakarta.transaction.Transactional;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,36 +14,33 @@ public class ProjectService implements IProjectService {
   @Autowired
   ProjectRepository projectRepository;
 
-  @Autowired
-  PersonRepository personRepository;
-
+//
+//  @Override
+//  public ArrayList<Project> list() {
+//    return (ArrayList<Project>) projectRepository.findAll();
+//  }
   @Override
-  public void createProject(Project project) {
+  public void create(Project project) {
     projectRepository.save(project);
   }
 
   @Override
-  public void editProject(Project project) {
+  public void edit(Project project) {
     projectRepository.save(project);
   }
-
+  
   @Override
-  public ArrayList<Project> listProjects() {
-    return (ArrayList<Project>) projectRepository.findAll();
+  public Project findById(Long id) {
+    return projectRepository.findById(id).orElse(null);
+  }
+  
+  @Override
+  public List<Project> listByPersonEmail(String personEmail) {
+    return this.projectRepository.findByPersonEmail(personEmail);
   }
 
   @Override
-  public Optional<Project> findProject(Long Id) {
-    return projectRepository.findById(Id);
-  }
-
-  @Override
-  public void deleteProject(Long id) {
-    projectRepository.deleteById(id);
-  }
-
-  @Override
-  public List<Project> findByPersonId(Long personId) {
+  public List<Project> listByPersonId(Long personId) {
     return projectRepository.findByPersonId(personId);
   }
 
@@ -60,10 +53,25 @@ public class ProjectService implements IProjectService {
   public boolean existsById(Long id) {
     return this.projectRepository.existsById(id);
   }
-  
+
   @Override
   public boolean existsByPersonIdByProjectId(Long personId, Long projectId) {
     return this.projectRepository.existsByPersonIdAndId(personId, projectId);
+  }
+
+  @Override
+  public boolean existsByPersonId(Long personId) {
+    return this.projectRepository.existsByPersonId(personId);
+  }
+
+  @Override
+  public void delete(Long id) {
+    projectRepository.deleteById(id);
+  }
+  
+  @Override
+  public void deleteByPersonId(Long personId) {
+    this.projectRepository.deleteByPersonId(personId);
   }
 
 }

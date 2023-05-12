@@ -3,7 +3,6 @@ package com.portfolio.api.service;
 import com.portfolio.api.service.interfaces.IPersonService;
 import com.portfolio.api.entity.Person;
 import com.portfolio.api.repository.PersonRepository;
-import jakarta.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -11,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
+// Not using transactional in tradeoff for performance
 //@Transactional
 public class PersonService implements IPersonService {
 
@@ -32,9 +32,13 @@ public class PersonService implements IPersonService {
     return (ArrayList<Person>) this.personRepository.findAll();
   }
 
+//  @Override
+//  public Optional<Person> findPerson(Long id) {
+//    return this.personRepository.findById(id);
+//  }
   @Override
-  public Optional<Person> findPerson(Long id) {
-    return this.personRepository.findById(id);
+  public Person findPerson(Long id) {
+    return this.personRepository.findById(id).orElse(null);
   }
 
   @Override
