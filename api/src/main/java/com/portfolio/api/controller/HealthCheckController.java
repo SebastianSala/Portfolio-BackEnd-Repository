@@ -4,7 +4,6 @@ import com.portfolio.api.dto.Message;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -12,7 +11,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 @RestController
 @RequestMapping("/")
-@CrossOrigin(origins = "*")
+//@CrossOrigin(origins = "*")
 public class HealthCheckController {
 
   @GetMapping
@@ -22,9 +21,13 @@ public class HealthCheckController {
         .replacePath("/swagger-ui")
         .build().toUriString();
 
-    String message = String.format("Backend OK, ingresa a <a href=\"%s\">%s</a> para ver la documentación de la API.", swaggerUrl, swaggerUrl);
+    String messageBackend = String.format("Backend OK, ingresa a <a href=\"%s\">%s</a> para ver la documentación de la API.", swaggerUrl, swaggerUrl);
 
-    return new ResponseEntity<>(message, HttpStatus.OK);
+    String messageConsole = String.format("Backend OK, ingresa a %s para ver la documentación de la API.", swaggerUrl);
+    Message theMessage = new Message(messageConsole);
+    System.out.println("--- " + theMessage.getMessage());
+
+    return new ResponseEntity<>(messageBackend, HttpStatus.OK);
 
   }
 
@@ -35,9 +38,14 @@ public class HealthCheckController {
         .replacePath("/swagger-ui")
         .build().toUriString();
 
-    String message = String.format("Backend OK, ingresa a <a href=\"%s\">%s</a> para ver la documentación de la API.", swaggerUrl, swaggerUrl);
+    String message = String.format("Backend OK, ingresa a %s para ver la documentación de la API.", swaggerUrl);
 
-    return new ResponseEntity<>(new Message(message), HttpStatus.OK);
+    Message theMessage = new Message(message);
+
+    System.out.println("--- (frontend check) " + theMessage.getMessage());
+
+//    return ResponseEntity.status(HttpStatus.OK).body(new Message(message));
+    return ResponseEntity.status(HttpStatus.OK).body(theMessage);
 
   }
 

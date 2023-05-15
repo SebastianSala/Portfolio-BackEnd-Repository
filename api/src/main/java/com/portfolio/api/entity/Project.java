@@ -35,6 +35,11 @@ public class Project implements Serializable {
   @Temporal(TemporalType.DATE)
   private String date;
 
+  
+//  @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+//  LocalDate date;
+
+
   @Column(name = "short_description", length = 100)
   private String shortDescription;
   @Column(name = "long_description", length = 2048)
@@ -73,13 +78,13 @@ public class Project implements Serializable {
     this.name = name;
   }
 
-//  public LocalDate getDate() {
   public String getDate() {
+//  public String getDate() {
     return date;
   }
 
-//  public void setDate(LocalDate date) {
   public void setDate(String date) {
+//  public void setDate(String date) {
     this.date = date;
   }
 
