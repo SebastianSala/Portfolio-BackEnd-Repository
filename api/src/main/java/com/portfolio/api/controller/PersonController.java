@@ -39,6 +39,7 @@ public class PersonController {
 
   }
 
+  //http://localhost:8080/person/edit/1
   @PutMapping("/edit/{id}")
   public ResponseEntity<?> updatePerson(@PathVariable("id") Long id, @RequestBody Person person) {
 
@@ -46,12 +47,19 @@ public class PersonController {
       return new ResponseEntity<>(new Message("Error. No hay coincidencia entre usuario de Id " + person.getId() + " y Id de Request: " + id), HttpStatus.BAD_REQUEST);
     }
 
-    if (personService.existsById(id)) {
+    if (this.personService.existsById(id)) {
 
       //Checks if a person with the same mail already exist, excluding the current one by its "id" that will have the same email of course
       if (this.personService.existsByEmailAndIdNot(person.getEmail(), id)) {
         return new ResponseEntity<>(new Message("Error. El email ya existe, ingrese uno distinto."), HttpStatus.BAD_REQUEST);
       }
+      //Set the curent password to not overwrite it
+      Person tempPerson = this.personService.findPerson(id);
+      person.setPassword(tempPerson.getPassword());
+      
+      System.out.println(tempPerson.getPassword() + tempPerson.getEmail());
+      System.out.println(person.getPassword() + person.getEmail());
+      
       this.personService.editPerson(person);
       return new ResponseEntity<>(new Message("Ok. Usuario actualizado: " + person.getEmail()), HttpStatus.OK);
 
