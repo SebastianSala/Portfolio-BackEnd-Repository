@@ -10,6 +10,8 @@ Este proyecto es una <b>API REST</b>.
 
 ## Diagrama DER
 
+* En la carpeta "sql" están el diseño de la base de datos en formatos DER y el script para crear la base de datos
+
 ![ScreenShot](sql/DER_portfolio_DB.png)
 
 ## Tecnologías usadas:
