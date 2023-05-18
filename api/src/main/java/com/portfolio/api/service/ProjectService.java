@@ -14,11 +14,6 @@ public class ProjectService implements IProjectService {
   @Autowired
   ProjectRepository projectRepository;
 
-//
-//  @Override
-//  public ArrayList<Project> list() {
-//    return (ArrayList<Project>) projectRepository.findAll();
-//  }
   @Override
   public void create(Project project) {
     projectRepository.save(project);
@@ -28,12 +23,12 @@ public class ProjectService implements IProjectService {
   public void edit(Project project) {
     projectRepository.save(project);
   }
-  
+
   @Override
   public Project findById(Long id) {
     return projectRepository.findById(id).orElse(null);
   }
-  
+
   @Override
   public List<Project> listByPersonEmail(String personEmail) {
     return this.projectRepository.findByPersonEmail(personEmail);
@@ -68,7 +63,7 @@ public class ProjectService implements IProjectService {
   public void delete(Long id) {
     projectRepository.deleteById(id);
   }
-  
+
   @Override
   public void deleteByPersonId(Long personId) {
     this.projectRepository.deleteByPersonId(personId);
