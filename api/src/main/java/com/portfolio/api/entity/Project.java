@@ -31,7 +31,7 @@ public class Project implements Serializable {
   private String name;
 
   @Column(columnDefinition = "DATE")
-  @JsonFormat(pattern = "dd-MM-yyyy")
+  @JsonFormat(pattern = "yyyy-MM-dd")
   @Temporal(TemporalType.DATE)
   private LocalDate date;
 
