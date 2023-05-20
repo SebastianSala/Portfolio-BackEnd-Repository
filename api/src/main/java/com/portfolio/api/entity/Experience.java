@@ -36,12 +36,12 @@ public class Experience implements Serializable {
 
   @Temporal(TemporalType.DATE)
   @Column(columnDefinition = "DATE")
-  @JsonFormat(pattern = "dd-MM-yyyy")
+  @JsonFormat(pattern = "yyyy-MM-dd")
   private LocalDate startDate;
 
   @Temporal(TemporalType.DATE)
   @Column(columnDefinition = "DATE")
-  @JsonFormat(pattern = "dd-MM-yyyy")
+  @JsonFormat(pattern = "yyyy-MM-dd")
   private LocalDate endDate;
 
   @Column(name = "logo_url", length = 2048)
