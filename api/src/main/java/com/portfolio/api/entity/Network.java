@@ -39,14 +39,6 @@ public class Network implements Serializable {
   // @JsonIgnore
   private Person person;
 
-  public Network() {
-  }
-
-  public Network(String name, String logoType, String netUrl) {
-    this.name = name;
-    this.netUrl = netUrl;
-  }
-
   public Long getId() {
     return id;
   }

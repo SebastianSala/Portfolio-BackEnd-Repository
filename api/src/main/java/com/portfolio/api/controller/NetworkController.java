@@ -22,8 +22,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("network")
-// controlling cross origin from WebConfig class
-//@CrossOrigin("*")//(origins = {"https://sebastiansala-portfolio.web.app","http://localhost:4200"})
 public class NetworkController {
 
   @Autowired

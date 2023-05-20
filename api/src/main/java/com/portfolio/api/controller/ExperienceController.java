@@ -1,12 +1,14 @@
 package com.portfolio.api.controller;
 
+import com.portfolio.api.dto.Message;
 import com.portfolio.api.entity.Experience;
+import com.portfolio.api.entity.Person;
 import com.portfolio.api.service.ExperienceService;
-import java.util.ArrayList;
-import java.util.Optional;
+import com.portfolio.api.service.PersonService;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,43 +22,169 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("experience")
-@CrossOrigin(origins = "http://localhost:4200")
 public class ExperienceController {
 
   @Autowired
   ExperienceService experienceService;
 
-  @PostMapping("/create")
-  public ResponseEntity createExperience(@RequestBody Experience experience) {
-    this.experienceService.createExperience(experience);
-    String message = String.format("Experiencia %d creada!", experience.getId());
-    return ResponseEntity.ok(message);
+  @Autowired
+  PersonService personService;
+
+  @PostMapping("/person/{personId}/experience")
+  public ResponseEntity<?> createExperienceByPersonId(@PathVariable("personId") Long personId,
+      @RequestBody Experience experienceRequest) {
+
+    Person thePerson = personService.findPerson(personId);
+
+    if (thePerson == null) {
+      return new ResponseEntity<>(new Message("Error. No existe el usuario de Id: " + personId), HttpStatus.NOT_FOUND);
+    } else {
+
+      experienceRequest.setPerson(thePerson);
+      experienceService.create(experienceRequest);
+
+      return new ResponseEntity<>(new Message("Ok. Experiencia laboral creada: " + experienceRequest.getPosition()), HttpStatus.CREATED);
+
+    }
+
   }
 
-  @PutMapping("/edit")
-  public ResponseEntity editExperience(@RequestBody Experience experience) {
-    this.experienceService.editExperience(experience);
-    String message = String.format("Experiencia %d editada!", experience.getId());
-    return ResponseEntity.ok(message);
+  @PutMapping("/person/{personId}/experience/{experienceId}")
+  public ResponseEntity<?> updateExperienceByPersonIdByExperienceId(
+      @PathVariable("personId") Long personId,
+      @PathVariable("experienceId") Long experienceId,
+      @RequestBody Experience experienceRequest
+  ) {
+
+    Person thePerson = personService.findPerson(personId);
+    if (thePerson == null) {
+      return new ResponseEntity<>(new Message("Error. No existe el usuario de Id: " + personId), HttpStatus.NOT_FOUND);
+    }
+
+    Experience theExperience = experienceService.findById(experienceId);
+    if (theExperience == null) {
+      return new ResponseEntity<>(new Message("Error. No se encuentra la experiencia laboral de Id: " + experienceId), HttpStatus.NOT_FOUND);
+    }
+
+    // Check to see if the url and the id of the experience and person matches
+    if ((theExperience.getPerson().getId() != personId)) {
+      return new ResponseEntity<>(new Message("Error. La experiencia laboral existe, pero no pertenece a este usuario." + personId), HttpStatus.BAD_REQUEST);
+    } else if ((experienceRequest.getId() != experienceId)) {
+      return new ResponseEntity<>(new Message("Error. Intento de edición incorrecto, revisar parámetros."), HttpStatus.BAD_REQUEST);
+
+      // if everything is ok, procede
+    } else {
+      experienceRequest.setPerson(thePerson);
+      experienceService.edit(experienceRequest);
+      return new ResponseEntity<>(new Message("Ok. Experiencia laboral actualizada!"), HttpStatus.CREATED);
+    }
+
   }
 
-  @GetMapping("/list")
+  @GetMapping("person/{personId}/list")
   @ResponseBody
-  public ArrayList<Experience> listExperiences() {
-    return this.experienceService.listExperiences();
+  public ResponseEntity<?> getExperiencesByPersonId(@PathVariable("personId") Long personId) {
+
+    if (!personService.existsById(personId)) {
+      return new ResponseEntity<>(new Message("Error. No existe el usuario de Id: " + personId), HttpStatus.NOT_FOUND);
+    }
+
+    List<Experience> theExperiences = experienceService.listByPersonId(personId);
+
+    if (theExperiences.isEmpty()) {
+      return new ResponseEntity<>(new Message("Error. El usuario de Id: " + personId + " , no tiene experiencias laborales que mostrar"), HttpStatus.NOT_FOUND);
+    }
+
+    // clearing password for security before sending the data
+    theExperiences.forEach(experience -> experience.getPerson().clearPassword());
+    return new ResponseEntity<>(theExperiences, HttpStatus.OK);
+
   }
 
-  @GetMapping("/list/{id}")
+  @GetMapping("person/{personEmail}")
   @ResponseBody
-  public Optional<Experience> findExperience(@PathVariable Long id) {
-    return this.experienceService.findExperience(id);
+  public ResponseEntity<?> getExperiencesByPersonEmail(@PathVariable("personEmail") String personEmail) {
+
+    if (!personService.existsByEmail(personEmail)) {
+      return new ResponseEntity<>(new Message("Error. No existe el usuario de Email: " + personEmail), HttpStatus.NOT_FOUND);
+    }
+
+    List<Experience> theExperiences = experienceService.listByPersonEmail(personEmail);
+
+    if (theExperiences.isEmpty()) {
+      return new ResponseEntity<>(new Message("Error. El usuario de Email: " + personEmail + " , no tiene experiencias laborales que mostrar"), HttpStatus.NOT_FOUND);
+    }
+
+    // clearing password for security before sending the data
+    for (Experience experience : theExperiences) {
+      Person person = experience.getPerson();
+      person.clearPassword();
+    }
+
+    return new ResponseEntity<>(theExperiences, HttpStatus.OK);
+
   }
 
-  @DeleteMapping("/delete")
-  public ResponseEntity deleteExperience(@RequestParam("id") Long id) {
-    this.experienceService.deleteExperience(id);
-    String message = String.format("Experiencia %d eliminada!", id);
-    return ResponseEntity.ok(message);
+  @GetMapping("/person/{personId}/experience/{experienceId}")
+  @ResponseBody
+  public ResponseEntity<?> getExperienceByPersonIdByExperienceId(
+      @PathVariable("personId") Long personId,
+      @PathVariable("experienceId") Long experienceId) {
+
+    Experience theExperience = this.experienceService.findByPersonIdByExperienceId(personId, experienceId);
+
+    if (theExperience == null) {
+      return new ResponseEntity<>(new Message("Error. No se encuentra la experiencia laboral de Id: " + experienceId), HttpStatus.NOT_FOUND);
+    } else {
+      theExperience.getPerson().clearPassword();
+      return new ResponseEntity<>(theExperience, HttpStatus.OK);
+    }
+
+  }
+
+  //http://localhost:8080/experience/person/delete?personId=1&experienceId=1
+  @DeleteMapping("/person/delete")
+  public ResponseEntity<?> deleteExperienceByPersonIdByExperienceId(
+      @RequestParam("personId") Long personId,
+      @RequestParam("experienceId") Long experienceId
+  ) {
+
+    if (!this.personService.existsById(personId)) {
+      return new ResponseEntity<>(new Message("Error. No existe el usuario de Id: " + personId), HttpStatus.NOT_FOUND);
+    }
+
+    if (!this.experienceService.existsById(experienceId)) {
+      return new ResponseEntity<>(new Message("Error. No existe la experienca laboral de Id: " + experienceId), HttpStatus.NOT_FOUND);
+    }
+
+    if (!this.experienceService.existsByPersonIdByExperienceId(personId, experienceId)) {
+      // if the project does not exist on the person, return not found
+      return new ResponseEntity<>(new Message("Error. No existe la experienca laboral de Id: " + experienceId + " del usuario: " + personId), HttpStatus.NOT_FOUND);
+
+    } else {
+      // Everything ok, then return ok
+      this.experienceService.delete(experienceId);
+
+      return new ResponseEntity<>(new Message("Ok. Experienca laboral borrada: " + experienceId), HttpStatus.OK);
+    }
+
+  }
+
+  //http://localhost:8080/experience/person/1/delete
+  @DeleteMapping("/person/{personId}/delete")
+  public ResponseEntity<?> deleteExperiencesByPersonId(@PathVariable("personId") Long personId) {
+
+    if (!this.personService.existsById(personId)) {
+      return new ResponseEntity<>(new Message("Error. No existe la persona de Id: " + personId), HttpStatus.NOT_FOUND);
+    }
+
+    if (!this.experienceService.existsByPersonId(personId)) {
+      return new ResponseEntity<>(new Message("Error. No existe la experienca laboral del usuario de Id: " + personId), HttpStatus.NOT_FOUND);
+    }
+
+    this.experienceService.deleteByPersonId(personId);
+    return new ResponseEntity<>(new Message("Ok. Eliminados todas las experiencas laborales del usuario: " + personId), HttpStatus.OK);
+
   }
 
 }

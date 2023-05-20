@@ -15,7 +15,7 @@ public interface NetworkRepository extends JpaRepository<Network, Long> {
 
   Network findByPersonIdAndId(Long personId, Long networkId);
 
-  boolean existsByPersonIdAndId(Long personId, Long projecetId);
+  boolean existsByPersonIdAndId(Long personId, Long networkId);
 
   boolean existsByPersonId(Long personId);
 

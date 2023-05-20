@@ -42,17 +42,12 @@ public class Person implements Serializable {
   @Column(name = "web_url", length = 2048)
   private String webUrl;
 
-  //Relatioships. Using ManyToOne child-side managed relationship
-  //for better performance and greater functionality.
-//  @OneToMany(mappedBy = "person", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
-//  @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
-//  @JoinColumn(name = "person_id")
-//  private List<Project> projects;
   public Person() {
 
   }
 
   public Person(String name, String title, String email, String password, String location, String aboutMe, String imgUrl, String imgBackUrl, String webUrl) {
+
     this.name = name;
     this.title = title;
     this.email = email;
@@ -63,7 +58,6 @@ public class Person implements Serializable {
     this.imgBackUrl = imgBackUrl;
     this.webUrl = webUrl;
 
-    //this.projects = new ArrayList();
   }
 
   public Long getId() {

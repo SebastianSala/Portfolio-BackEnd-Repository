@@ -1,20 +1,26 @@
 package com.portfolio.api.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 import java.io.Serializable;
 import java.time.LocalDate;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 @Entity
 @Table(name = "experience")
 public class Experience implements Serializable {
-  
+
   private static final long serialVersionUID = 05L;
 
   @Id
@@ -29,30 +35,29 @@ public class Experience implements Serializable {
   private String company;
 
   @Temporal(TemporalType.DATE)
-  @Column(name = "start_date")
+  @Column(columnDefinition = "DATE")
+  @JsonFormat(pattern = "dd-MM-yyyy")
   private LocalDate startDate;
+
   @Temporal(TemporalType.DATE)
-  @Column(name = "end_date")
+  @Column(columnDefinition = "DATE")
+  @JsonFormat(pattern = "dd-MM-yyyy")
   private LocalDate endDate;
 
   @Column(name = "logo_url", length = 2048)
   private String logoUrl;
   @Column(name = "web_url", length = 2048)
   private String webUrl;
-
-  public Experience() {
-
-  }
-
-  public Experience(String position, String description, String company, LocalDate startDate, LocalDate endDate, String logoUrl, String webUrl) {
-    this.position = position;
-    this.description = description;
-    this.company = company;
-    this.startDate = startDate;
-    this.endDate = endDate;
-    this.logoUrl = logoUrl;
-    this.webUrl = webUrl;
-  }
+  
+  // Many to one relationship with the person
+  // @ManyToOne(fetch = FetchType.LAZY, optional = false)
+  // Using EAGER to actually retrieve the person
+  @ManyToOne(fetch = FetchType.EAGER, optional = false)
+  @JoinColumn(name = "person_id", nullable = false)
+  @OnDelete(action = OnDeleteAction.CASCADE)
+  // JsonIgnore works in conjuction with FetchType.LAZY
+  // @JsonIgnore
+  private Person person;
 
   public Long getId() {
     return id;
@@ -116,6 +121,14 @@ public class Experience implements Serializable {
 
   public void setWebUrl(String webUrl) {
     this.webUrl = webUrl;
+  }
+
+  public Person getPerson() {
+    return person;
+  }
+
+  public void setPerson(Person person) {
+    this.person = person;
   }
 
 }

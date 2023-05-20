@@ -20,8 +20,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("person")
-// controlling cross origins from WebConfig class
-//@CrossOrigin("*")//(origins = {"https://sebastiansala-portfolio.web.app","http://localhost:4200"})
 public class PersonController {
 
   @Autowired

@@ -1,5 +1,6 @@
 package com.portfolio.api.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -12,6 +13,7 @@ import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 import java.io.Serializable;
+import java.time.LocalDate;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
@@ -28,17 +30,10 @@ public class Project implements Serializable {
   @Column(length = 100)
   private String name;
 
-  //using String instead of DATE or LocalDate types for compatibility.
-  //JPA manages correctly the format and type convertions.
-  //  private LocalDate date;
-  //  @Column(name = "date", columnDefinition = "DATE")
+  @Column(columnDefinition = "DATE")
+  @JsonFormat(pattern = "dd-MM-yyyy")
   @Temporal(TemporalType.DATE)
-  private String date;
-
-  
-//  @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
-//  LocalDate date;
-
+  private LocalDate date;
 
   @Column(name = "short_description", length = 100)
   private String shortDescription;
@@ -78,12 +73,12 @@ public class Project implements Serializable {
     this.name = name;
   }
 
-  public String getDate() {
+  public LocalDate getDate() {
 //  public String getDate() {
     return date;
   }
 
-  public void setDate(String date) {
+  public void setDate(LocalDate date) {
 //  public void setDate(String date) {
     this.date = date;
   }
