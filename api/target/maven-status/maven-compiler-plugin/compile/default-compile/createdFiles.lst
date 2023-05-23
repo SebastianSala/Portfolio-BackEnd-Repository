@@ -17,6 +17,7 @@ com\portfolio\api\controller\PersonController.class
 com\portfolio\api\repository\PersonRepository.class
 com\portfolio\api\controller\ExperienceController.class
 com\portfolio\api\entity\Project.class
+com\portfolio\api\dto\PersonDTO.class
 com\portfolio\api\repository\NetworkRepository.class
 com\portfolio\api\service\interfaces\ISkillService.class
 com\portfolio\api\service\interfaces\IEducationService.class

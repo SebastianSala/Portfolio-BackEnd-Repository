@@ -1,6 +1,7 @@
 package com.portfolio.api.controller;
 
 import com.portfolio.api.dto.Message;
+import com.portfolio.api.dto.PersonDTO;
 import com.portfolio.api.entity.Person;
 import com.portfolio.api.service.PersonService;
 import java.util.List;
@@ -54,10 +55,10 @@ public class PersonController {
       //Set the curent password to not overwrite it
       Person tempPerson = this.personService.findPerson(id);
       person.setPassword(tempPerson.getPassword());
-      
+
       System.out.println(tempPerson.getPassword() + tempPerson.getEmail());
       System.out.println(person.getPassword() + person.getEmail());
-      
+
       this.personService.editPerson(person);
       return new ResponseEntity<>(new Message("Ok. Usuario actualizado: " + person.getEmail()), HttpStatus.OK);
 
@@ -131,13 +132,13 @@ public class PersonController {
   @ResponseBody
   public ResponseEntity<?> login(@RequestBody Person person) {
 
-    Person loginPerson = this.personService.loginPerson(person.getEmail(), person.getPassword());
+    PersonDTO loginPerson = this.personService.loginPerson(person.getEmail(), person.getPassword());
 
-    //deleting the password for safety
-    if (loginPerson != null) {
-      loginPerson.clearPassword();
-    }
-
+    // deprecated, using DTO layer to not return password
+    // deleting the password for safety
+    //    if (loginPerson != null) {
+    //      loginPerson.clearPassword();
+    //    }
     return (loginPerson != null
         ? new ResponseEntity<>(loginPerson, HttpStatus.OK)
         : new ResponseEntity<>(new Message("Error. Email o contraseña incorrectos."), HttpStatus.UNAUTHORIZED));
