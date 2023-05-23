@@ -1,5 +1,6 @@
 package com.portfolio.api.service;
 
+import com.portfolio.api.dto.PersonDTO;
 import com.portfolio.api.service.interfaces.IPersonService;
 import com.portfolio.api.entity.Person;
 import com.portfolio.api.repository.PersonRepository;
@@ -57,12 +58,17 @@ public class PersonService implements IPersonService {
   }
 
   @Override
-  public Person loginPerson(String email, String password) {
+  public PersonDTO loginPerson(String email, String password) {
 
     List<Person> person = this.personRepository.findByEmailAndPassword(email, password);
 
     if (!person.isEmpty()) {
-      return person.get(0);
+      Person tempPerson = person.get(0);
+      PersonDTO personDTO = new PersonDTO(tempPerson.getId(), tempPerson.getName(), tempPerson.getTitle(),
+          tempPerson.getEmail(), tempPerson.getLocation(), tempPerson.getAboutMe(), tempPerson.getImgUrl(),
+          tempPerson.getImgBackUrl(), tempPerson.getWebUrl());
+
+      return personDTO;
     }
     return null;
 
@@ -72,12 +78,12 @@ public class PersonService implements IPersonService {
   public boolean existsById(Long id) {
     return this.personRepository.existsById(id);
   }
-  
+
   @Override
   public boolean existsByEmail(String email) {
     return this.personRepository.existsByEmail(email);
   }
-  
+
   @Override
   public boolean existsByEmailAndIdNot(String email, Long id) {
     return this.personRepository.existsByEmailAndIdNot(email, id);
