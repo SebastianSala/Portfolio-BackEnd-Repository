@@ -1,5 +1,6 @@
 package com.portfolio.api.service.interfaces;
 
+import com.portfolio.api.dto.PersonDTO;
 import com.portfolio.api.entity.Person;
 import java.util.ArrayList;
 
@@ -20,7 +21,7 @@ public interface IPersonService {
 
   public void deletePerson(Long id);
 
-  public Person loginPerson(String email, String password);
+  public PersonDTO loginPerson(String email, String password);
 
   public boolean existsById(Long id);
   

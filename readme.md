@@ -20,6 +20,12 @@ Este proyecto es una <b>API REST</b>.
 * Java 17
 * Swagger UI
 
+## Plataformas y servicios usados:
+
+* <a href="https://portfolio-backend-ss.onrender.com" target="_blank">Render (Heakth check page)</a> para alojar la aplicación de backend.
+* <a href="https://stats.uptimerobot.com/XBxDGu4LpO" target="_blank">Uptime Robot (Status page)</a> para mantener el servicio activo  e impedir que render apague la aplicación.
+
+
 ## Estado Actual:
 
 * Implementada funcionalidades de CRUD y login básico
