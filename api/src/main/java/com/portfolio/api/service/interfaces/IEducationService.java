@@ -1,19 +1,30 @@
 package com.portfolio.api.service.interfaces;
 
 import com.portfolio.api.entity.Education;
-import java.util.ArrayList;
-import java.util.Optional;
+import java.util.List;
 
 public interface IEducationService {
 
-  public void createEducation(Education education);
+  public void create(Education education);
 
-  public void editEducation(Education education);
+  public void edit(Education education);
 
-  public ArrayList<Education> listEducations();
+  public List<Education> listByPersonEmail(String personEmail);
 
-  public Optional<Education> findEducation(Long Id);
+  public List<Education> listByPersonId(Long personId);
 
-  public void deleteEducation(Long id);
+  public Education findById(Long id);
+
+  public Education findByPersonIdByEducationId(Long personId, Long educationId);
+
+  public boolean existsByPersonIdByEducationId(Long personId, Long educationId);
+
+  public boolean existsById(Long id);
+
+  public boolean existsByPersonId(Long personId);
+
+  public void delete(Long id);
+
+  public void deleteByPersonId(Long personId);
 
 }

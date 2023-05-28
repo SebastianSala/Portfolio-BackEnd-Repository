@@ -154,18 +154,18 @@ public class ExperienceController {
     }
 
     if (!this.experienceService.existsById(experienceId)) {
-      return new ResponseEntity<>(new Message("Error. No existe la experienca laboral de Id: " + experienceId), HttpStatus.NOT_FOUND);
+      return new ResponseEntity<>(new Message("Error. No existe la experiencia laboral de Id: " + experienceId), HttpStatus.NOT_FOUND);
     }
 
     if (!this.experienceService.existsByPersonIdByExperienceId(personId, experienceId)) {
       // if the project does not exist on the person, return not found
-      return new ResponseEntity<>(new Message("Error. No existe la experienca laboral de Id: " + experienceId + " del usuario: " + personId), HttpStatus.NOT_FOUND);
+      return new ResponseEntity<>(new Message("Error. No existe la experiencia laboral de Id: " + experienceId + " del usuario: " + personId), HttpStatus.NOT_FOUND);
 
     } else {
       // Everything ok, then return ok
       this.experienceService.delete(experienceId);
 
-      return new ResponseEntity<>(new Message("Ok. Experienca laboral borrada: " + experienceId), HttpStatus.OK);
+      return new ResponseEntity<>(new Message("Ok. Experiencia laboral borrada: " + experienceId), HttpStatus.OK);
     }
 
   }
@@ -179,11 +179,11 @@ public class ExperienceController {
     }
 
     if (!this.experienceService.existsByPersonId(personId)) {
-      return new ResponseEntity<>(new Message("Error. No existe la experienca laboral del usuario de Id: " + personId), HttpStatus.NOT_FOUND);
+      return new ResponseEntity<>(new Message("Error. No existe la experiencia laboral del usuario de Id: " + personId), HttpStatus.NOT_FOUND);
     }
 
     this.experienceService.deleteByPersonId(personId);
-    return new ResponseEntity<>(new Message("Ok. Eliminados todas las experiencas laborales del usuario: " + personId), HttpStatus.OK);
+    return new ResponseEntity<>(new Message("Ok. Eliminadas todas las experiencias laborales del usuario: " + personId), HttpStatus.OK);
 
   }
 

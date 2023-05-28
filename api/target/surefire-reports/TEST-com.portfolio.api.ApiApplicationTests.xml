@@ -4,12 +4,19 @@
 =======
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 <testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" name="com.portfolio.api.ApiApplicationTests" time="4.046" tests="1" errors="0" skipped="0" failures="0">
 =======
 <testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" name="com.portfolio.api.ApiApplicationTests" time="6.845" tests="1" errors="0" skipped="0" failures="0">
 >>>>>>> feature-refactor-endpoint
 =======
 <testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" name="com.portfolio.api.ApiApplicationTests" time="6.426" tests="1" errors="0" skipped="0" failures="0">
+>>>>>>> feature-refactor-endpoint
+<<<<<<< HEAD
+>>>>>>> develop
+=======
+=======
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" name="com.portfolio.api.ApiApplicationTests" time="7.382" tests="1" errors="0" skipped="0" failures="0">
 >>>>>>> feature-refactor-endpoint
 >>>>>>> develop
   <properties>
@@ -32,12 +39,19 @@
 =======
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     <property name="sun.java.command" value="C:\Users\Usuario\AppData\Local\Temp\surefire10887167166359861168\surefirebooter12094445785841393987.jar C:\Users\Usuario\AppData\Local\Temp\surefire10887167166359861168 2023-05-20T13-50-48_362-jvmRun1 surefire13379231384178523288tmp surefire_016603695025445227361tmp"/>
 =======
     <property name="sun.java.command" value="C:\Users\Usuario\AppData\Local\Temp\surefire10289701248462509500\surefirebooter8165116296670064516.jar C:\Users\Usuario\AppData\Local\Temp\surefire10289701248462509500 2023-05-20T16-57-43_936-jvmRun1 surefire9726160351849846665tmp surefire_018443226286626612584tmp"/>
 >>>>>>> feature-refactor-endpoint
 =======
     <property name="sun.java.command" value="C:\Users\Usuario\AppData\Local\Temp\surefire6858406774787237421\surefirebooter3436461617708752658.jar C:\Users\Usuario\AppData\Local\Temp\surefire6858406774787237421 2023-05-23T14-21-23_440-jvmRun1 surefire1473314820570819350tmp surefire_018099425643127649571tmp"/>
+>>>>>>> feature-refactor-endpoint
+<<<<<<< HEAD
+>>>>>>> develop
+=======
+=======
+    <property name="sun.java.command" value="C:\Users\Usuario\AppData\Local\Temp\surefire5505448671001690116\surefirebooter872343264865228949.jar C:\Users\Usuario\AppData\Local\Temp\surefire5505448671001690116 2023-05-28T18-04-57_753-jvmRun1 surefire4676598685745852909tmp surefire_01619068993569860365tmp"/>
 >>>>>>> feature-refactor-endpoint
 >>>>>>> develop
     <property name="jdk.debug" value="release"/>
@@ -59,12 +73,19 @@
 =======
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     <property name="surefire.real.class.path" value="C:\Users\Usuario\AppData\Local\Temp\surefire10887167166359861168\surefirebooter12094445785841393987.jar"/>
 =======
     <property name="surefire.real.class.path" value="C:\Users\Usuario\AppData\Local\Temp\surefire10289701248462509500\surefirebooter8165116296670064516.jar"/>
 >>>>>>> feature-refactor-endpoint
 =======
     <property name="surefire.real.class.path" value="C:\Users\Usuario\AppData\Local\Temp\surefire6858406774787237421\surefirebooter3436461617708752658.jar"/>
+>>>>>>> feature-refactor-endpoint
+<<<<<<< HEAD
+>>>>>>> develop
+=======
+=======
+    <property name="surefire.real.class.path" value="C:\Users\Usuario\AppData\Local\Temp\surefire5505448671001690116\surefirebooter872343264865228949.jar"/>
 >>>>>>> feature-refactor-endpoint
 >>>>>>> develop
     <property name="user.script" value=""/>
