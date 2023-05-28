@@ -1,23 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: com.portfolio.api.ApiApplicationTests
 -------------------------------------------------------------------------------
-<<<<<<< HEAD
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 6.809 s - in com.portfolio.api.ApiApplicationTests
-=======
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 4.046 s - in com.portfolio.api.ApiApplicationTests
-=======
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 6.845 s - in com.portfolio.api.ApiApplicationTests
->>>>>>> feature-refactor-endpoint
-=======
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 6.426 s - in com.portfolio.api.ApiApplicationTests
->>>>>>> feature-refactor-endpoint
-<<<<<<< HEAD
->>>>>>> develop
-=======
-=======
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 7.382 s - in com.portfolio.api.ApiApplicationTests
->>>>>>> feature-refactor-endpoint
->>>>>>> develop
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 6.939 s - in com.portfolio.api.ApiApplicationTests
