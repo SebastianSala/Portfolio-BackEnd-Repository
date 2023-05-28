@@ -40,8 +40,6 @@ public class Project implements Serializable {
   @Column(name = "long_description", length = 2048)
   private String longDescription;
 
-  @Column(name = "logo_url", length = 2048)
-  private String logoUrl;
   @Column(name = "img_url", length = 2048)
   private String imgUrl;
   @Column(name = "web_url", length = 2048)
@@ -97,14 +95,6 @@ public class Project implements Serializable {
 
   public void setLongDescription(String longDescription) {
     this.longDescription = longDescription;
-  }
-
-  public String getLogoUrl() {
-    return logoUrl;
-  }
-
-  public void setLogoUrl(String logoUrl) {
-    this.logoUrl = logoUrl;
   }
 
   public String getImgUrl() {
