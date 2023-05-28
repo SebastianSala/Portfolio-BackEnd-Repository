@@ -48,10 +48,10 @@ public class Experience implements Serializable {
   private String logoUrl;
   @Column(name = "web_url", length = 2048)
   private String webUrl;
-  
+
   // Many to one relationship with the person
   // @ManyToOne(fetch = FetchType.LAZY, optional = false)
-  // Using EAGER to actually retrieve the person
+  // Using EAGER to actually retrieve the person on the query
   @ManyToOne(fetch = FetchType.EAGER, optional = false)
   @JoinColumn(name = "person_id", nullable = false)
   @OnDelete(action = OnDeleteAction.CASCADE)

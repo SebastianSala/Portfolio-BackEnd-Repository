@@ -23,10 +23,9 @@ public class HealthCheckController {
 
     String messageBackend = String.format("Backend OK, ingresa a <a href=\"%s\">%s</a> para ver la documentación de la API.", swaggerUrl, swaggerUrl);
 
-    String messageConsole = String.format("Backend OK, ingresa a %s para ver la documentación de la API.", swaggerUrl);
-    Message theMessage = new Message(messageConsole);
-    System.out.println("--- " + theMessage.getMessage());
-
+    //String messageConsole = String.format("Backend OK, ingresa a %s para ver la documentación de la API.", swaggerUrl);
+    //Message theMessage = new Message(messageConsole);
+    //System.out.println("--- " + theMessage.getMessage());
     return new ResponseEntity<>(messageBackend, HttpStatus.OK);
 
   }
@@ -44,7 +43,6 @@ public class HealthCheckController {
 
     System.out.println("--- (frontend check) " + theMessage.getMessage());
 
-//    return ResponseEntity.status(HttpStatus.OK).body(new Message(message));
     return ResponseEntity.status(HttpStatus.OK).body(theMessage);
 
   }
