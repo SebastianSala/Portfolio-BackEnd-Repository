@@ -30,12 +30,12 @@ Este proyecto es una <b>API REST</b>.
 
 * Implementada funcionalidades de CRUD y login básico
 * Relaciones many-to-one para correcta representación del DER y borrado en cascada
-* Funcionalidad completa y optima en entidades Persona y Proyectos
+* Funcionalidad completa y optima en todas las entidades
 * Se permite crear nuevos usuarios y sus propias entidades con sus relaciones y borrado en cascada o sea crear un usuario con sus propios proyectos, experiencias, etc, que son solo editables por el y se pueden visualizar en el sitio al logearse y deslogearse.
 
 ## Actualmente implementando:
 * Login avanzado con JWT
-* Implementación y refactorización del resto de enpoints para las entidades.
+
 
 ## Decisiones de diseño
 
