@@ -6,7 +6,7 @@ Este proyecto es una <b>API REST</b>.
 
 ## Documentación <b>API-REST</b>
 
-* <a href="https://portfolio-backend-ss.onrender.com/swagger-ui" target="_blank">Link a la documentación Generada Por Swagger UI y Open API.</a>
+* <a href="https://portfolio-backend-ss.onrender.com/swagger-ui" target="_blank">Link a la documentación Generada con Swagger UI y Open API.</a>
 
 ## Diagrama DER
 
@@ -37,14 +37,10 @@ Este proyecto es una <b>API REST</b>.
 * Login avanzado con JWT
 * Implementación y refactorización del resto de enpoints para las entidades.
 
-## Deciciones de diseño
+## Decisiones de diseño
 
 * Deshabilitando Spring open session in view (OSIV) y @Transactional para lograr mejor performance relacionada con la base de datos (https://www.baeldung.com/spring-open-session-in-view)
 * Usando relaciones many-to-one por ser mas versátiles que one-to-many en relación con paginación y filtrado y ordenamiento ()
 
 ## Desarrollador
 * Sebastián Sala - *Diseño e implementación del Sistema*
-
-## Contacto 
-* sebastiansala.dev@gmail.com
-* https://sebastiansala.web.app
