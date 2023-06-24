@@ -2,12 +2,20 @@ package com.portfolio.api.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 // setting "email" to be unique so it can't be 2 persons with the same email,
@@ -21,13 +29,18 @@ public class Person implements Serializable {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
+  @NotBlank
   @Column(length = 100)
   private String name;
 
   private String title;
 
   //class properties for log-in  
+  @NotBlank
+  @Size(max = 45)
   private String email;
+  @NotBlank
+  @Size(max = 100)
   private String password;
 
   private String location;
@@ -41,6 +54,12 @@ public class Person implements Serializable {
   private String imgBackUrl;
   @Column(name = "web_url", length = 2048)
   private String webUrl;
+
+  @ManyToMany(fetch = FetchType.LAZY)
+  @JoinTable(name = "person_roles",
+      joinColumns = @JoinColumn(name = "person_id"),
+      inverseJoinColumns = @JoinColumn(name = "role_id"))
+  private Set<Role> roles = new HashSet<>();
 
   public Person() {
 
@@ -61,7 +80,7 @@ public class Person implements Serializable {
   }
 
   public Long getId() {
-    return id;
+    return this.id;
   }
 
   public void setId(Long id) {
@@ -69,7 +88,7 @@ public class Person implements Serializable {
   }
 
   public String getName() {
-    return name;
+    return this.name;
   }
 
   public void setName(String name) {
@@ -77,7 +96,7 @@ public class Person implements Serializable {
   }
 
   public String getTitle() {
-    return title;
+    return this.title;
   }
 
   public void setTitle(String title) {
@@ -85,7 +104,7 @@ public class Person implements Serializable {
   }
 
   public String getEmail() {
-    return email;
+    return this.email;
   }
 
   public void setEmail(String email) {
@@ -101,7 +120,7 @@ public class Person implements Serializable {
   }
 
   public String getLocation() {
-    return location;
+    return this.location;
   }
 
   public void setLocation(String location) {
@@ -109,7 +128,7 @@ public class Person implements Serializable {
   }
 
   public String getAboutMe() {
-    return aboutMe;
+    return this.aboutMe;
   }
 
   public void setAboutMe(String aboutMe) {
@@ -117,7 +136,7 @@ public class Person implements Serializable {
   }
 
   public String getImgUrl() {
-    return imgUrl;
+    return this.imgUrl;
   }
 
   public void setImgUrl(String imgUrl) {
@@ -125,7 +144,7 @@ public class Person implements Serializable {
   }
 
   public String getImgBackUrl() {
-    return imgBackUrl;
+    return this.imgBackUrl;
   }
 
   public void setImgBackUrl(String imgBackUrl) {
@@ -133,7 +152,7 @@ public class Person implements Serializable {
   }
 
   public String getWebUrl() {
-    return webUrl;
+    return this.webUrl;
   }
 
   public void setWebUrl(String webUrl) {
@@ -142,6 +161,14 @@ public class Person implements Serializable {
 
   public void clearPassword() {
     this.password = "";
+  }
+
+  public Set<Role> getRoles() {
+    return this.roles;
+  }
+
+  public void setRoles(Set<Role> roles) {
+    this.roles = roles;
   }
 
 }

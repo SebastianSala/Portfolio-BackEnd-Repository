@@ -1,5 +1,6 @@
 E:\Programacion\Cursos\Argentina_Programa\Proyecto-Final\Portfolio-BackEnd-Repository\back-end\api\src\main\java\com\portfolio\api\service\interfaces\IEducationService.java
 E:\Programacion\Cursos\Argentina_Programa\Proyecto-Final\Portfolio-BackEnd-Repository\back-end\api\src\main\java\com\portfolio\api\dto\PersonDTO.java
+E:\Programacion\Cursos\Argentina_Programa\Proyecto-Final\Portfolio-BackEnd-Repository\back-end\api\src\main\java\com\portfolio\api\entity\ERole.java
 E:\Programacion\Cursos\Argentina_Programa\Proyecto-Final\Portfolio-BackEnd-Repository\back-end\api\src\main\java\com\portfolio\api\service\interfaces\ISkillService.java
 E:\Programacion\Cursos\Argentina_Programa\Proyecto-Final\Portfolio-BackEnd-Repository\back-end\api\src\main\java\com\portfolio\api\repository\NetworkRepository.java
 E:\Programacion\Cursos\Argentina_Programa\Proyecto-Final\Portfolio-BackEnd-Repository\back-end\api\src\main\java\com\portfolio\api\service\SkillService.java
@@ -20,6 +21,7 @@ E:\Programacion\Cursos\Argentina_Programa\Proyecto-Final\Portfolio-BackEnd-Repos
 E:\Programacion\Cursos\Argentina_Programa\Proyecto-Final\Portfolio-BackEnd-Repository\back-end\api\src\main\java\com\portfolio\api\dto\Message.java
 E:\Programacion\Cursos\Argentina_Programa\Proyecto-Final\Portfolio-BackEnd-Repository\back-end\api\src\main\java\com\portfolio\api\entity\Project.java
 E:\Programacion\Cursos\Argentina_Programa\Proyecto-Final\Portfolio-BackEnd-Repository\back-end\api\src\main\java\com\portfolio\api\service\ExperienceService.java
+E:\Programacion\Cursos\Argentina_Programa\Proyecto-Final\Portfolio-BackEnd-Repository\back-end\api\src\main\java\com\portfolio\api\entity\Role.java
 E:\Programacion\Cursos\Argentina_Programa\Proyecto-Final\Portfolio-BackEnd-Repository\back-end\api\src\main\java\com\portfolio\api\WebConfig.java
 E:\Programacion\Cursos\Argentina_Programa\Proyecto-Final\Portfolio-BackEnd-Repository\back-end\api\src\main\java\com\portfolio\api\entity\Person.java
 E:\Programacion\Cursos\Argentina_Programa\Proyecto-Final\Portfolio-BackEnd-Repository\back-end\api\src\main\java\com\portfolio\api\service\interfaces\IExperienceService.java
