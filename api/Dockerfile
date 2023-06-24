@@ -2,7 +2,7 @@ FROM openjdk:17-ea-jdk-slim
 
 LABEL maintainer="Sebastian Sala"
 
-COPY target/api-0.9.0.jar api-backend.jar
+COPY target/api-1.0.0.jar api-backend.jar
 
 ENTRYPOINT ["java","-jar","/api-backend.jar"]
 
