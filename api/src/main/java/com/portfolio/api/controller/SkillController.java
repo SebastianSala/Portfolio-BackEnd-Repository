@@ -1,6 +1,6 @@
 package com.portfolio.api.controller;
 
-import com.portfolio.api.dto.Message;
+import com.portfolio.api.dto.response.MessageResponse;
 import com.portfolio.api.entity.Skill;
 import com.portfolio.api.entity.Person;
 import com.portfolio.api.service.PersonService;
@@ -37,13 +37,13 @@ public class SkillController {
     Person thePerson = personService.findPerson(personId);
 
     if (thePerson == null) {
-      return new ResponseEntity<>(new Message("Error. No existe el usuario de Id: " + personId), HttpStatus.NOT_FOUND);
+      return new ResponseEntity<>(new MessageResponse("Error. No existe el usuario de Id: " + personId), HttpStatus.NOT_FOUND);
     } else {
 
       skillRequest.setPerson(thePerson);
       skillService.create(skillRequest);
 
-      return new ResponseEntity<>(new Message("Ok. Habilidad creada: " + skillRequest.getName()), HttpStatus.CREATED);
+      return new ResponseEntity<>(new MessageResponse("Ok. Habilidad creada: " + skillRequest.getName()), HttpStatus.CREATED);
 
     }
 
@@ -58,25 +58,25 @@ public class SkillController {
 
     Person thePerson = personService.findPerson(personId);
     if (thePerson == null) {
-      return new ResponseEntity<>(new Message("Error. No existe el usuario de Id: " + personId), HttpStatus.NOT_FOUND);
+      return new ResponseEntity<>(new MessageResponse("Error. No existe el usuario de Id: " + personId), HttpStatus.NOT_FOUND);
     }
 
     Skill theSkill = skillService.findById(skillId);
     if (theSkill == null) {
-      return new ResponseEntity<>(new Message("Error. No se encuentra la habilidad de Id: " + skillId), HttpStatus.NOT_FOUND);
+      return new ResponseEntity<>(new MessageResponse("Error. No se encuentra la habilidad de Id: " + skillId), HttpStatus.NOT_FOUND);
     }
 
     // Check to see if the url and the id of the skill and person matches
     if ((theSkill.getPerson().getId() != personId)) {
-      return new ResponseEntity<>(new Message("Error. La habilidad existe, pero no pertenece a este usuario." + personId), HttpStatus.BAD_REQUEST);
+      return new ResponseEntity<>(new MessageResponse("Error. La habilidad existe, pero no pertenece a este usuario." + personId), HttpStatus.BAD_REQUEST);
     } else if ((skillRequest.getId() != skillId)) {
-      return new ResponseEntity<>(new Message("Error. Intento de edición incorrecto, revisar parámetros."), HttpStatus.BAD_REQUEST);
+      return new ResponseEntity<>(new MessageResponse("Error. Intento de edición incorrecto, revisar parámetros."), HttpStatus.BAD_REQUEST);
 
       // if everything is ok, procede
     } else {
       skillRequest.setPerson(thePerson);
       skillService.edit(skillRequest);
-      return new ResponseEntity<>(new Message("Ok. Habilidad actualizada!"), HttpStatus.CREATED);
+      return new ResponseEntity<>(new MessageResponse("Ok. Habilidad actualizada!"), HttpStatus.CREATED);
     }
 
   }
@@ -86,13 +86,13 @@ public class SkillController {
   public ResponseEntity<?> getSkillsByPersonId(@PathVariable("personId") Long personId) {
 
     if (!personService.existsById(personId)) {
-      return new ResponseEntity<>(new Message("Error. No existe el usuario de Id: " + personId), HttpStatus.NOT_FOUND);
+      return new ResponseEntity<>(new MessageResponse("Error. No existe el usuario de Id: " + personId), HttpStatus.NOT_FOUND);
     }
 
     List<Skill> theSkills = skillService.listByPersonId(personId);
 
     if (theSkills.isEmpty()) {
-      return new ResponseEntity<>(new Message("Error. El usuario de Id: " + personId + " , no tiene habilidades que mostrar"), HttpStatus.NOT_FOUND);
+      return new ResponseEntity<>(new MessageResponse("Error. El usuario de Id: " + personId + " , no tiene habilidades que mostrar"), HttpStatus.NOT_FOUND);
     }
 
     // clearing password for security before sending the data
@@ -106,13 +106,13 @@ public class SkillController {
   public ResponseEntity<?> getSkillsByPersonEmail(@PathVariable("personEmail") String personEmail) {
 
     if (!personService.existsByEmail(personEmail)) {
-      return new ResponseEntity<>(new Message("Error. No existe el usuario de Email: " + personEmail), HttpStatus.NOT_FOUND);
+      return new ResponseEntity<>(new MessageResponse("Error. No existe el usuario de Email: " + personEmail), HttpStatus.NOT_FOUND);
     }
 
     List<Skill> theSkills = skillService.listByPersonEmail(personEmail);
 
     if (theSkills.isEmpty()) {
-      return new ResponseEntity<>(new Message("Error. El usuario de Email: " + personEmail + " , no tiene habilidades que mostrar"), HttpStatus.NOT_FOUND);
+      return new ResponseEntity<>(new MessageResponse("Error. El usuario de Email: " + personEmail + " , no tiene habilidades que mostrar"), HttpStatus.NOT_FOUND);
     }
 
     // clearing password for security before sending the data
@@ -134,7 +134,7 @@ public class SkillController {
     Skill theSkill = this.skillService.findByPersonIdBySkillId(personId, skillId);
 
     if (theSkill == null) {
-      return new ResponseEntity<>(new Message("Error. No se encuentra la habilidad de Id: " + skillId), HttpStatus.NOT_FOUND);
+      return new ResponseEntity<>(new MessageResponse("Error. No se encuentra la habilidad de Id: " + skillId), HttpStatus.NOT_FOUND);
     } else {
       theSkill.getPerson().clearPassword();
       return new ResponseEntity<>(theSkill, HttpStatus.OK);
@@ -150,22 +150,22 @@ public class SkillController {
   ) {
 
     if (!this.personService.existsById(personId)) {
-      return new ResponseEntity<>(new Message("Error. No existe el usuario de Id: " + personId), HttpStatus.NOT_FOUND);
+      return new ResponseEntity<>(new MessageResponse("Error. No existe el usuario de Id: " + personId), HttpStatus.NOT_FOUND);
     }
 
     if (!this.skillService.existsById(skillId)) {
-      return new ResponseEntity<>(new Message("Error. No existe la habilidad de Id: " + skillId), HttpStatus.NOT_FOUND);
+      return new ResponseEntity<>(new MessageResponse("Error. No existe la habilidad de Id: " + skillId), HttpStatus.NOT_FOUND);
     }
 
     if (!this.skillService.existsByPersonIdBySkillId(personId, skillId)) {
       // if the project does not exist on the person, return not found
-      return new ResponseEntity<>(new Message("Error. No existe la habilidad de Id: " + skillId + " del usuario: " + personId), HttpStatus.NOT_FOUND);
+      return new ResponseEntity<>(new MessageResponse("Error. No existe la habilidad de Id: " + skillId + " del usuario: " + personId), HttpStatus.NOT_FOUND);
 
     } else {
       // Everything ok, then return ok
       this.skillService.delete(skillId);
 
-      return new ResponseEntity<>(new Message("Ok. Habilidades borrada: " + skillId), HttpStatus.OK);
+      return new ResponseEntity<>(new MessageResponse("Ok. Habilidades borrada: " + skillId), HttpStatus.OK);
     }
 
   }
@@ -175,15 +175,15 @@ public class SkillController {
   public ResponseEntity<?> deleteSkillsByPersonId(@PathVariable("personId") Long personId) {
 
     if (!this.personService.existsById(personId)) {
-      return new ResponseEntity<>(new Message("Error. No existe la persona de Id: " + personId), HttpStatus.NOT_FOUND);
+      return new ResponseEntity<>(new MessageResponse("Error. No existe la persona de Id: " + personId), HttpStatus.NOT_FOUND);
     }
 
     if (!this.skillService.existsByPersonId(personId)) {
-      return new ResponseEntity<>(new Message("Error. No existe la habilidad del usuario de Id: " + personId), HttpStatus.NOT_FOUND);
+      return new ResponseEntity<>(new MessageResponse("Error. No existe la habilidad del usuario de Id: " + personId), HttpStatus.NOT_FOUND);
     }
 
     this.skillService.deleteByPersonId(personId);
-    return new ResponseEntity<>(new Message("Ok. Eliminadas todas las habilidades del usuario: " + personId), HttpStatus.OK);
+    return new ResponseEntity<>(new MessageResponse("Ok. Eliminadas todas las habilidades del usuario: " + personId), HttpStatus.OK);
 
   }
 

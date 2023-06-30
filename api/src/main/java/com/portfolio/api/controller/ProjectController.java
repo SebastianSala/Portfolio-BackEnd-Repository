@@ -1,6 +1,6 @@
 package com.portfolio.api.controller;
 
-import com.portfolio.api.dto.Message;
+import com.portfolio.api.dto.response.MessageResponse;
 import com.portfolio.api.entity.Person;
 import com.portfolio.api.entity.Project;
 import com.portfolio.api.service.PersonService;
@@ -37,13 +37,13 @@ public class ProjectController {
     Person thePerson = personService.findPerson(personId);
 
     if (thePerson == null) {
-      return new ResponseEntity<>(new Message("Error. No existe el usuario de Id: " + personId), HttpStatus.NOT_FOUND);
+      return new ResponseEntity<>(new MessageResponse("Error. No existe el usuario de Id: " + personId), HttpStatus.NOT_FOUND);
     } else {
 
       projectRequest.setPerson(thePerson);
       projectService.create(projectRequest);
 
-      return new ResponseEntity<>(new Message("Ok. Proyecto creado: " + projectRequest.getName()), HttpStatus.CREATED);
+      return new ResponseEntity<>(new MessageResponse("Ok. Proyecto creado: " + projectRequest.getName()), HttpStatus.CREATED);
 
     }
 
@@ -58,25 +58,25 @@ public class ProjectController {
 
     Person thePerson = personService.findPerson(personId);
     if (thePerson == null) {
-      return new ResponseEntity<>(new Message("Error. No existe el usuario de Id: " + personId), HttpStatus.NOT_FOUND);
+      return new ResponseEntity<>(new MessageResponse("Error. No existe el usuario de Id: " + personId), HttpStatus.NOT_FOUND);
     }
 
     Project theProject = projectService.findById(projectId);
     if (theProject == null) {
-      return new ResponseEntity<>(new Message("Error. No se encuentra el proyecto de Id: " + projectId), HttpStatus.NOT_FOUND);
+      return new ResponseEntity<>(new MessageResponse("Error. No se encuentra el proyecto de Id: " + projectId), HttpStatus.NOT_FOUND);
     }
 
     // Check to see if the url and the id of the project and person matches
     if ((theProject.getPerson().getId() != personId)) {
-      return new ResponseEntity<>(new Message("Error. El proyecto existe, pero no pertenece a este usuario." + personId), HttpStatus.BAD_REQUEST);
+      return new ResponseEntity<>(new MessageResponse("Error. El proyecto existe, pero no pertenece a este usuario." + personId), HttpStatus.BAD_REQUEST);
     } else if ((projectRequest.getId() != projectId)) {
-      return new ResponseEntity<>(new Message("Error. Intento de edición incorrecto, revisar parámetros."), HttpStatus.BAD_REQUEST);
+      return new ResponseEntity<>(new MessageResponse("Error. Intento de edición incorrecto, revisar parámetros."), HttpStatus.BAD_REQUEST);
 
       // if everything is ok, procede
     } else {
       projectRequest.setPerson(thePerson);
       projectService.edit(projectRequest);
-      return new ResponseEntity<>(new Message("Ok. Proyecto actualizado!"), HttpStatus.CREATED);
+      return new ResponseEntity<>(new MessageResponse("Ok. Proyecto actualizado!"), HttpStatus.CREATED);
     }
 
   }
@@ -86,13 +86,13 @@ public class ProjectController {
   public ResponseEntity<?> getProjectsByPersonId(@PathVariable("personId") Long personId) {
 
     if (!personService.existsById(personId)) {
-      return new ResponseEntity<>(new Message("Error. No existe el usuario de Id: " + personId), HttpStatus.NOT_FOUND);
+      return new ResponseEntity<>(new MessageResponse("Error. No existe el usuario de Id: " + personId), HttpStatus.NOT_FOUND);
     }
 
     List<Project> theProjects = projectService.listByPersonId(personId);
 
     if (theProjects.isEmpty()) {
-      return new ResponseEntity<>(new Message("Error. El usuario de Id: " + personId + " , no tiene proyectos que mostrar"), HttpStatus.NOT_FOUND);
+      return new ResponseEntity<>(new MessageResponse("Error. El usuario de Id: " + personId + " , no tiene proyectos que mostrar"), HttpStatus.NOT_FOUND);
     }
 
     // clearing password for security before sending the data
@@ -106,13 +106,13 @@ public class ProjectController {
   public ResponseEntity<?> getProjectsByPersonEmail(@PathVariable("personEmail") String personEmail) {
 
     if (!personService.existsByEmail(personEmail)) {
-      return new ResponseEntity<>(new Message("Error. No existe el usuario de Email: " + personEmail), HttpStatus.NOT_FOUND);
+      return new ResponseEntity<>(new MessageResponse("Error. No existe el usuario de Email: " + personEmail), HttpStatus.NOT_FOUND);
     }
 
     List<Project> theProjects = projectService.listByPersonEmail(personEmail);
 
     if (theProjects.isEmpty()) {
-      return new ResponseEntity<>(new Message("Error. El usuario de Email: " + personEmail + " , no tiene proyectos que mostrar"), HttpStatus.NOT_FOUND);
+      return new ResponseEntity<>(new MessageResponse("Error. El usuario de Email: " + personEmail + " , no tiene proyectos que mostrar"), HttpStatus.NOT_FOUND);
     }
 
     // clearing password for security before sending the data
@@ -134,7 +134,7 @@ public class ProjectController {
     Project theProject = this.projectService.findByPersonIdByProjectId(personId, projectId);
 
     if (theProject == null) {
-      return new ResponseEntity<>(new Message("Error. No se encuentra el proyecto de Id: " + projectId), HttpStatus.NOT_FOUND);
+      return new ResponseEntity<>(new MessageResponse("Error. No se encuentra el proyecto de Id: " + projectId), HttpStatus.NOT_FOUND);
     } else {
       theProject.getPerson().clearPassword();
       return new ResponseEntity<>(theProject, HttpStatus.OK);
@@ -150,22 +150,22 @@ public class ProjectController {
   ) {
 
     if (!this.personService.existsById(personId)) {
-      return new ResponseEntity<>(new Message("Error. No existe el usuario de Id: " + personId), HttpStatus.NOT_FOUND);
+      return new ResponseEntity<>(new MessageResponse("Error. No existe el usuario de Id: " + personId), HttpStatus.NOT_FOUND);
     }
 
     if (!this.projectService.existsById(projectId)) {
-      return new ResponseEntity<>(new Message("Error. No existe el projecto de Id: " + projectId), HttpStatus.NOT_FOUND);
+      return new ResponseEntity<>(new MessageResponse("Error. No existe el projecto de Id: " + projectId), HttpStatus.NOT_FOUND);
     }
 
     if (!this.projectService.existsByPersonIdByProjectId(personId, projectId)) {
       // if the proyect does not exist on the person, return not found
-      return new ResponseEntity<>(new Message("Error. No existe el projecto de Id: " + projectId + " del usuario: " + personId), HttpStatus.NOT_FOUND);
+      return new ResponseEntity<>(new MessageResponse("Error. No existe el projecto de Id: " + projectId + " del usuario: " + personId), HttpStatus.NOT_FOUND);
 
     } else {
       // Everything ok, then return ok
       this.projectService.delete(projectId);
 
-      return new ResponseEntity<>(new Message("Ok. Projecto borrado: " + projectId), HttpStatus.OK);
+      return new ResponseEntity<>(new MessageResponse("Ok. Projecto borrado: " + projectId), HttpStatus.OK);
     }
 
   }
@@ -175,15 +175,15 @@ public class ProjectController {
   public ResponseEntity<?> deleteProjectsByPersonId(@PathVariable("personId") Long personId) {
 
     if (!this.personService.existsById(personId)) {
-      return new ResponseEntity<>(new Message("Error. No existe la persona de Id: " + personId), HttpStatus.NOT_FOUND);
+      return new ResponseEntity<>(new MessageResponse("Error. No existe la persona de Id: " + personId), HttpStatus.NOT_FOUND);
     }
 
     if (!this.projectService.existsByPersonId(personId)) {
-      return new ResponseEntity<>(new Message("Error. No existe el projectos del usuario de Id: " + personId), HttpStatus.NOT_FOUND);
+      return new ResponseEntity<>(new MessageResponse("Error. No existe el projectos del usuario de Id: " + personId), HttpStatus.NOT_FOUND);
     }
 
     this.projectService.deleteByPersonId(personId);
-    return new ResponseEntity<>(new Message("Ok. Eliminados todos los proyectos del usuario: " + personId), HttpStatus.OK);
+    return new ResponseEntity<>(new MessageResponse("Ok. Eliminados todos los proyectos del usuario: " + personId), HttpStatus.OK);
 
   }
 

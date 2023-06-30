@@ -1,6 +1,6 @@
 package com.portfolio.api.controller;
 
-import com.portfolio.api.dto.Message;
+import com.portfolio.api.dto.response.MessageResponse;
 import com.portfolio.api.entity.Person;
 import com.portfolio.api.entity.Network;
 import com.portfolio.api.service.PersonService;
@@ -37,13 +37,13 @@ public class NetworkController {
     Person thePerson = personService.findPerson(personId);
 
     if (thePerson == null) {
-      return new ResponseEntity<>(new Message("Error. No existe el usuario de Id: " + personId), HttpStatus.NOT_FOUND);
+      return new ResponseEntity<>(new MessageResponse("Error. No existe el usuario de Id: " + personId), HttpStatus.NOT_FOUND);
     } else {
 
       networkRequest.setPerson(thePerson);
       networkService.create(networkRequest);
 
-      return new ResponseEntity<>(new Message("Ok. Red social creada: " + networkRequest.getName()), HttpStatus.CREATED);
+      return new ResponseEntity<>(new MessageResponse("Ok. Red social creada: " + networkRequest.getName()), HttpStatus.CREATED);
 
     }
 
@@ -58,25 +58,25 @@ public class NetworkController {
 
     Person thePerson = personService.findPerson(personId);
     if (thePerson == null) {
-      return new ResponseEntity<>(new Message("Error. No existe el usuario de Id: " + personId), HttpStatus.NOT_FOUND);
+      return new ResponseEntity<>(new MessageResponse("Error. No existe el usuario de Id: " + personId), HttpStatus.NOT_FOUND);
     }
 
     Network theNetwork = networkService.findById(networkId);
     if (theNetwork == null) {
-      return new ResponseEntity<>(new Message("Error. No se encuentra la red de Id: " + networkId), HttpStatus.NOT_FOUND);
+      return new ResponseEntity<>(new MessageResponse("Error. No se encuentra la red de Id: " + networkId), HttpStatus.NOT_FOUND);
     }
 
     // Check to see if the url and the id of the network and person matches
     if ((theNetwork.getPerson().getId() != personId)) {
-      return new ResponseEntity<>(new Message("Error. La red existe, pero no pertenece a este usuario." + personId), HttpStatus.BAD_REQUEST);
+      return new ResponseEntity<>(new MessageResponse("Error. La red existe, pero no pertenece a este usuario." + personId), HttpStatus.BAD_REQUEST);
     } else if ((networkRequest.getId() != networkId)) {
-      return new ResponseEntity<>(new Message("Error. Intento de edición incorrecto, revisar parámetros."), HttpStatus.BAD_REQUEST);
+      return new ResponseEntity<>(new MessageResponse("Error. Intento de edición incorrecto, revisar parámetros."), HttpStatus.BAD_REQUEST);
 
       // if everything is ok, procede
     } else {
       networkRequest.setPerson(thePerson);
       networkService.edit(networkRequest);
-      return new ResponseEntity<>(new Message("Ok. Red social actualizada!"), HttpStatus.CREATED);
+      return new ResponseEntity<>(new MessageResponse("Ok. Red social actualizada!"), HttpStatus.CREATED);
     }
 
   }
@@ -86,13 +86,13 @@ public class NetworkController {
   public ResponseEntity<?> getNetworksByPersonId(@PathVariable("personId") Long personId) {
 
     if (!personService.existsById(personId)) {
-      return new ResponseEntity<>(new Message("Error. No existe el usuario de Id: " + personId), HttpStatus.NOT_FOUND);
+      return new ResponseEntity<>(new MessageResponse("Error. No existe el usuario de Id: " + personId), HttpStatus.NOT_FOUND);
     }
 
     List<Network> theNetworks = networkService.listByPersonId(personId);
 
     if (theNetworks.isEmpty()) {
-      return new ResponseEntity<>(new Message("Error. El usuario de Id: " + personId + " , no tiene redes que mostrar"), HttpStatus.NOT_FOUND);
+      return new ResponseEntity<>(new MessageResponse("Error. El usuario de Id: " + personId + " , no tiene redes que mostrar"), HttpStatus.NOT_FOUND);
     }
 
     // clearing password for security before sending the data
@@ -106,13 +106,13 @@ public class NetworkController {
   public ResponseEntity<?> getNetworksByPersonEmail(@PathVariable("personEmail") String personEmail) {
 
     if (!personService.existsByEmail(personEmail)) {
-      return new ResponseEntity<>(new Message("Error. No existe el usuario de Email: " + personEmail), HttpStatus.NOT_FOUND);
+      return new ResponseEntity<>(new MessageResponse("Error. No existe el usuario de Email: " + personEmail), HttpStatus.NOT_FOUND);
     }
 
     List<Network> theNetworks = networkService.listByPersonEmail(personEmail);
 
     if (theNetworks.isEmpty()) {
-      return new ResponseEntity<>(new Message("Error. El usuario de Email: " + personEmail + " , no tiene redes que mostrar"), HttpStatus.NOT_FOUND);
+      return new ResponseEntity<>(new MessageResponse("Error. El usuario de Email: " + personEmail + " , no tiene redes que mostrar"), HttpStatus.NOT_FOUND);
     }
 
     // clearing password for security before sending the data
@@ -134,7 +134,7 @@ public class NetworkController {
     Network theNetwork = this.networkService.findByPersonIdByNetworkId(personId, networkId);
 
     if (theNetwork == null) {
-      return new ResponseEntity<>(new Message("Error. No se encuentra la red de Id: " + networkId), HttpStatus.NOT_FOUND);
+      return new ResponseEntity<>(new MessageResponse("Error. No se encuentra la red de Id: " + networkId), HttpStatus.NOT_FOUND);
     } else {
       theNetwork.getPerson().clearPassword();
       return new ResponseEntity<>(theNetwork, HttpStatus.OK);
@@ -150,22 +150,22 @@ public class NetworkController {
   ) {
 
     if (!this.personService.existsById(personId)) {
-      return new ResponseEntity<>(new Message("Error. No existe el usuario de Id: " + personId), HttpStatus.NOT_FOUND);
+      return new ResponseEntity<>(new MessageResponse("Error. No existe el usuario de Id: " + personId), HttpStatus.NOT_FOUND);
     }
 
     if (!this.networkService.existsById(networkId)) {
-      return new ResponseEntity<>(new Message("Error. No existe la red de Id: " + networkId), HttpStatus.NOT_FOUND);
+      return new ResponseEntity<>(new MessageResponse("Error. No existe la red de Id: " + networkId), HttpStatus.NOT_FOUND);
     }
 
     if (!this.networkService.existsByPersonIdByNetworkId(personId, networkId)) {
       // if the project does not exist on the person, return not found
-      return new ResponseEntity<>(new Message("Error. No existe la red de Id: " + networkId + " del usuario: " + personId), HttpStatus.NOT_FOUND);
+      return new ResponseEntity<>(new MessageResponse("Error. No existe la red de Id: " + networkId + " del usuario: " + personId), HttpStatus.NOT_FOUND);
 
     } else {
       // Everything ok, then return ok
       this.networkService.delete(networkId);
 
-      return new ResponseEntity<>(new Message("Ok. Red borrada: " + networkId), HttpStatus.OK);
+      return new ResponseEntity<>(new MessageResponse("Ok. Red borrada: " + networkId), HttpStatus.OK);
     }
 
   }
@@ -175,15 +175,15 @@ public class NetworkController {
   public ResponseEntity<?> deleteNetworksByPersonId(@PathVariable("personId") Long personId) {
 
     if (!this.personService.existsById(personId)) {
-      return new ResponseEntity<>(new Message("Error. No existe la persona de Id: " + personId), HttpStatus.NOT_FOUND);
+      return new ResponseEntity<>(new MessageResponse("Error. No existe la persona de Id: " + personId), HttpStatus.NOT_FOUND);
     }
 
     if (!this.networkService.existsByPersonId(personId)) {
-      return new ResponseEntity<>(new Message("Error. No existe la red del usuario de Id: " + personId), HttpStatus.NOT_FOUND);
+      return new ResponseEntity<>(new MessageResponse("Error. No existe la red del usuario de Id: " + personId), HttpStatus.NOT_FOUND);
     }
 
     this.networkService.deleteByPersonId(personId);
-    return new ResponseEntity<>(new Message("Ok. Eliminados todas las redes del usuario: " + personId), HttpStatus.OK);
+    return new ResponseEntity<>(new MessageResponse("Ok. Eliminados todas las redes del usuario: " + personId), HttpStatus.OK);
 
   }
 

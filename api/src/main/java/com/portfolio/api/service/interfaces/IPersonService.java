@@ -1,6 +1,6 @@
 package com.portfolio.api.service.interfaces;
 
-import com.portfolio.api.dto.PersonDTO;
+import com.portfolio.api.dto.response.PersonDTO;
 import com.portfolio.api.entity.Person;
 import java.util.ArrayList;
 

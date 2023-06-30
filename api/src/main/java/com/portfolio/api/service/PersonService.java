@@ -1,12 +1,12 @@
 package com.portfolio.api.service;
 
-import com.portfolio.api.dto.PersonDTO;
+import com.portfolio.api.dto.response.PersonDTO;
 import com.portfolio.api.service.interfaces.IPersonService;
 import com.portfolio.api.entity.Person;
 import com.portfolio.api.repository.PersonRepository;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
+//import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -64,9 +64,13 @@ public class PersonService implements IPersonService {
 
     if (!person.isEmpty()) {
       Person tempPerson = person.get(0);
+      
+      List<String> tempListRole = new ArrayList<>();
+      tempListRole.add("ROLE_USER");
+      
       PersonDTO personDTO = new PersonDTO(tempPerson.getId(), tempPerson.getName(), tempPerson.getTitle(),
           tempPerson.getEmail(), tempPerson.getLocation(), tempPerson.getAboutMe(), tempPerson.getImgUrl(),
-          tempPerson.getImgBackUrl(), tempPerson.getWebUrl());
+          tempPerson.getImgBackUrl(), tempPerson.getWebUrl(), tempListRole);
 
       return personDTO;
     }

@@ -1,6 +1,6 @@
 package com.portfolio.api.controller;
 
-import com.portfolio.api.dto.Message;
+import com.portfolio.api.dto.response.MessageResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,7 +24,7 @@ public class HealthCheckController {
     String messageBackend = String.format("Backend OK, ingresa a <a href=\"%s\">%s</a> para ver la documentación de la API.", swaggerUrl, swaggerUrl);
 
     //String messageConsole = String.format("Backend OK, ingresa a %s para ver la documentación de la API.", swaggerUrl);
-    //Message theMessage = new Message(messageConsole);
+    //Message theMessage = new MessageResponse(messageConsole);
     //System.out.println("--- " + theMessage.getMessage());
     return new ResponseEntity<>(messageBackend, HttpStatus.OK);
 
@@ -39,7 +39,7 @@ public class HealthCheckController {
 
     String message = String.format("Backend OK, ingresa a %s para ver la documentación de la API.", swaggerUrl);
 
-    Message theMessage = new Message(message);
+    MessageResponse theMessage = new MessageResponse(message);
 
     System.out.println("--- (frontend check) " + theMessage.getMessage());
 

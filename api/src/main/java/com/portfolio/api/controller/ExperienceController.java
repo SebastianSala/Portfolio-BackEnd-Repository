@@ -1,6 +1,6 @@
 package com.portfolio.api.controller;
 
-import com.portfolio.api.dto.Message;
+import com.portfolio.api.dto.response.MessageResponse;
 import com.portfolio.api.entity.Experience;
 import com.portfolio.api.entity.Person;
 import com.portfolio.api.service.ExperienceService;
@@ -37,13 +37,13 @@ public class ExperienceController {
     Person thePerson = personService.findPerson(personId);
 
     if (thePerson == null) {
-      return new ResponseEntity<>(new Message("Error. No existe el usuario de Id: " + personId), HttpStatus.NOT_FOUND);
+      return new ResponseEntity<>(new MessageResponse("Error. No existe el usuario de Id: " + personId), HttpStatus.NOT_FOUND);
     } else {
 
       experienceRequest.setPerson(thePerson);
       experienceService.create(experienceRequest);
 
-      return new ResponseEntity<>(new Message("Ok. Experiencia laboral creada: " + experienceRequest.getPosition()), HttpStatus.CREATED);
+      return new ResponseEntity<>(new MessageResponse("Ok. Experiencia laboral creada: " + experienceRequest.getPosition()), HttpStatus.CREATED);
 
     }
 
@@ -58,25 +58,25 @@ public class ExperienceController {
 
     Person thePerson = personService.findPerson(personId);
     if (thePerson == null) {
-      return new ResponseEntity<>(new Message("Error. No existe el usuario de Id: " + personId), HttpStatus.NOT_FOUND);
+      return new ResponseEntity<>(new MessageResponse("Error. No existe el usuario de Id: " + personId), HttpStatus.NOT_FOUND);
     }
 
     Experience theExperience = experienceService.findById(experienceId);
     if (theExperience == null) {
-      return new ResponseEntity<>(new Message("Error. No se encuentra la experiencia laboral de Id: " + experienceId), HttpStatus.NOT_FOUND);
+      return new ResponseEntity<>(new MessageResponse("Error. No se encuentra la experiencia laboral de Id: " + experienceId), HttpStatus.NOT_FOUND);
     }
 
     // Check to see if the url and the id of the experience and person matches
     if ((theExperience.getPerson().getId() != personId)) {
-      return new ResponseEntity<>(new Message("Error. La experiencia laboral existe, pero no pertenece a este usuario." + personId), HttpStatus.BAD_REQUEST);
+      return new ResponseEntity<>(new MessageResponse("Error. La experiencia laboral existe, pero no pertenece a este usuario." + personId), HttpStatus.BAD_REQUEST);
     } else if ((experienceRequest.getId() != experienceId)) {
-      return new ResponseEntity<>(new Message("Error. Intento de edición incorrecto, revisar parámetros."), HttpStatus.BAD_REQUEST);
+      return new ResponseEntity<>(new MessageResponse("Error. Intento de edición incorrecto, revisar parámetros."), HttpStatus.BAD_REQUEST);
 
       // if everything is ok, procede
     } else {
       experienceRequest.setPerson(thePerson);
       experienceService.edit(experienceRequest);
-      return new ResponseEntity<>(new Message("Ok. Experiencia laboral actualizada!"), HttpStatus.CREATED);
+      return new ResponseEntity<>(new MessageResponse("Ok. Experiencia laboral actualizada!"), HttpStatus.CREATED);
     }
 
   }
@@ -86,13 +86,13 @@ public class ExperienceController {
   public ResponseEntity<?> getExperiencesByPersonId(@PathVariable("personId") Long personId) {
 
     if (!personService.existsById(personId)) {
-      return new ResponseEntity<>(new Message("Error. No existe el usuario de Id: " + personId), HttpStatus.NOT_FOUND);
+      return new ResponseEntity<>(new MessageResponse("Error. No existe el usuario de Id: " + personId), HttpStatus.NOT_FOUND);
     }
 
     List<Experience> theExperiences = experienceService.listByPersonId(personId);
 
     if (theExperiences.isEmpty()) {
-      return new ResponseEntity<>(new Message("Error. El usuario de Id: " + personId + " , no tiene experiencias laborales que mostrar"), HttpStatus.NOT_FOUND);
+      return new ResponseEntity<>(new MessageResponse("Error. El usuario de Id: " + personId + " , no tiene experiencias laborales que mostrar"), HttpStatus.NOT_FOUND);
     }
 
     // clearing password for security before sending the data
@@ -106,13 +106,13 @@ public class ExperienceController {
   public ResponseEntity<?> getExperiencesByPersonEmail(@PathVariable("personEmail") String personEmail) {
 
     if (!personService.existsByEmail(personEmail)) {
-      return new ResponseEntity<>(new Message("Error. No existe el usuario de Email: " + personEmail), HttpStatus.NOT_FOUND);
+      return new ResponseEntity<>(new MessageResponse("Error. No existe el usuario de Email: " + personEmail), HttpStatus.NOT_FOUND);
     }
 
     List<Experience> theExperiences = experienceService.listByPersonEmail(personEmail);
 
     if (theExperiences.isEmpty()) {
-      return new ResponseEntity<>(new Message("Error. El usuario de Email: " + personEmail + " , no tiene experiencias laborales que mostrar"), HttpStatus.NOT_FOUND);
+      return new ResponseEntity<>(new MessageResponse("Error. El usuario de Email: " + personEmail + " , no tiene experiencias laborales que mostrar"), HttpStatus.NOT_FOUND);
     }
 
     // clearing password for security before sending the data
@@ -134,7 +134,7 @@ public class ExperienceController {
     Experience theExperience = this.experienceService.findByPersonIdByExperienceId(personId, experienceId);
 
     if (theExperience == null) {
-      return new ResponseEntity<>(new Message("Error. No se encuentra la experiencia laboral de Id: " + experienceId), HttpStatus.NOT_FOUND);
+      return new ResponseEntity<>(new MessageResponse("Error. No se encuentra la experiencia laboral de Id: " + experienceId), HttpStatus.NOT_FOUND);
     } else {
       theExperience.getPerson().clearPassword();
       return new ResponseEntity<>(theExperience, HttpStatus.OK);
@@ -150,22 +150,22 @@ public class ExperienceController {
   ) {
 
     if (!this.personService.existsById(personId)) {
-      return new ResponseEntity<>(new Message("Error. No existe el usuario de Id: " + personId), HttpStatus.NOT_FOUND);
+      return new ResponseEntity<>(new MessageResponse("Error. No existe el usuario de Id: " + personId), HttpStatus.NOT_FOUND);
     }
 
     if (!this.experienceService.existsById(experienceId)) {
-      return new ResponseEntity<>(new Message("Error. No existe la experiencia laboral de Id: " + experienceId), HttpStatus.NOT_FOUND);
+      return new ResponseEntity<>(new MessageResponse("Error. No existe la experiencia laboral de Id: " + experienceId), HttpStatus.NOT_FOUND);
     }
 
     if (!this.experienceService.existsByPersonIdByExperienceId(personId, experienceId)) {
       // if the project does not exist on the person, return not found
-      return new ResponseEntity<>(new Message("Error. No existe la experiencia laboral de Id: " + experienceId + " del usuario: " + personId), HttpStatus.NOT_FOUND);
+      return new ResponseEntity<>(new MessageResponse("Error. No existe la experiencia laboral de Id: " + experienceId + " del usuario: " + personId), HttpStatus.NOT_FOUND);
 
     } else {
       // Everything ok, then return ok
       this.experienceService.delete(experienceId);
 
-      return new ResponseEntity<>(new Message("Ok. Experiencia laboral borrada: " + experienceId), HttpStatus.OK);
+      return new ResponseEntity<>(new MessageResponse("Ok. Experiencia laboral borrada: " + experienceId), HttpStatus.OK);
     }
 
   }
@@ -175,15 +175,15 @@ public class ExperienceController {
   public ResponseEntity<?> deleteExperiencesByPersonId(@PathVariable("personId") Long personId) {
 
     if (!this.personService.existsById(personId)) {
-      return new ResponseEntity<>(new Message("Error. No existe la persona de Id: " + personId), HttpStatus.NOT_FOUND);
+      return new ResponseEntity<>(new MessageResponse("Error. No existe la persona de Id: " + personId), HttpStatus.NOT_FOUND);
     }
 
     if (!this.experienceService.existsByPersonId(personId)) {
-      return new ResponseEntity<>(new Message("Error. No existe la experiencia laboral del usuario de Id: " + personId), HttpStatus.NOT_FOUND);
+      return new ResponseEntity<>(new MessageResponse("Error. No existe la experiencia laboral del usuario de Id: " + personId), HttpStatus.NOT_FOUND);
     }
 
     this.experienceService.deleteByPersonId(personId);
-    return new ResponseEntity<>(new Message("Ok. Eliminadas todas las experiencias laborales del usuario: " + personId), HttpStatus.OK);
+    return new ResponseEntity<>(new MessageResponse("Ok. Eliminadas todas las experiencias laborales del usuario: " + personId), HttpStatus.OK);
 
   }
 

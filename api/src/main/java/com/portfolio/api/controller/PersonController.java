@@ -1,7 +1,7 @@
 package com.portfolio.api.controller;
 
-import com.portfolio.api.dto.Message;
-import com.portfolio.api.dto.PersonDTO;
+import com.portfolio.api.dto.response.MessageResponse;
+import com.portfolio.api.dto.response.PersonDTO;
 import com.portfolio.api.entity.Person;
 import com.portfolio.api.service.PersonService;
 import java.util.List;
@@ -30,11 +30,11 @@ public class PersonController {
   public ResponseEntity<?> createPerson(@RequestBody Person person) {
 
     if (this.personService.existsByEmail(person.getEmail())) {
-      return new ResponseEntity<>(new Message("Error. Ese email ya existe, ingrese uno distinto"), HttpStatus.BAD_REQUEST);
+      return new ResponseEntity<>(new MessageResponse("Error. Ese email ya existe, ingrese uno distinto"), HttpStatus.BAD_REQUEST);
     }
 
     this.personService.createPerson(person);
-    return new ResponseEntity<>(new Message("Ok. Usuario " + person.getName() + " creado con exito:  " + person.getEmail()), HttpStatus.OK);
+    return new ResponseEntity<>(new MessageResponse("Ok. Usuario " + person.getName() + " creado con exito:  " + person.getEmail()), HttpStatus.OK);
 
   }
 
@@ -43,14 +43,14 @@ public class PersonController {
   public ResponseEntity<?> updatePerson(@PathVariable("id") Long id, @RequestBody Person person) {
 
     if (person.getId() != id) {
-      return new ResponseEntity<>(new Message("Error. No hay coincidencia entre usuario de Id " + person.getId() + " y Id de Request: " + id), HttpStatus.BAD_REQUEST);
+      return new ResponseEntity<>(new MessageResponse("Error. No hay coincidencia entre usuario de Id " + person.getId() + " y Id de Request: " + id), HttpStatus.BAD_REQUEST);
     }
 
     if (this.personService.existsById(id)) {
 
       //Checks if a person with the same mail already exist, excluding the current one by its "id" that will have the same email of course
       if (this.personService.existsByEmailAndIdNot(person.getEmail(), id)) {
-        return new ResponseEntity<>(new Message("Error. El email ya existe, ingrese uno distinto."), HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(new MessageResponse("Error. El email ya existe, ingrese uno distinto."), HttpStatus.BAD_REQUEST);
       }
       //Set the curent password to not overwrite it
       Person tempPerson = this.personService.findPerson(id);
@@ -60,10 +60,10 @@ public class PersonController {
       System.out.println(person.getPassword() + person.getEmail());
 
       this.personService.editPerson(person);
-      return new ResponseEntity<>(new Message("Ok. Usuario actualizado: " + person.getEmail()), HttpStatus.OK);
+      return new ResponseEntity<>(new MessageResponse("Ok. Usuario actualizado: " + person.getEmail()), HttpStatus.OK);
 
     } else {
-      return new ResponseEntity<>(new Message("Error. No existe usuario para editar de Id: " + id), HttpStatus.NOT_FOUND);
+      return new ResponseEntity<>(new MessageResponse("Error. No existe usuario para editar de Id: " + id), HttpStatus.NOT_FOUND);
     }
 
   }
@@ -74,7 +74,7 @@ public class PersonController {
     List<Person> persons = this.personService.listPersons();
 
     if (persons.isEmpty()) {
-      return new ResponseEntity<>(new Message("Error. No existen Usuarios. Cree una cuenta nueva"), HttpStatus.NOT_FOUND);
+      return new ResponseEntity<>(new MessageResponse("Error. No existen Usuarios. Cree una cuenta nueva"), HttpStatus.NOT_FOUND);
     }
 
     persons.forEach(Person::clearPassword);
@@ -89,7 +89,7 @@ public class PersonController {
     Person thePerson = this.personService.findPerson(id);
 
     if (thePerson == null) {
-      return new ResponseEntity<>(new Message("Error. No existe usuario con id: " + id), HttpStatus.NOT_FOUND);
+      return new ResponseEntity<>(new MessageResponse("Error. No existe usuario con id: " + id), HttpStatus.NOT_FOUND);
 
     } else {
       //deleting the password for safety
@@ -112,7 +112,7 @@ public class PersonController {
 
     return (thePerson != null
         ? new ResponseEntity<>(thePerson, HttpStatus.OK)
-        : new ResponseEntity<>(new Message("Error. No existe usuario con el email: " + email), HttpStatus.NOT_FOUND));
+        : new ResponseEntity<>(new MessageResponse("Error. No existe usuario con el email: " + email), HttpStatus.NOT_FOUND));
 
   }
 
@@ -120,11 +120,11 @@ public class PersonController {
   public ResponseEntity<?> deletePersonById(@RequestParam("id") Long id) {
 
     if (!personService.existsById(id)) {
-      return new ResponseEntity(new Message("Error. No existe el usuario de Id: " + id), HttpStatus.NOT_FOUND);
+      return new ResponseEntity(new MessageResponse("Error. No existe el usuario de Id: " + id), HttpStatus.NOT_FOUND);
     }
 
     this.personService.deletePerson(id);
-    return new ResponseEntity(new Message("Ok. Usuario borrado: " + id), HttpStatus.OK);
+    return new ResponseEntity(new MessageResponse("Ok. Usuario borrado: " + id), HttpStatus.OK);
 
   }
 
@@ -141,7 +141,7 @@ public class PersonController {
     //    }
     return (loginPerson != null
         ? new ResponseEntity<>(loginPerson, HttpStatus.OK)
-        : new ResponseEntity<>(new Message("Error. Email o contraseña incorrectos."), HttpStatus.UNAUTHORIZED));
+        : new ResponseEntity<>(new MessageResponse("Error. Email o contraseña incorrectos."), HttpStatus.UNAUTHORIZED));
 
   }
 

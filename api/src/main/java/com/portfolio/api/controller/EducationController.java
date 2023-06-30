@@ -1,6 +1,6 @@
 package com.portfolio.api.controller;
 
-import com.portfolio.api.dto.Message;
+import com.portfolio.api.dto.response.MessageResponse;
 import com.portfolio.api.entity.Education;
 import com.portfolio.api.entity.Person;
 import com.portfolio.api.service.EducationService;
@@ -37,13 +37,13 @@ public class EducationController {
     Person thePerson = personService.findPerson(personId);
 
     if (thePerson == null) {
-      return new ResponseEntity<>(new Message("Error. No existe el usuario de Id: " + personId), HttpStatus.NOT_FOUND);
+      return new ResponseEntity<>(new MessageResponse("Error. No existe el usuario de Id: " + personId), HttpStatus.NOT_FOUND);
     } else {
 
       educationRequest.setPerson(thePerson);
       educationService.create(educationRequest);
 
-      return new ResponseEntity<>(new Message("Ok. Estudio agregado: " + educationRequest.getTitle()), HttpStatus.CREATED);
+      return new ResponseEntity<>(new MessageResponse("Ok. Estudio agregado: " + educationRequest.getTitle()), HttpStatus.CREATED);
 
     }
 
@@ -58,25 +58,25 @@ public class EducationController {
 
     Person thePerson = personService.findPerson(personId);
     if (thePerson == null) {
-      return new ResponseEntity<>(new Message("Error. No existe el usuario de Id: " + personId), HttpStatus.NOT_FOUND);
+      return new ResponseEntity<>(new MessageResponse("Error. No existe el usuario de Id: " + personId), HttpStatus.NOT_FOUND);
     }
 
     Education theEducation = educationService.findById(educationId);
     if (theEducation == null) {
-      return new ResponseEntity<>(new Message("Error. No se encuentra el estudio de Id: " + educationId), HttpStatus.NOT_FOUND);
+      return new ResponseEntity<>(new MessageResponse("Error. No se encuentra el estudio de Id: " + educationId), HttpStatus.NOT_FOUND);
     }
 
     // Check to see if the url and the id of the education and person matches
     if ((theEducation.getPerson().getId() != personId)) {
-      return new ResponseEntity<>(new Message("Error. El estudio existe, pero no pertenece a este usuario." + personId), HttpStatus.BAD_REQUEST);
+      return new ResponseEntity<>(new MessageResponse("Error. El estudio existe, pero no pertenece a este usuario." + personId), HttpStatus.BAD_REQUEST);
     } else if ((educationRequest.getId() != educationId)) {
-      return new ResponseEntity<>(new Message("Error. Intento de edición incorrecto, revisar parámetros."), HttpStatus.BAD_REQUEST);
+      return new ResponseEntity<>(new MessageResponse("Error. Intento de edición incorrecto, revisar parámetros."), HttpStatus.BAD_REQUEST);
 
       // if everything is ok, procede
     } else {
       educationRequest.setPerson(thePerson);
       educationService.edit(educationRequest);
-      return new ResponseEntity<>(new Message("Ok. Estudio actualizado!"), HttpStatus.CREATED);
+      return new ResponseEntity<>(new MessageResponse("Ok. Estudio actualizado!"), HttpStatus.CREATED);
     }
 
   }
@@ -86,13 +86,13 @@ public class EducationController {
   public ResponseEntity<?> getEducationsByPersonId(@PathVariable("personId") Long personId) {
 
     if (!personService.existsById(personId)) {
-      return new ResponseEntity<>(new Message("Error. No existe el usuario de Id: " + personId), HttpStatus.NOT_FOUND);
+      return new ResponseEntity<>(new MessageResponse("Error. No existe el usuario de Id: " + personId), HttpStatus.NOT_FOUND);
     }
 
     List<Education> theEducations = educationService.listByPersonId(personId);
 
     if (theEducations.isEmpty()) {
-      return new ResponseEntity<>(new Message("Error. El usuario de Id: " + personId + " , no tiene estudios que mostrar"), HttpStatus.NOT_FOUND);
+      return new ResponseEntity<>(new MessageResponse("Error. El usuario de Id: " + personId + " , no tiene estudios que mostrar"), HttpStatus.NOT_FOUND);
     }
 
     // clearing password for security before sending the data
@@ -106,13 +106,13 @@ public class EducationController {
   public ResponseEntity<?> getEducationsByPersonEmail(@PathVariable("personEmail") String personEmail) {
 
     if (!personService.existsByEmail(personEmail)) {
-      return new ResponseEntity<>(new Message("Error. No existe el usuario de Email: " + personEmail), HttpStatus.NOT_FOUND);
+      return new ResponseEntity<>(new MessageResponse("Error. No existe el usuario de Email: " + personEmail), HttpStatus.NOT_FOUND);
     }
 
     List<Education> theEducations = educationService.listByPersonEmail(personEmail);
 
     if (theEducations.isEmpty()) {
-      return new ResponseEntity<>(new Message("Error. El usuario de Email: " + personEmail + " , no tiene estudios que mostrar"), HttpStatus.NOT_FOUND);
+      return new ResponseEntity<>(new MessageResponse("Error. El usuario de Email: " + personEmail + " , no tiene estudios que mostrar"), HttpStatus.NOT_FOUND);
     }
 
     // clearing password for security before sending the data
@@ -134,7 +134,7 @@ public class EducationController {
     Education theEducation = this.educationService.findByPersonIdByEducationId(personId, educationId);
 
     if (theEducation == null) {
-      return new ResponseEntity<>(new Message("Error. No se encuentra el estudio de Id: " + educationId), HttpStatus.NOT_FOUND);
+      return new ResponseEntity<>(new MessageResponse("Error. No se encuentra el estudio de Id: " + educationId), HttpStatus.NOT_FOUND);
     } else {
       theEducation.getPerson().clearPassword();
       return new ResponseEntity<>(theEducation, HttpStatus.OK);
@@ -150,22 +150,22 @@ public class EducationController {
   ) {
 
     if (!this.personService.existsById(personId)) {
-      return new ResponseEntity<>(new Message("Error. No existe el usuario de Id: " + personId), HttpStatus.NOT_FOUND);
+      return new ResponseEntity<>(new MessageResponse("Error. No existe el usuario de Id: " + personId), HttpStatus.NOT_FOUND);
     }
 
     if (!this.educationService.existsById(educationId)) {
-      return new ResponseEntity<>(new Message("Error. No existe el estudio de Id: " + educationId), HttpStatus.NOT_FOUND);
+      return new ResponseEntity<>(new MessageResponse("Error. No existe el estudio de Id: " + educationId), HttpStatus.NOT_FOUND);
     }
 
     if (!this.educationService.existsByPersonIdByEducationId(personId, educationId)) {
       // if the project does not exist on the person, return not found
-      return new ResponseEntity<>(new Message("Error. No existe el estudio de Id: " + educationId + " del usuario: " + personId), HttpStatus.NOT_FOUND);
+      return new ResponseEntity<>(new MessageResponse("Error. No existe el estudio de Id: " + educationId + " del usuario: " + personId), HttpStatus.NOT_FOUND);
 
     } else {
       // Everything ok, then return ok
       this.educationService.delete(educationId);
 
-      return new ResponseEntity<>(new Message("Ok. Estudio borrado: " + educationId), HttpStatus.OK);
+      return new ResponseEntity<>(new MessageResponse("Ok. Estudio borrado: " + educationId), HttpStatus.OK);
     }
 
   }
@@ -175,15 +175,15 @@ public class EducationController {
   public ResponseEntity<?> deleteEducationsByPersonId(@PathVariable("personId") Long personId) {
 
     if (!this.personService.existsById(personId)) {
-      return new ResponseEntity<>(new Message("Error. No existe la persona de Id: " + personId), HttpStatus.NOT_FOUND);
+      return new ResponseEntity<>(new MessageResponse("Error. No existe la persona de Id: " + personId), HttpStatus.NOT_FOUND);
     }
 
     if (!this.educationService.existsByPersonId(personId)) {
-      return new ResponseEntity<>(new Message("Error. No existe el estudio del usuario de Id: " + personId), HttpStatus.NOT_FOUND);
+      return new ResponseEntity<>(new MessageResponse("Error. No existe el estudio del usuario de Id: " + personId), HttpStatus.NOT_FOUND);
     }
 
     this.educationService.deleteByPersonId(personId);
-    return new ResponseEntity<>(new Message("Ok. Eliminados todos los estudios del usuario: " + personId), HttpStatus.OK);
+    return new ResponseEntity<>(new MessageResponse("Ok. Eliminados todos los estudios del usuario: " + personId), HttpStatus.OK);
 
   }
 

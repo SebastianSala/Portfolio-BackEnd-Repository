@@ -2,10 +2,10 @@ package security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -17,10 +17,17 @@ import security.jwt.AuthEntryPointJwt;
 import security.jwt.AuthTokenFilter;
 import security.services.UserDetailsServiceImpl;
 
+//@EnableWebSecurity
 @Configuration
-@EnableMethodSecurity(securedEnabled = true,
-    jsr250Enabled = true,
-    prePostEnabled = true)
+@EnableMethodSecurity
+//    (securedEnabled = true,
+//    jsr250Enabled = true,
+//    prePostEnabled = true)
+
+//@ComponentScan({"com.beta.replyservice", "com.beta.ruleService"})
+//@ComponentScan("com.portfolio.api.security")
+//@ComponentScan("security")
+
 public class WebSecurityConfig {
 
   @Autowired
@@ -44,9 +51,8 @@ public class WebSecurityConfig {
     return authProvider;
   }
 
-  @Bean
-  public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
-    return authenticationConfiguration.getAuthenticationManager();
+  public void configure(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
+    authenticationManagerBuilder.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
   }
 
   @Bean
@@ -60,13 +66,15 @@ public class WebSecurityConfig {
         .exceptionHandling(exception -> exception.authenticationEntryPoint(unauthorizedHandler))
         .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
         .authorizeHttpRequests(auth
-            -> auth.requestMatchers("/api/auth/**").permitAll()
-            .requestMatchers("/api/test/**").permitAll()
+            -> auth.requestMatchers("/auth/**").permitAll()
+            .requestMatchers("/person/**").permitAll()
+            //.anyRequest().authenticated().and().authenticationManager(this.authenticationManager()))
             .anyRequest().authenticated()
         );
 
     httpSecurity.authenticationProvider(this.authenticationProvider());
 
+//    httpSecurity.authenticationManager(this.authenticationManager(httpSecurity));
     httpSecurity.addFilterBefore(this.authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
 
     return httpSecurity.build();
