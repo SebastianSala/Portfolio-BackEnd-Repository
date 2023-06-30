@@ -28,8 +28,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import security.jwt.JwtUtils;
-import security.services.UserDetailsImpl;
+import com.portfolio.api.security.jwt.JwtUtils;
+import com.portfolio.api.security.services.UserDetailsImpl;
 
 //for Angular Client (withCredentials)
 //@CrossOrigin(origins = "http://localhost:4200", maxAge = 3600, allowCredentials="true")
@@ -38,8 +38,8 @@ import security.services.UserDetailsImpl;
 @RequestMapping("auth")
 public class AuthController {
 
-//  @Autowired
-  @Autowired(required = false)
+  @Autowired
+//  @Autowired(required = false)
   AuthenticationManager authenticationManager;
 
   @Autowired
@@ -48,12 +48,12 @@ public class AuthController {
   @Autowired
   RoleService roleService;
 
-//  @Autowired
-  @Autowired(required = false)
+  @Autowired
+//  @Autowired(required = false)
   PasswordEncoder passwordEncoder;
 
-//  @Autowired
-  @Autowired(required = false)
+  @Autowired
+//  @Autowired(required = false)
   JwtUtils jwtUtils;
 
   @PostMapping("/signin")

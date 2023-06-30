@@ -1,8 +1,6 @@
 com\portfolio\api\service\ProjectService.class
-security\WebSecurityConfig.class
 com\portfolio\api\dto\response\MessageResponse.class
 com\portfolio\api\WebConfig.class
-security\services\UserDetailsImpl.class
 com\portfolio\api\service\interfaces\IRoleService.class
 com\portfolio\api\entity\Person.class
 com\portfolio\api\service\interfaces\INetworkService.class
@@ -11,7 +9,6 @@ com\portfolio\api\service\EducationService.class
 com\portfolio\api\service\RoleService.class
 com\portfolio\api\dto\request\SignupRequest.class
 com\portfolio\api\repository\PersonRepository.class
-security\jwt\JwtUtils.class
 com\portfolio\api\controller\ExperienceController.class
 com\portfolio\api\repository\NetworkRepository.class
 com\portfolio\api\service\PersonService.class
@@ -20,10 +17,11 @@ com\portfolio\api\controller\SkillController.class
 com\portfolio\api\repository\EducationRepository.class
 com\portfolio\api\service\interfaces\IPersonService.class
 com\portfolio\api\service\ExperienceService.class
-security\jwt\AuthEntryPointJwt.class
+com\portfolio\api\security\WebSecurityConfig.class
 com\portfolio\api\controller\ProjectController.class
 com\portfolio\api\controller\AuthController.class
 com\portfolio\api\entity\Education.class
+com\portfolio\api\security\jwt\AuthTokenFilter.class
 com\portfolio\api\entity\Experience.class
 com\portfolio\api\entity\Network.class
 com\portfolio\api\service\SkillService.class
@@ -38,12 +36,14 @@ com\portfolio\api\controller\NetworkController.class
 com\portfolio\api\entity\ERole.class
 com\portfolio\api\repository\ExperienceRepository.class
 com\portfolio\api\controller\PersonController.class
+com\portfolio\api\security\jwt\AuthEntryPointJwt.class
 com\portfolio\api\dto\response\PersonDTO.class
 com\portfolio\api\entity\Project.class
-security\jwt\AuthTokenFilter.class
+com\portfolio\api\security\services\UserDetailsImpl.class
+com\portfolio\api\security\services\UserDetailsServiceImpl.class
 com\portfolio\api\service\interfaces\ISkillService.class
-security\services\UserDetailsServiceImpl.class
 com\portfolio\api\service\interfaces\IEducationService.class
 com\portfolio\api\ApiApplication.class
 com\portfolio\api\service\interfaces\IExperienceService.class
+com\portfolio\api\security\jwt\JwtUtils.class
 com\portfolio\api\controller\HealthCheckController.class
