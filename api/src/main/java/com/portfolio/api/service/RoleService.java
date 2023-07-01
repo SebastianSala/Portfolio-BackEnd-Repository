@@ -18,5 +18,9 @@ public class RoleService implements IRoleService {
   public Optional<Role> findByName(ERole name) {
     return this.roleRepository.findByName(name);
   }
+  
+  public void saveRole(Role role) {
+    this.roleRepository.save(role);
+  }
 
 }

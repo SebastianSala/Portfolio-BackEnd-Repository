@@ -14,14 +14,14 @@ import java.io.Serializable;
 @Table(name = "roles")
 public class Role implements Serializable {
 
-  private static final long serialVersionUID = 10L;
+//  private static final long serialVersionUID = 10L;
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
   @Enumerated(EnumType.STRING)
-  @Column(length = 20)
+//  @Column(length = 20)
   private ERole name;
 
   public Role() {

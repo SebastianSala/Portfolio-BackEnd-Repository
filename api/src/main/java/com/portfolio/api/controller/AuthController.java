@@ -30,6 +30,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.portfolio.api.security.jwt.JwtUtils;
 import com.portfolio.api.security.services.UserDetailsImpl;
+import java.util.ArrayList;
 
 //for Angular Client (withCredentials)
 //@CrossOrigin(origins = "http://localhost:4200", maxAge = 3600, allowCredentials="true")
@@ -112,28 +113,34 @@ public class AuthController {
     Set<Role> roles = new HashSet<>();
 
     if (strRoles == null) {
-      Role userRole = this.roleService.findByName(ERole.ROLE_USER)
+      
+      Role adminRole = this.roleService.findByName(ERole.ROLE_ADMIN)
           .orElseThrow(() -> new RuntimeException("Error. Rol sin definir"));
-      roles.add(userRole);
 
-    } else {
+      roles.add(adminRole);
+      
+//      this.roleService.saveRole();
+
+    }
+    // only using admin role in this design
+    else {
       strRoles.forEach(role -> {
         switch (role) {
           case "admin":
             Role adminRole = this.roleService.findByName(ERole.ROLE_ADMIN)
-                .orElseThrow(() -> new RuntimeException("Error. Rol sin definir"));
+                .orElseThrow(() -> new RuntimeException("1- Error. Rol sin definir"));
             roles.add(adminRole);
 
             break;
           case "editor":
             Role editorRole = this.roleService.findByName(ERole.ROLE_EDITOR)
-                .orElseThrow(() -> new RuntimeException("Error. Rol sin definir"));
+                .orElseThrow(() -> new RuntimeException("2- Error. Rol sin definir"));
             roles.add(editorRole);
 
             break;
           default:
             Role userRole = this.roleService.findByName(ERole.ROLE_USER)
-                .orElseThrow(() -> new RuntimeException("Error. Rol sin definir"));
+                .orElseThrow(() -> new RuntimeException("3- Error. Rol sin definir"));
 
         }
       });
