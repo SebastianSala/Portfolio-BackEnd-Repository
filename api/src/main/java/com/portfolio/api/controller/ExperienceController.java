@@ -9,6 +9,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,6 +31,7 @@ public class ExperienceController {
   @Autowired
   PersonService personService;
 
+  @PreAuthorize("hasRole('ADMIN')")
   @PostMapping("/person/{personId}/experience")
   public ResponseEntity<?> createExperienceByPersonId(@PathVariable("personId") Long personId,
       @RequestBody Experience experienceRequest) {
@@ -49,6 +51,7 @@ public class ExperienceController {
 
   }
 
+  @PreAuthorize("hasRole('ADMIN')")
   @PutMapping("/person/{personId}/experience/{experienceId}")
   public ResponseEntity<?> updateExperienceByPersonIdByExperienceId(
       @PathVariable("personId") Long personId,
@@ -81,6 +84,7 @@ public class ExperienceController {
 
   }
 
+  @PreAuthorize("hasRole('ADMIN')")
   @GetMapping("person/{personId}/list")
   @ResponseBody
   public ResponseEntity<?> getExperiencesByPersonId(@PathVariable("personId") Long personId) {
@@ -101,6 +105,7 @@ public class ExperienceController {
 
   }
 
+  // public access allowed
   @GetMapping("person/{personEmail}")
   @ResponseBody
   public ResponseEntity<?> getExperiencesByPersonEmail(@PathVariable("personEmail") String personEmail) {
@@ -125,6 +130,7 @@ public class ExperienceController {
 
   }
 
+  @PreAuthorize("hasRole('ADMIN')")
   @GetMapping("/person/{personId}/experience/{experienceId}")
   @ResponseBody
   public ResponseEntity<?> getExperienceByPersonIdByExperienceId(
@@ -142,8 +148,9 @@ public class ExperienceController {
 
   }
 
-  //http://localhost:8080/experience/person/delete?personId=1&experienceId=1
+  @PreAuthorize("hasRole('ADMIN')")
   @DeleteMapping("/person/delete")
+  //http://localhost:8080/experience/person/delete?personId=1&experienceId=1
   public ResponseEntity<?> deleteExperienceByPersonIdByExperienceId(
       @RequestParam("personId") Long personId,
       @RequestParam("experienceId") Long experienceId
@@ -170,8 +177,9 @@ public class ExperienceController {
 
   }
 
-  //http://localhost:8080/experience/person/1/delete
+  @PreAuthorize("hasRole('ADMIN')")
   @DeleteMapping("/person/{personId}/delete")
+  //http://localhost:8080/experience/person/1/delete
   public ResponseEntity<?> deleteExperiencesByPersonId(@PathVariable("personId") Long personId) {
 
     if (!this.personService.existsById(personId)) {

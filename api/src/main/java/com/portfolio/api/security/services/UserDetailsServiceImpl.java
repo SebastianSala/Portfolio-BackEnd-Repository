@@ -19,6 +19,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
   @Transactional
   public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
     Person person;
+    // loading by Email instead of username becose in the design, Email is the unique one be care about
     if (this.personRepository.findByEmail(email) != null) {
       person = this.personRepository.findByEmail(email);
     } else {

@@ -9,6 +9,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,6 +31,7 @@ public class NetworkController {
   @Autowired
   PersonService personService;
 
+  @PreAuthorize("hasRole('ADMIN')")
   @PostMapping("/person/{personId}/network")
   public ResponseEntity<?> createNetworkByPersonId(@PathVariable("personId") Long personId,
       @RequestBody Network networkRequest) {
@@ -49,6 +51,7 @@ public class NetworkController {
 
   }
 
+  @PreAuthorize("hasRole('ADMIN')")
   @PutMapping("/person/{personId}/network/{networkId}")
   public ResponseEntity<?> updateNetworkByPersonIdByNetworkId(
       @PathVariable("personId") Long personId,
@@ -81,6 +84,7 @@ public class NetworkController {
 
   }
 
+  @PreAuthorize("hasRole('ADMIN')")
   @GetMapping("person/{personId}/list")
   @ResponseBody
   public ResponseEntity<?> getNetworksByPersonId(@PathVariable("personId") Long personId) {
@@ -101,6 +105,7 @@ public class NetworkController {
 
   }
 
+  // public access allowed
   @GetMapping("person/{personEmail}")
   @ResponseBody
   public ResponseEntity<?> getNetworksByPersonEmail(@PathVariable("personEmail") String personEmail) {
@@ -125,6 +130,7 @@ public class NetworkController {
 
   }
 
+  @PreAuthorize("hasRole('ADMIN')")
   @GetMapping("/person/{personId}/network/{networkId}")
   @ResponseBody
   public ResponseEntity<?> getNetworkByPersonIdByNetworkId(
@@ -142,8 +148,9 @@ public class NetworkController {
 
   }
 
-  //http://localhost:8080/network/person/delete?personId=1&networkId=1
+  @PreAuthorize("hasRole('ADMIN')")
   @DeleteMapping("/person/delete")
+  //http://localhost:8080/network/person/delete?personId=1&networkId=1
   public ResponseEntity<?> deleteNetworkByPersonIdByNetworkId(
       @RequestParam("personId") Long personId,
       @RequestParam("networkId") Long networkId
@@ -170,8 +177,9 @@ public class NetworkController {
 
   }
 
-  //http://localhost:8080/network/person/1/delete
+  @PreAuthorize("hasRole('ADMIN')")
   @DeleteMapping("/person/{personId}/delete")
+  //http://localhost:8080/network/person/1/delete
   public ResponseEntity<?> deleteNetworksByPersonId(@PathVariable("personId") Long personId) {
 
     if (!this.personService.existsById(personId)) {

@@ -9,6 +9,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,6 +31,7 @@ public class EducationController {
   @Autowired
   PersonService personService;
 
+  @PreAuthorize("hasRole('ADMIN')")
   @PostMapping("/person/{personId}/education")
   public ResponseEntity<?> createEducationByPersonId(@PathVariable("personId") Long personId,
       @RequestBody Education educationRequest) {
@@ -49,6 +51,7 @@ public class EducationController {
 
   }
 
+  @PreAuthorize("hasRole('ADMIN')")
   @PutMapping("/person/{personId}/education/{educationId}")
   public ResponseEntity<?> updateEducationByPersonIdByEducationId(
       @PathVariable("personId") Long personId,
@@ -81,6 +84,7 @@ public class EducationController {
 
   }
 
+  @PreAuthorize("hasRole('ADMIN')")
   @GetMapping("person/{personId}/list")
   @ResponseBody
   public ResponseEntity<?> getEducationsByPersonId(@PathVariable("personId") Long personId) {
@@ -101,6 +105,7 @@ public class EducationController {
 
   }
 
+  // public access allowed
   @GetMapping("person/{personEmail}")
   @ResponseBody
   public ResponseEntity<?> getEducationsByPersonEmail(@PathVariable("personEmail") String personEmail) {
@@ -125,6 +130,7 @@ public class EducationController {
 
   }
 
+  @PreAuthorize("hasRole('ADMIN')")
   @GetMapping("/person/{personId}/education/{educationId}")
   @ResponseBody
   public ResponseEntity<?> getEducationByPersonIdByEducationId(
@@ -142,8 +148,9 @@ public class EducationController {
 
   }
 
-  //http://localhost:8080/education/person/delete?personId=1&educationId=1
+  @PreAuthorize("hasRole('ADMIN')")
   @DeleteMapping("/person/delete")
+  //http://localhost:8080/education/person/delete?personId=1&educationId=1
   public ResponseEntity<?> deleteEducationByPersonIdByEducationId(
       @RequestParam("personId") Long personId,
       @RequestParam("educationId") Long educationId
@@ -170,8 +177,9 @@ public class EducationController {
 
   }
 
-  //http://localhost:8080/education/person/1/delete
+  @PreAuthorize("hasRole('ADMIN')")
   @DeleteMapping("/person/{personId}/delete")
+  //http://localhost:8080/education/person/1/delete
   public ResponseEntity<?> deleteEducationsByPersonId(@PathVariable("personId") Long personId) {
 
     if (!this.personService.existsById(personId)) {

@@ -1,6 +1,5 @@
 com\portfolio\api\service\ProjectService.class
 com\portfolio\api\dto\response\MessageResponse.class
-com\portfolio\api\WebConfig.class
 com\portfolio\api\service\interfaces\IRoleService.class
 com\portfolio\api\entity\Person.class
 com\portfolio\api\service\interfaces\INetworkService.class
@@ -17,12 +16,14 @@ com\portfolio\api\controller\SkillController.class
 com\portfolio\api\repository\EducationRepository.class
 com\portfolio\api\service\interfaces\IPersonService.class
 com\portfolio\api\service\ExperienceService.class
+com\portfolio\api\security\jwt\JwtUtilities.class
 com\portfolio\api\security\WebSecurityConfig.class
 com\portfolio\api\controller\ProjectController.class
 com\portfolio\api\controller\AuthController.class
 com\portfolio\api\entity\Education.class
 com\portfolio\api\security\jwt\AuthTokenFilter.class
 com\portfolio\api\entity\Experience.class
+com\portfolio\api\security\WebSecurityConfig$1.class
 com\portfolio\api\entity\Network.class
 com\portfolio\api\service\SkillService.class
 com\portfolio\api\controller\EducationController.class
@@ -45,5 +46,5 @@ com\portfolio\api\service\interfaces\ISkillService.class
 com\portfolio\api\service\interfaces\IEducationService.class
 com\portfolio\api\ApiApplication.class
 com\portfolio\api\service\interfaces\IExperienceService.class
-com\portfolio\api\security\jwt\JwtUtils.class
+com\portfolio\api\SwaggerConfig.class
 com\portfolio\api\controller\HealthCheckController.class

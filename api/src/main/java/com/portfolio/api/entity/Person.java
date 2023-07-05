@@ -55,7 +55,9 @@ public class Person implements Serializable {
   @Column(name = "web_url", length = 2048)
   private String webUrl;
 
-  @ManyToMany(fetch = FetchType.LAZY)
+// @ManyToMany(fetch = FetchType.LAZY)
+// using EAGER to prevent the hibernate sesion to close to early and causing issues
+  @ManyToMany(fetch = FetchType.EAGER)
   @JoinTable(name = "person_roles",
       joinColumns = @JoinColumn(name = "person_id"),
       inverseJoinColumns = @JoinColumn(name = "role_id"))

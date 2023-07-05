@@ -27,6 +27,7 @@ public class PersonController {
   @Autowired
   PersonService personService;
 
+  // public access allowed
   @PostMapping("/create")
   public ResponseEntity<?> createPerson(@RequestBody Person person) {
 
@@ -39,8 +40,9 @@ public class PersonController {
 
   }
 
-  //http://localhost:8080/person/edit/1
+  @PreAuthorize("hasRole('ADMIN')")
   @PutMapping("/edit/{id}")
+  //http://localhost:8080/person/edit/1
   public ResponseEntity<?> updatePerson(@PathVariable("id") Long id, @RequestBody Person person) {
 
     if (person.getId() != id) {
@@ -69,6 +71,7 @@ public class PersonController {
 
   }
 
+  @PreAuthorize("hasRole('ADMIN')")
   @GetMapping("/list")
   @ResponseBody
   public ResponseEntity<?> listPersons() {
@@ -83,6 +86,7 @@ public class PersonController {
 
   }
 
+  @PreAuthorize("hasRole('ADMIN')")
   @GetMapping("/list/{id}")
   @ResponseBody
   public ResponseEntity<?> findPerson(@PathVariable("id") Long id) {
@@ -93,32 +97,38 @@ public class PersonController {
       return new ResponseEntity<>(new MessageResponse("Error. No existe usuario con id: " + id), HttpStatus.NOT_FOUND);
 
     } else {
-      //deleting the password for safety
-      thePerson.clearPassword();
+      // deprecated      
+      //deleting the password for safety      
+      //thePerson.clearPassword();
+      PersonDTO personDTO = new PersonDTO(thePerson);
+
+//      return new ResponseEntity<>(personDTO, HttpStatus.OK);
       return new ResponseEntity<>(thePerson, HttpStatus.OK);
     }
 
   }
 
+  // public access allowed
   @GetMapping("/list/person")
   @ResponseBody
   public ResponseEntity<?> findPersonByEmail(@RequestParam("email") String email) {
 
     Person thePerson = this.personService.finPersonByEmail(email);
+    PersonDTO personDTO = new PersonDTO(thePerson);
 
-    //deleting the password for safety
-    if (thePerson != null) {
-      thePerson.clearPassword();
-    }
-
+//     deprecated      
+//    deleting the password for safety
+//    if (thePerson != null) {
+//      //thePerson.clearPassword();
+//    }
     return (thePerson != null
-        ? new ResponseEntity<>(thePerson, HttpStatus.OK)
+        ? new ResponseEntity<>(personDTO, HttpStatus.OK)
         : new ResponseEntity<>(new MessageResponse("Error. No existe usuario con el email: " + email), HttpStatus.NOT_FOUND));
 
   }
 
-  @DeleteMapping("/delete")
   @PreAuthorize("hasRole('ADMIN')")
+  @DeleteMapping("/delete")
   public ResponseEntity<?> deletePersonById(@RequestParam("id") Long id) {
 
     if (!personService.existsById(id)) {

@@ -18,7 +18,7 @@ import com.portfolio.api.security.services.UserDetailsServiceImpl;
 public class AuthTokenFilter extends OncePerRequestFilter {
 
   @Autowired
-  private JwtUtils jwtUtils;
+  private JwtUtilities jwtUtilities;
   @Autowired
   private UserDetailsServiceImpl userDetailsService;
 
@@ -30,9 +30,9 @@ public class AuthTokenFilter extends OncePerRequestFilter {
 
     try {
       String jwt = parseJwt(request);
-      if (jwt != null && this.jwtUtils.validateJwtToken(jwt)) {
+      if (jwt != null && this.jwtUtilities.validateJwtToken(jwt)) {
 
-        String username = jwtUtils.getUserNameFromJwtToken(jwt);
+        String username = jwtUtilities.getUserNameFromJwtToken(jwt);
 
         UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
 
@@ -45,7 +45,7 @@ public class AuthTokenFilter extends OncePerRequestFilter {
 
       }
     } catch (Exception e) {
-      logger.error("Cannot set user authentication: {}", e);
+      logger.error("No se puede configurar la autenticación del usuario: {}", e);
     }
 
     filterChain.doFilter(request, response);
@@ -53,7 +53,7 @@ public class AuthTokenFilter extends OncePerRequestFilter {
   }
 
   private String parseJwt(HttpServletRequest request) {
-    String jwt = jwtUtils.getJwtFromCookies(request);
+    String jwt = jwtUtilities.getJwtFromCookies(request);
     return jwt;
   }
 

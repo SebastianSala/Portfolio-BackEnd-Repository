@@ -9,6 +9,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,6 +31,7 @@ public class SkillController {
   @Autowired
   PersonService personService;
 
+  @PreAuthorize("hasRole('ADMIN')")
   @PostMapping("/person/{personId}/skill")
   public ResponseEntity<?> createSkillByPersonId(@PathVariable("personId") Long personId,
       @RequestBody Skill skillRequest) {
@@ -49,6 +51,7 @@ public class SkillController {
 
   }
 
+  @PreAuthorize("hasRole('ADMIN')")
   @PutMapping("/person/{personId}/skill/{skillId}")
   public ResponseEntity<?> updateSkillByPersonIdBySkillId(
       @PathVariable("personId") Long personId,
@@ -81,6 +84,7 @@ public class SkillController {
 
   }
 
+  @PreAuthorize("hasRole('ADMIN')")
   @GetMapping("person/{personId}/list")
   @ResponseBody
   public ResponseEntity<?> getSkillsByPersonId(@PathVariable("personId") Long personId) {
@@ -125,6 +129,7 @@ public class SkillController {
 
   }
 
+  @PreAuthorize("hasRole('ADMIN')")
   @GetMapping("/person/{personId}/skill/{skillId}")
   @ResponseBody
   public ResponseEntity<?> getSkillByPersonIdBySkillId(
@@ -142,8 +147,9 @@ public class SkillController {
 
   }
 
-  //http://localhost:8080/skill/person/delete?personId=1&skillId=1
+  @PreAuthorize("hasRole('ADMIN')")
   @DeleteMapping("/person/delete")
+  //http://localhost:8080/skill/person/delete?personId=1&skillId=1
   public ResponseEntity<?> deleteSkillByPersonIdBySkillId(
       @RequestParam("personId") Long personId,
       @RequestParam("skillId") Long skillId
@@ -170,8 +176,9 @@ public class SkillController {
 
   }
 
-  //http://localhost:8080/skill/person/1/delete
+  @PreAuthorize("hasRole('ADMIN')")
   @DeleteMapping("/person/{personId}/delete")
+  //http://localhost:8080/skill/person/1/delete
   public ResponseEntity<?> deleteSkillsByPersonId(@PathVariable("personId") Long personId) {
 
     if (!this.personService.existsById(personId)) {

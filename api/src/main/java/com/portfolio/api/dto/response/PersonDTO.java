@@ -1,10 +1,15 @@
 package com.portfolio.api.dto.response;
 
+import com.portfolio.api.entity.Person;
+import com.portfolio.api.entity.Role;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 @Getter
 @Setter
@@ -26,5 +31,22 @@ public class PersonDTO {
   private String webUrl;
 
   private List<String> roles;
+
+  public PersonDTO(Person person) {
+    this.id = person.getId();
+    this.name = person.getName();
+    this.title = person.getTitle();
+    this.email = person.getEmail();
+    this.location = person.getLocation();
+    this.aboutMe = person.getAboutMe();
+    this.imgUrl = person.getImgUrl();
+    this.imgBackUrl = person.getImgBackUrl();
+    this.webUrl = person.getWebUrl();
+//    this.roles = person.getRoles().stream().;
+    this.roles = person.getRoles()
+        .stream()
+        .map(role -> (role.getName().name()))
+        .collect(Collectors.toList());
+  }
 
 }

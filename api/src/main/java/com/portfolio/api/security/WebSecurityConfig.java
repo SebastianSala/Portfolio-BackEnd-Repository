@@ -10,25 +10,29 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import com.portfolio.api.security.jwt.AuthEntryPointJwt;
 import com.portfolio.api.security.jwt.AuthTokenFilter;
 import com.portfolio.api.security.services.UserDetailsServiceImpl;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-//@EnableWebSecurity
 @Configuration
-@EnableMethodSecurity
-//    (securedEnabled = true,
-//    jsr250Enabled = true,
-//    prePostEnabled = true)
+@EnableWebMvc
+@EnableMethodSecurity(
+    // securedEnabled = true,
+    // jsr250Enabled = true,
+    prePostEnabled = true)
 
-//@ComponentScan({"com.beta.replyservice", "com.beta.ruleService"})
 //@ComponentScan("com.portfolio.api.security")
-//@ComponentScan("security")
-
 public class WebSecurityConfig {
+
+  @Value("${api.corsOrigins}")
+  private String[] corsUrls;
 
   @Autowired
   UserDetailsServiceImpl userDetailsService;
@@ -46,7 +50,7 @@ public class WebSecurityConfig {
   public DaoAuthenticationProvider authenticationProvider() {
     DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
 
-    authProvider.setUserDetailsService(userDetailsService);
+    authProvider.setUserDetailsService(this.userDetailsService);
     authProvider.setPasswordEncoder(this.passwordEncoder());
 
     return authProvider;
@@ -65,21 +69,47 @@ public class WebSecurityConfig {
   @Bean
   public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
     httpSecurity.csrf(csrf -> csrf.disable())
-        .exceptionHandling(exception -> exception.authenticationEntryPoint(unauthorizedHandler))
+        .exceptionHandling(exception -> exception.authenticationEntryPoint(this.unauthorizedHandler))
         .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
         .authorizeHttpRequests(auth
             -> auth.requestMatchers("/auth/**").permitAll()
+            // Allowing Swagger docs
+            .requestMatchers("/api-docs/**", "/swagger-ui/**").permitAll()
+            // Allowing backend healthCheck from Render.com hosting platform
+            .requestMatchers("/").permitAll()
+            // Allowing backend healthCheck from Frontend 
+            .requestMatchers("/check").permitAll()
+            // Allowing entities public methods for everyone to see the profile without editing it
             .requestMatchers("/person/**").permitAll()
-            //.anyRequest().authenticated().and().authenticationManager(this.authenticationManager()))
+            .requestMatchers("/skill/**").permitAll()
+            .requestMatchers("/education/**").permitAll()
+            .requestMatchers("/experience/**").permitAll()
+            .requestMatchers("/network/**").permitAll()
+            .requestMatchers("/project/**").permitAll()
             .anyRequest().authenticated()
         );
 
     httpSecurity.authenticationProvider(this.authenticationProvider());
 
-//    httpSecurity.authenticationManager(this.authenticationManager(httpSecurity));
     httpSecurity.addFilterBefore(this.authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
 
     return httpSecurity.build();
+  }
+
+  @Bean
+  public WebMvcConfigurer corsBean() {
+
+    return new WebMvcConfigurer() {
+      @Override
+      public void addCorsMappings(CorsRegistry corsRegistry) {
+        corsRegistry.addMapping("/**")
+            .allowedOrigins(WebSecurityConfig.this.corsUrls)
+            .allowedMethods("GET", "POST", "PUT", "DELETE")
+            .allowedHeaders("*")
+            .maxAge(3600);
+      }
+    };
+
   }
 
 }

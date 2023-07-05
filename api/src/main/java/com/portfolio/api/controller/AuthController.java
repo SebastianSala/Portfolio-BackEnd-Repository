@@ -28,9 +28,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import com.portfolio.api.security.jwt.JwtUtils;
+import com.portfolio.api.security.jwt.JwtUtilities;
 import com.portfolio.api.security.services.UserDetailsImpl;
-import java.util.ArrayList;
 
 //for Angular Client (withCredentials)
 //@CrossOrigin(origins = "http://localhost:4200", maxAge = 3600, allowCredentials="true")
@@ -55,13 +54,14 @@ public class AuthController {
 
   @Autowired
 //  @Autowired(required = false)
-  JwtUtils jwtUtils;
+  JwtUtilities jwtUtils;
 
   @PostMapping("/signin")
   public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
 
     Authentication authentication = this.authenticationManager
-        .authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
+//        .authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
+        .authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
 
     SecurityContextHolder.getContext().setAuthentication(authentication);
 
@@ -115,7 +115,7 @@ public class AuthController {
     if (strRoles == null) {
       
       Role adminRole = this.roleService.findByName(ERole.ROLE_ADMIN)
-          .orElseThrow(() -> new RuntimeException("Error. Rol sin definir"));
+          .orElseThrow(() -> new RuntimeException("Error. Rol sin definir en la base de datos"));
 
       roles.add(adminRole);
       

@@ -9,6 +9,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,6 +31,7 @@ public class ProjectController {
   @Autowired
   PersonService personService;
 
+  @PreAuthorize("hasRole('ADMIN')")
   @PostMapping("/person/{personId}/project")
   public ResponseEntity<?> createProjectByPersonId(@PathVariable("personId") Long personId,
       @RequestBody Project projectRequest) {
@@ -49,6 +51,7 @@ public class ProjectController {
 
   }
 
+  @PreAuthorize("hasRole('ADMIN')")
   @PutMapping("/person/{personId}/project/{projectId}")
   public ResponseEntity<?> updateProjectByPersonIdByProjectId(
       @PathVariable("personId") Long personId,
@@ -81,6 +84,7 @@ public class ProjectController {
 
   }
 
+  @PreAuthorize("hasRole('ADMIN')")
   @GetMapping("person/{personId}/list")
   @ResponseBody
   public ResponseEntity<?> getProjectsByPersonId(@PathVariable("personId") Long personId) {
@@ -101,6 +105,7 @@ public class ProjectController {
 
   }
 
+  // public access allowed
   @GetMapping("person/{personEmail}")
   @ResponseBody
   public ResponseEntity<?> getProjectsByPersonEmail(@PathVariable("personEmail") String personEmail) {
@@ -125,6 +130,7 @@ public class ProjectController {
 
   }
 
+  @PreAuthorize("hasRole('ADMIN')")
   @GetMapping("/person/{personId}/project/{projectId}")
   @ResponseBody
   public ResponseEntity<?> getProjectByPersonIdByProjectId(
@@ -142,8 +148,9 @@ public class ProjectController {
 
   }
 
-  //http://localhost:8080/project/person/delete?personId=1&projectId=1
+  @PreAuthorize("hasRole('ADMIN')")
   @DeleteMapping("/person/delete")
+  //http://localhost:8080/project/person/delete?personId=1&projectId=1
   public ResponseEntity<?> deleteProjectByPersonIdByProjectId(
       @RequestParam("personId") Long personId,
       @RequestParam("projectId") Long projectId
@@ -170,8 +177,9 @@ public class ProjectController {
 
   }
 
-  //http://localhost:8080/project/person/1/delete
+  @PreAuthorize("hasRole('ADMIN')")
   @DeleteMapping("/person/{personId}/delete")
+  //http://localhost:8080/project/person/1/delete
   public ResponseEntity<?> deleteProjectsByPersonId(@PathVariable("personId") Long personId) {
 
     if (!this.personService.existsById(personId)) {
