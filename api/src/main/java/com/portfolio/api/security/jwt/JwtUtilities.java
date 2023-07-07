@@ -49,7 +49,7 @@ public class JwtUtilities {
 //    String jwt = this.generateTokenFromUsername(userDetailPrincipal.getUsername());
 //  generate using email instead of username    
     String jwt = this.generateTokenFromEmail(userDetailPrincipal.getEmail());
-    ResponseCookie cookie = ResponseCookie.from(this.jwtCookieName, jwt).path("/").maxAge(this.jwtExpiration).httpOnly(true).build();
+    ResponseCookie cookie = ResponseCookie.from(this.jwtCookieName, jwt).path("/api").maxAge(this.jwtExpiration).httpOnly(true).sameSite("None").secure(true).domain("https://portfolio-backend-ss.onrender.com").build();
     return cookie;
   }
 
@@ -90,8 +90,9 @@ public class JwtUtilities {
   public String generateTokenFromEmail(String email) {
     return Jwts.builder()
         .setSubject(email)
-        .setIssuedAt(new Date())
-        .setExpiration(new Date((new Date()).getTime() + this.jwtExpiration))
+        .setIssuedAt(new Date(System.currentTimeMillis()))
+//        .setExpiration(new Date(System.currentTimeMillis() + this.jwtExpiration))
+        .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 24))
         .signWith(key())
         .compact();
   }

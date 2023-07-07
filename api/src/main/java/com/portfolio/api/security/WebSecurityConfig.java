@@ -13,6 +13,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import com.portfolio.api.security.jwt.AuthEntryPointJwt;
 import com.portfolio.api.security.jwt.AuthTokenFilter;
 import com.portfolio.api.security.services.UserDetailsServiceImpl;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -29,12 +30,17 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
     prePostEnabled = true)
 
 //@ComponentScan("com.portfolio.api.security")
+@RequiredArgsConstructor
 public class WebSecurityConfig {
 
-  @Value("${api.corsOrigins.local}")
-  private String corsLocalUrl;
-  @Value("${api.corsOrigins.remote}")
-  private String corsRemoteUrl;
+  @Value("${api.corsOrigins.local_1}")
+  private String corsLocalUrl_1;
+  @Value("${api.corsOrigins.local_2}")
+  private String corsLocalUrl_2;
+  @Value("${api.corsOrigins.remote_1}")
+  private String corsRemoteUrl_1;
+  @Value("${api.corsOrigins.remote_2}")
+  private String corsRemoteUrl_2;
 
   @Autowired
   UserDetailsServiceImpl userDetailsService;
@@ -105,9 +111,9 @@ public class WebSecurityConfig {
       @Override
       public void addCorsMappings(CorsRegistry corsRegistry) {
         corsRegistry.addMapping("/**")
-            .allowedOrigins(WebSecurityConfig.this.corsLocalUrl, WebSecurityConfig.this.corsRemoteUrl)
+            .allowedOrigins(WebSecurityConfig.this.corsRemoteUrl_1, WebSecurityConfig.this.corsRemoteUrl_2, WebSecurityConfig.this.corsLocalUrl_1, WebSecurityConfig.this.corsLocalUrl_2)
             .allowedMethods("GET", "POST", "PUT", "DELETE")
-            .allowedHeaders("*")
+            .allowedHeaders("'Content-Type': 'application/json'")
             .allowCredentials(true)
             .maxAge(3600);
       }

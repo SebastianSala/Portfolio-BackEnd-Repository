@@ -14,7 +14,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.web.filter.OncePerRequestFilter;
 import com.portfolio.api.security.services.UserDetailsServiceImpl;
+import org.springframework.stereotype.Component;
 
+@Component
 public class AuthTokenFilter extends OncePerRequestFilter {
 
   @Autowired
