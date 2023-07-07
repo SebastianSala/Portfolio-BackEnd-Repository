@@ -2,9 +2,14 @@ package com.portfolio.api.controller;
 
 import com.portfolio.api.dto.response.MessageResponse;
 import com.portfolio.api.dto.response.PersonDTO;
+import com.portfolio.api.entity.ERole;
 import com.portfolio.api.entity.Person;
+import com.portfolio.api.entity.Role;
 import com.portfolio.api.service.PersonService;
+import com.portfolio.api.service.RoleService;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,11 +26,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("person")
+@RequestMapping("/person")
 public class PersonController {
 
   @Autowired
   PersonService personService;
+
+  @Autowired
+  RoleService roleService;
 
   // public access allowed
   @PostMapping("/create")
@@ -55,14 +63,20 @@ public class PersonController {
       if (this.personService.existsByEmailAndIdNot(person.getEmail(), id)) {
         return new ResponseEntity<>(new MessageResponse("Error. El email ya existe, ingrese uno distinto."), HttpStatus.BAD_REQUEST);
       }
-      //Set the curent password to not overwrite it
+      //Copy the curent password to not overwrite it with the blank password comming from the frontend
+      //Since that data comes in blank becose is not managed in the frontend
       Person tempPerson = this.personService.findPerson(id);
       person.setPassword(tempPerson.getPassword());
 
-      System.out.println(tempPerson.getPassword() + tempPerson.getEmail());
-      System.out.println(person.getPassword() + person.getEmail());
+      //Copy the admin role becose again, the data comes in blank from the frontend
+      Set<Role> adminRole = new HashSet<>();
+      Role role = this.roleService.findByName(ERole.ROLE_ADMIN)
+          .orElseThrow(() -> new RuntimeException("Error. Rol sin definir"));
+      adminRole.add(role);
 
+      person.setRoles(adminRole);
       this.personService.editPerson(person);
+
       return new ResponseEntity<>(new MessageResponse("Ok. Usuario actualizado: " + person.getEmail()), HttpStatus.OK);
 
     } else {

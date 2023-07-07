@@ -23,7 +23,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,13 +32,11 @@ import com.portfolio.api.security.services.UserDetailsImpl;
 
 //for Angular Client (withCredentials)
 //@CrossOrigin(origins = "http://localhost:4200", maxAge = 3600, allowCredentials="true")
-@CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("auth")
 public class AuthController {
 
   @Autowired
-//  @Autowired(required = false)
   AuthenticationManager authenticationManager;
 
   @Autowired
@@ -49,18 +46,17 @@ public class AuthController {
   RoleService roleService;
 
   @Autowired
-//  @Autowired(required = false)
   PasswordEncoder passwordEncoder;
 
   @Autowired
 //  @Autowired(required = false)
   JwtUtilities jwtUtils;
 
-  @PostMapping("/signin")
-  public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
+  @PostMapping("/login")
+  public ResponseEntity<?> loginUser(@Valid @RequestBody LoginRequest loginRequest) {
 
+    // Using Email instead of Username
     Authentication authentication = this.authenticationManager
-//        .authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
         .authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
 
     SecurityContextHolder.getContext().setAuthentication(authentication);
@@ -76,7 +72,7 @@ public class AuthController {
     return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, jwtCookie.toString())
         .body(new PersonDTO(
             userDetails.getId(),
-            userDetails.getUsername(),
+            userDetails.getName(),
             userDetails.getTitle(),
             userDetails.getEmail(),
             userDetails.getLocation(),
@@ -88,7 +84,7 @@ public class AuthController {
 
   }
 
-  @PostMapping("/signup")
+  @PostMapping("/register")
   public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signupRequest) {
 
     // if a person with the same email already exists, then dont create it
@@ -98,7 +94,7 @@ public class AuthController {
 
     // if the mail is not already taken, then create the new user
     Person person = new Person(
-        signupRequest.getUsername(),
+        signupRequest.getName(),
         "Título",
         signupRequest.getEmail(),
         this.passwordEncoder.encode(signupRequest.getPassword()),
@@ -113,16 +109,14 @@ public class AuthController {
     Set<Role> roles = new HashSet<>();
 
     if (strRoles == null) {
-      
+
+      // assign to every new user an ADMIN role so he can edit his profile
       Role adminRole = this.roleService.findByName(ERole.ROLE_ADMIN)
-          .orElseThrow(() -> new RuntimeException("Error. Rol sin definir en la base de datos"));
+          .orElseThrow(() -> new RuntimeException("Error. Falta definir Rol en la base de datos"));
 
       roles.add(adminRole);
-      
-//      this.roleService.saveRole();
 
-    }
-    // only using admin role in this design
+    } // only using admin role in this design but practicing with other roles aswell
     else {
       strRoles.forEach(role -> {
         switch (role) {
@@ -153,7 +147,7 @@ public class AuthController {
 
   }
 
-  @PostMapping("/signout")
+  @PostMapping("/logout")
   public ResponseEntity<?> logoutUser() {
 
     ResponseCookie cookie = this.jwtUtils.getCleanJwtCookie();

@@ -40,7 +40,7 @@ public class Person implements Serializable {
   @Size(max = 45)
   private String email;
   @NotBlank
-  @Size(max = 100)
+  @Size(min = 8, max = 100)
   private String password;
 
   private String location;

@@ -30,14 +30,14 @@ public class JwtUtilities {
   @Value("${api.app.jwtSecret}")
   private String jwtSecret;
 
-  @Value("${api.app.jwtExpirationMs}")
-  private Long jwtExpirationMs;
+  @Value("${api.app.jwtExpiration}")
+  private Long jwtExpiration;
 
   @Value("${api.app.jwtCookieName}")
   private String jwtCookieName;
 
   public String getJwtFromCookies(HttpServletRequest request) {
-    Cookie cookie = WebUtils.getCookie(request, jwtCookieName);
+    Cookie cookie = WebUtils.getCookie(request, this.jwtCookieName);
     if (cookie != null) {
       return cookie.getValue();
     } else {
@@ -48,20 +48,19 @@ public class JwtUtilities {
   public ResponseCookie generateJwtCookie(UserDetailsImpl userDetailPrincipal) {
 //    String jwt = this.generateTokenFromUsername(userDetailPrincipal.getUsername());
 //  generate using email instead of username    
-    String jwt = this.generateTokenFromUsername(userDetailPrincipal.getEmail());
-    ResponseCookie cookie = ResponseCookie.from(jwtCookieName, jwt).path("/").maxAge(this.jwtExpirationMs).httpOnly(true).build();
+    String jwt = this.generateTokenFromEmail(userDetailPrincipal.getEmail());
+    ResponseCookie cookie = ResponseCookie.from(this.jwtCookieName, jwt).path("/").maxAge(this.jwtExpiration).httpOnly(true).build();
     return cookie;
   }
 
   public ResponseCookie getCleanJwtCookie() {
-    ResponseCookie cookie = ResponseCookie.from(jwtSecret, null).path("/").build();
+    ResponseCookie cookie = ResponseCookie.from(this.jwtSecret, null).path("/").build();
     return cookie;
   }
 
-  public String getUserNameFromJwtToken(String token) {
+  public String getEmailFromJwtToken(String token) {
     return Jwts.parserBuilder().setSigningKey(key()).build()
         .parseClaimsJws(token).getBody().getSubject();
-//return  "sebastiansala.dev@gmail.com"
   }
 
   public boolean validateJwtToken(String authToken) {
@@ -69,6 +68,7 @@ public class JwtUtilities {
     try {
       Jwts.parserBuilder().setSigningKey(key()).build().parse(authToken);
       return true;
+
     } catch (MalformedJwtException e) {
       this.logger.error("Invalid JWT token: {}", e.getMessage());
     } catch (ExpiredJwtException e) {
@@ -84,15 +84,15 @@ public class JwtUtilities {
   }
 
   private Key key() {
-    return Keys.hmacShaKeyFor(Decoders.BASE64.decode(jwtSecret));
+    return Keys.hmacShaKeyFor(Decoders.BASE64.decode(this.jwtSecret));
   }
 
-  public String generateTokenFromUsername(String username) {
+  public String generateTokenFromEmail(String email) {
     return Jwts.builder()
-        .setSubject(username)
+        .setSubject(email)
         .setIssuedAt(new Date())
-        .setExpiration(new Date((new Date()).getTime() + jwtExpirationMs))
-        .signWith(SignatureAlgorithm.HS256, key())
+        .setExpiration(new Date((new Date()).getTime() + this.jwtExpiration))
+        .signWith(key())
         .compact();
   }
 

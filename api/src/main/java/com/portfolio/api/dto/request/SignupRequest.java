@@ -13,7 +13,7 @@ public class SignupRequest {
 
   @NotBlank
   @Size(min = 3, max = 45, message = "Longitud de Nombre incorrecta")
-  private String username;
+  private String name;
 
   @NotBlank
   @Size(max = 45, message = "Email inválido")

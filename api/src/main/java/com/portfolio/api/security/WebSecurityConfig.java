@@ -31,8 +31,10 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 //@ComponentScan("com.portfolio.api.security")
 public class WebSecurityConfig {
 
-  @Value("${api.corsOrigins}")
-  private String[] corsUrls;
+  @Value("${api.corsOrigins.local}")
+  private String corsLocalUrl;
+  @Value("${api.corsOrigins.remote}")
+  private String corsRemoteUrl;
 
   @Autowired
   UserDetailsServiceImpl userDetailsService;
@@ -79,7 +81,7 @@ public class WebSecurityConfig {
             .requestMatchers("/").permitAll()
             // Allowing backend healthCheck from Frontend 
             .requestMatchers("/check").permitAll()
-            // Allowing entities public methods for everyone to see the profile without editing it
+            // Allowing each entities one public method access for everyone to see the profile without editing it
             .requestMatchers("/person/**").permitAll()
             .requestMatchers("/skill/**").permitAll()
             .requestMatchers("/education/**").permitAll()
@@ -103,9 +105,10 @@ public class WebSecurityConfig {
       @Override
       public void addCorsMappings(CorsRegistry corsRegistry) {
         corsRegistry.addMapping("/**")
-            .allowedOrigins(WebSecurityConfig.this.corsUrls)
+            .allowedOrigins(WebSecurityConfig.this.corsLocalUrl, WebSecurityConfig.this.corsRemoteUrl)
             .allowedMethods("GET", "POST", "PUT", "DELETE")
             .allowedHeaders("*")
+            .allowCredentials(true)
             .maxAge(3600);
       }
     };

@@ -29,12 +29,12 @@ public class AuthTokenFilter extends OncePerRequestFilter {
       throws ServletException, IOException {
 
     try {
-      String jwt = parseJwt(request);
+      String jwt = this.parseJwt(request);
       if (jwt != null && this.jwtUtilities.validateJwtToken(jwt)) {
 
-        String username = jwtUtilities.getUserNameFromJwtToken(jwt);
-
-        UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
+        // using Email instead of Username
+        String email = this.jwtUtilities.getEmailFromJwtToken(jwt);
+        UserDetails userDetails = this.userDetailsService.loadUserByUsername(email);
 
         UsernamePasswordAuthenticationToken authenticationToken
             = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
