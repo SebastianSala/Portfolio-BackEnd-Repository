@@ -33,14 +33,10 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @RequiredArgsConstructor
 public class WebSecurityConfig {
 
-  @Value("${api.corsOrigins.local_1}")
-  private String corsLocalUrl_1;
-  @Value("${api.corsOrigins.local_2}")
-  private String corsLocalUrl_2;
-  @Value("${api.corsOrigins.remote_1}")
-  private String corsRemoteUrl_1;
-  @Value("${api.corsOrigins.remote_2}")
-  private String corsRemoteUrl_2;
+  @Value("${api.corsOrigins.local}")
+  private String corsLocalUrl;
+  @Value("${api.corsOrigins.remote}")
+  private String corsRemoteUrl;
 
   @Autowired
   UserDetailsServiceImpl userDetailsService;
@@ -111,15 +107,9 @@ public class WebSecurityConfig {
       @Override
       public void addCorsMappings(CorsRegistry corsRegistry) {
         corsRegistry.addMapping("/**")
-<<<<<<< HEAD
-            .allowedOrigins(WebSecurityConfig.this.corsRemoteUrl_1, WebSecurityConfig.this.corsRemoteUrl_2, WebSecurityConfig.this.corsLocalUrl_1, WebSecurityConfig.this.corsLocalUrl_2)
-            .allowedMethods("GET", "POST", "PUT", "DELETE")
-            .allowedHeaders("'Content-Type': 'application/json'")
-=======
             .allowedOrigins(WebSecurityConfig.this.corsLocalUrl, WebSecurityConfig.this.corsRemoteUrl)
             .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
             .allowedHeaders("*")
->>>>>>> develop
             .allowCredentials(true)
             .maxAge(3600);
       }
