@@ -106,7 +106,7 @@ public class WebSecurityConfig {
       public void addCorsMappings(CorsRegistry corsRegistry) {
         corsRegistry.addMapping("/**")
             .allowedOrigins(WebSecurityConfig.this.corsLocalUrl, WebSecurityConfig.this.corsRemoteUrl)
-            .allowedMethods("GET", "POST", "PUT", "DELETE")
+            .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
             .allowedHeaders("*")
             .allowCredentials(true)
             .maxAge(3600);

@@ -49,7 +49,7 @@ public class JwtUtilities {
 //    String jwt = this.generateTokenFromUsername(userDetailPrincipal.getUsername());
 //  generate using email instead of username    
     String jwt = this.generateTokenFromEmail(userDetailPrincipal.getEmail());
-    ResponseCookie cookie = ResponseCookie.from(this.jwtCookieName, jwt).path("/").maxAge(this.jwtExpiration).httpOnly(true).build();
+    ResponseCookie cookie = ResponseCookie.from(this.jwtCookieName, jwt).path("/").maxAge(this.jwtExpiration).httpOnly(true).secure(true).sameSite("None").build();
     return cookie;
   }
 
