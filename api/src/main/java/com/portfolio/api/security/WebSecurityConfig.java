@@ -111,9 +111,15 @@ public class WebSecurityConfig {
       @Override
       public void addCorsMappings(CorsRegistry corsRegistry) {
         corsRegistry.addMapping("/**")
+<<<<<<< HEAD
             .allowedOrigins(WebSecurityConfig.this.corsRemoteUrl_1, WebSecurityConfig.this.corsRemoteUrl_2, WebSecurityConfig.this.corsLocalUrl_1, WebSecurityConfig.this.corsLocalUrl_2)
             .allowedMethods("GET", "POST", "PUT", "DELETE")
             .allowedHeaders("'Content-Type': 'application/json'")
+=======
+            .allowedOrigins(WebSecurityConfig.this.corsLocalUrl, WebSecurityConfig.this.corsRemoteUrl)
+            .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
+            .allowedHeaders("*")
+>>>>>>> develop
             .allowCredentials(true)
             .maxAge(3600);
       }
