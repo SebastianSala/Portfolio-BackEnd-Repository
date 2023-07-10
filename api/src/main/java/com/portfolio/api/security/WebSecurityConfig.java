@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -16,26 +15,25 @@ import com.portfolio.api.security.services.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
-@EnableWebMvc
-@EnableMethodSecurity(
-    // securedEnabled = true,
-    // jsr250Enabled = true,
-    prePostEnabled = true)
+//@EnableWebMvc
+//@EnableMethodSecurity(
+//    // securedEnabled = true,
+//    // jsr250Enabled = true,
+//    prePostEnabled = true)
+@EnableWebSecurity
 
 //@ComponentScan("com.portfolio.api.security")
 public class WebSecurityConfig {
 
-  @Value("${api.corsOrigins.local}")
-  private String corsLocalUrl;
-  @Value("${api.corsOrigins.remote}")
-  private String corsRemoteUrl;
-
+//  @Value("${api.corsOrigins.local}")
+//  private String corsLocalUrl;
+//  @Value("${api.corsOrigins.remote}")
+//  private String corsRemoteUrl;
   @Autowired
   UserDetailsServiceImpl userDetailsService;
 
@@ -70,7 +68,8 @@ public class WebSecurityConfig {
 
   @Bean
   public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
-    httpSecurity.csrf(csrf -> csrf.disable())
+    httpSecurity
+        .csrf(csrf -> csrf.disable())
         .exceptionHandling(exception -> exception.authenticationEntryPoint(this.unauthorizedHandler))
         .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
         .authorizeHttpRequests(auth
@@ -92,27 +91,25 @@ public class WebSecurityConfig {
         );
 
     httpSecurity.authenticationProvider(this.authenticationProvider());
-
     httpSecurity.addFilterBefore(this.authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
-
     return httpSecurity.build();
   }
 
-  @Bean
-  public WebMvcConfigurer corsBean() {
-
-    return new WebMvcConfigurer() {
-      @Override
-      public void addCorsMappings(CorsRegistry corsRegistry) {
-        corsRegistry.addMapping("/**")
-            .allowedOrigins(WebSecurityConfig.this.corsLocalUrl, WebSecurityConfig.this.corsRemoteUrl)
-            .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
-            .allowedHeaders("*")
-            .allowCredentials(true)
-            .maxAge(3600);
-      }
-    };
-
-  }
-
+//  @Bean
+//  public WebMvcConfigurer corsBean() {
+//
+//    return new WebMvcConfigurer() {
+//      @Override
+//      public void addCorsMappings(CorsRegistry corsRegistry) {
+//        corsRegistry.addMapping("/**")
+////            .allowedOrigins(WebSecurityConfig.this.corsLocalUrl, WebSecurityConfig.this.corsRemoteUrl)
+//            .allowedOrigins("*")
+//            .allowedMethods("GET", "POST", "PUT", "DELETE")
+//            .allowedHeaders("*")
+////            .allowCredentials(true)
+//            .maxAge(3600);
+//      }
+//    };
+//
+//  }
 }
