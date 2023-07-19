@@ -4,6 +4,7 @@ import com.portfolio.api.entity.Person;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -12,6 +13,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Data
 public class PersonDTO {
 
   private static final long serialVersionUID = 07L;

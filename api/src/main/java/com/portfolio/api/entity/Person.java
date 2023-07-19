@@ -67,8 +67,9 @@ public class Person implements Serializable {
 
   }
 
-  public Person(String name, String title, String email, String password, String location, String aboutMe, String imgUrl, String imgBackUrl, String webUrl) {
+  public Person(Long id, String name, String title, String email, String password, String location, String aboutMe, String imgUrl, String imgBackUrl, String webUrl) {
 
+    this.id = id;
     this.name = name;
     this.title = title;
     this.email = email;

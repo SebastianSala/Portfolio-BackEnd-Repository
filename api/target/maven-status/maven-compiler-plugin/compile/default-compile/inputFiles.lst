@@ -11,8 +11,8 @@ E:\Programacion\Cursos\Argentina_Programa\Proyecto-Final\Portfolio-BackEnd-Repos
 E:\Programacion\Cursos\Argentina_Programa\Proyecto-Final\Portfolio-BackEnd-Repository\back-end\api\src\main\java\com\portfolio\api\entity\Project.java
 E:\Programacion\Cursos\Argentina_Programa\Proyecto-Final\Portfolio-BackEnd-Repository\back-end\api\src\main\java\com\portfolio\api\service\interfaces\IExperienceService.java
 E:\Programacion\Cursos\Argentina_Programa\Proyecto-Final\Portfolio-BackEnd-Repository\back-end\api\src\main\java\com\portfolio\api\controller\NetworkController.java
-E:\Programacion\Cursos\Argentina_Programa\Proyecto-Final\Portfolio-BackEnd-Repository\back-end\api\src\main\java\com\portfolio\api\dto\response\AuthResponse.java
 E:\Programacion\Cursos\Argentina_Programa\Proyecto-Final\Portfolio-BackEnd-Repository\back-end\api\src\main\java\com\portfolio\api\dto\request\SignupRequest.java
+E:\Programacion\Cursos\Argentina_Programa\Proyecto-Final\Portfolio-BackEnd-Repository\back-end\api\src\main\java\com\portfolio\api\dto\response\JwtResponse.java
 E:\Programacion\Cursos\Argentina_Programa\Proyecto-Final\Portfolio-BackEnd-Repository\back-end\api\src\main\java\com\portfolio\api\repository\RoleRepository.java
 E:\Programacion\Cursos\Argentina_Programa\Proyecto-Final\Portfolio-BackEnd-Repository\back-end\api\src\main\java\com\portfolio\api\CorsConfigurer.java
 E:\Programacion\Cursos\Argentina_Programa\Proyecto-Final\Portfolio-BackEnd-Repository\back-end\api\src\main\java\com\portfolio\api\service\interfaces\IRoleService.java
@@ -31,6 +31,7 @@ E:\Programacion\Cursos\Argentina_Programa\Proyecto-Final\Portfolio-BackEnd-Repos
 E:\Programacion\Cursos\Argentina_Programa\Proyecto-Final\Portfolio-BackEnd-Repository\back-end\api\src\main\java\com\portfolio\api\entity\Skill.java
 E:\Programacion\Cursos\Argentina_Programa\Proyecto-Final\Portfolio-BackEnd-Repository\back-end\api\src\main\java\com\portfolio\api\service\interfaces\INetworkService.java
 E:\Programacion\Cursos\Argentina_Programa\Proyecto-Final\Portfolio-BackEnd-Repository\back-end\api\src\main\java\com\portfolio\api\controller\ExperienceController.java
+E:\Programacion\Cursos\Argentina_Programa\Proyecto-Final\Portfolio-BackEnd-Repository\back-end\api\src\main\java\com\portfolio\api\dto\response\JwtAndUserResponse.java
 E:\Programacion\Cursos\Argentina_Programa\Proyecto-Final\Portfolio-BackEnd-Repository\back-end\api\src\main\java\com\portfolio\api\security\services\UserDetailsServiceImpl.java
 E:\Programacion\Cursos\Argentina_Programa\Proyecto-Final\Portfolio-BackEnd-Repository\back-end\api\src\main\java\com\portfolio\api\service\ProjectService.java
 E:\Programacion\Cursos\Argentina_Programa\Proyecto-Final\Portfolio-BackEnd-Repository\back-end\api\src\main\java\com\portfolio\api\SwaggerConfig.java
@@ -41,7 +42,6 @@ E:\Programacion\Cursos\Argentina_Programa\Proyecto-Final\Portfolio-BackEnd-Repos
 E:\Programacion\Cursos\Argentina_Programa\Proyecto-Final\Portfolio-BackEnd-Repository\back-end\api\src\main\java\com\portfolio\api\service\EducationService.java
 E:\Programacion\Cursos\Argentina_Programa\Proyecto-Final\Portfolio-BackEnd-Repository\back-end\api\src\main\java\com\portfolio\api\dto\request\LoginRequest.java
 E:\Programacion\Cursos\Argentina_Programa\Proyecto-Final\Portfolio-BackEnd-Repository\back-end\api\src\main\java\com\portfolio\api\repository\EducationRepository.java
-E:\Programacion\Cursos\Argentina_Programa\Proyecto-Final\Portfolio-BackEnd-Repository\back-end\api\src\main\java\com\portfolio\api\security\services\AuthService.java
 E:\Programacion\Cursos\Argentina_Programa\Proyecto-Final\Portfolio-BackEnd-Repository\back-end\api\src\main\java\com\portfolio\api\controller\PersonController.java
 E:\Programacion\Cursos\Argentina_Programa\Proyecto-Final\Portfolio-BackEnd-Repository\back-end\api\src\main\java\com\portfolio\api\controller\HealthCheckController.java
 E:\Programacion\Cursos\Argentina_Programa\Proyecto-Final\Portfolio-BackEnd-Repository\back-end\api\src\main\java\com\portfolio\api\entity\Network.java
