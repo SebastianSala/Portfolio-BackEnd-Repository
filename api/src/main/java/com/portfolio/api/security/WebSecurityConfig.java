@@ -16,24 +16,27 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-@Configuration
 //@EnableWebMvc
-//@EnableMethodSecurity(
-//    // securedEnabled = true,
-//    // jsr250Enabled = true,
-//    prePostEnabled = true)
-@EnableWebSecurity
+//@EnableWebSecurity
+@Configuration
+@EnableMethodSecurity(prePostEnabled = true)
+//    (
+// securedEnabled = true,
+// jsr250Enabled = true,
+// prePostEnabled = true)
 
 //@ComponentScan("com.portfolio.api.security")
 public class WebSecurityConfig {
 
-//  @Value("${api.corsOrigins.local}")
-//  private String corsLocalUrl;
-//  @Value("${api.corsOrigins.remote}")
-//  private String corsRemoteUrl;
+  @Value("${api.corsOrigins.local}")
+  private String corsLocalUrl;
+  @Value("${api.corsOrigins.remote}")
+  private String corsRemoteUrl;
+
   @Autowired
   UserDetailsServiceImpl userDetailsService;
 
@@ -92,24 +95,24 @@ public class WebSecurityConfig {
 
     httpSecurity.authenticationProvider(this.authenticationProvider());
     httpSecurity.addFilterBefore(this.authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
+
     return httpSecurity.build();
   }
 
-//  @Bean
-//  public WebMvcConfigurer corsBean() {
-//
-//    return new WebMvcConfigurer() {
-//      @Override
-//      public void addCorsMappings(CorsRegistry corsRegistry) {
-//        corsRegistry.addMapping("/**")
-////            .allowedOrigins(WebSecurityConfig.this.corsLocalUrl, WebSecurityConfig.this.corsRemoteUrl)
-//            .allowedOrigins("*")
-//            .allowedMethods("GET", "POST", "PUT", "DELETE")
-//            .allowedHeaders("*")
-////            .allowCredentials(true)
-//            .maxAge(3600);
-//      }
-//    };
-//
-//  }
+  @Bean
+  public WebMvcConfigurer corsBean() {
+
+    return new WebMvcConfigurer() {
+      @Override
+      public void addCorsMappings(CorsRegistry corsRegistry) {
+        corsRegistry.addMapping("/**")
+            .allowedOrigins(WebSecurityConfig.this.corsLocalUrl, WebSecurityConfig.this.corsRemoteUrl)
+            .allowedMethods("GET", "POST", "PUT", "DELETE")
+            .allowedHeaders("Content-Type", "Authorization", "*")
+            .maxAge(3600);
+      }
+    };
+
+  }
+ 
 }

@@ -35,7 +35,8 @@ public class PersonController {
   @Autowired
   RoleService roleService;
 
-  // public access allowed
+// deprecated
+// public access allowed
 //  @PostMapping("/create")
 //  public ResponseEntity<?> createPerson(@RequestBody Person person) {
 //
@@ -47,7 +48,6 @@ public class PersonController {
 //    return new ResponseEntity<>(new MessageResponse("Ok. Usuario " + person.getName() + " creado con exito:  " + person.getEmail()), HttpStatus.OK);
 //
 //  }
-
   @PreAuthorize("hasRole('ADMIN')")
   @PutMapping("/edit/{id}")
   //http://localhost:8080/person/edit/1
@@ -89,18 +89,13 @@ public class PersonController {
   @GetMapping("/list")
   @ResponseBody
   public ResponseEntity<?> listPersons() {
-    System.out.println("--list person 1");
     List<Person> persons = this.personService.listPersons();
-    System.out.println("--list person 2");
 
     if (persons.isEmpty()) {
       return new ResponseEntity<>(new MessageResponse("Error. No existen Usuarios. Cree una cuenta nueva"), HttpStatus.NOT_FOUND);
     }
-    
-    System.out.println("--list person 3");
 
     persons.forEach(Person::clearPassword);
-    System.out.println("--list person 4");
     return new ResponseEntity<>(persons, HttpStatus.OK);
 
   }
@@ -132,11 +127,8 @@ public class PersonController {
   @ResponseBody
   public ResponseEntity<?> findPersonByEmail(@RequestParam("email") String email) {
 
-    System.out.println("email person 1");
     Person thePerson = this.personService.finPersonByEmail(email);
-    System.out.println("email person 2");
     PersonDTO personDTO = new PersonDTO(thePerson);
-    System.out.println("email person 3");
 
 //     deprecated      
 //    deleting the password for safety

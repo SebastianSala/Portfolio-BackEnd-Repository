@@ -28,19 +28,24 @@ Este proyecto es una <b>API REST</b>.
 
 ## Estado Actual:
 
-* Implementada funcionalidades de CRUD y login básico
+* Implementada funcionalidades de CRUD y login con JWT Bearer y cookie (no al mismo tiempo)
 * Relaciones many-to-one para correcta representación del DER y borrado en cascada
 * Funcionalidad completa y optima en todas las entidades
 * Se permite crear nuevos usuarios y sus propias entidades con sus relaciones y borrado en cascada o sea crear un usuario con sus propios proyectos, experiencias, etc, que son solo editables por el y se pueden visualizar en el sitio al logearse y deslogearse.
+* Principios SOLID
+* Flujo de trabajo GIT Flow.
+* Versionado Semantic Versioning 2.0.0
 
 ## Actualmente implementando:
-* Login avanzado con JWT
+* Refactorización de entidades.
 
 
 ## Decisiones de diseño
 
 * Deshabilitando Spring open session in view (OSIV) y @Transactional para lograr mejor performance relacionada con la base de datos (https://www.baeldung.com/spring-open-session-in-view)
 * Usando relaciones many-to-one por ser mas versátiles que one-to-many en relación con paginación y filtrado y ordenamiento ()
+* Inicialmente había implementado JWT usando cookies para la comunicación Backend/Frontend, pero ahora implementé tipo Bearer para solucionar el problema de las plataformas de hosteo estando en diferentes servidores y ser blockeadas por las políticas CORS de los navegadores modernos.
+* Las clases de mapeo de entidades inicialmente las diseñé con idea de que sean lo más flexibles posibles, siendo que todavía no sabía cuáles queries iba a terminar necesitando finalmente. Esto puede causar un uso innecesario de recursos y ancho de banda, por lo cual seguramente refactorice estas clases para que sean más eficientes, más que nada cambiando el uso de objetos "Person" dentro de las entidades hijas por un ID a la entidad padre, permitiendo más eficiencia y mejores prácticas.
 
 ## Desarrollador
 * Sebastián Sala - *Diseño e implementación del Sistema*
